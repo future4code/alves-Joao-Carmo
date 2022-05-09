@@ -4,8 +4,8 @@
 2. 10 10 10
 
 3. let horasDiaTrabalho = prompt("Quantas horas você trabalha por dia?")
-let salárioDia = prompt("Quanto você recebe por dia?")
-alert(`Voce recebe ${salárioDia/horasDiaTrabalho} por hora`)
+let salarioDia = prompt("Quanto você recebe por dia?")
+alert(`Voce recebe ${salarioDia/horasDiaTrabalho} por hora`)
 
 */
 
