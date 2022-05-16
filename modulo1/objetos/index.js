@@ -114,17 +114,17 @@ console.log(carrinho)
 // Desafios
 // 1.
 
-function f4() {
-const usuario = {     
-    nome: prompt("Qual é o seu nome ?"),  
-    idade: prompt("Qual é a sua idade ?"),
-    profissao: prompt("Qual é a sua profissão ?")
-    }
+// function f4() {
+// const usuario = {     
+//     nome: prompt("Qual é o seu nome ?"),  
+//     idade: prompt("Qual é a sua idade ?"),
+//     profissao: prompt("Qual é a sua profissão ?")
+//     }
 
-    console.log(usuario, typeof usuario)
-}
+//     console.log(usuario, typeof usuario)
+// }
 
-f4()
+// f4()
 
 // 2.
 
@@ -149,11 +149,10 @@ console.log(f5(filme1, filme2))
 // 3.
 
 function f6(fruta) {
-    newFruta = {
-    ...fruta,
+    fruta = {
     disponibilidade: !fruta.disponibilidade
     }
-    return newFruta
+    return fruta
 
 }
 
