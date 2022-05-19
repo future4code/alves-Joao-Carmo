@@ -1,10 +1,10 @@
 /* Exercícios de interpretação de código
-1. Serão impressos o elemento do array, seguido do seu index e por fim o array completo.
+1. Será impresso um novo array com o elemento do array, seguido do seu index e por fim o array completo.
 '"Objeto 1", 0, array completo'
 
-2. Serão impressos os nomes de cada um dos 3 objetos.
+2. Será impresso um novo array com os nomes de cada um dos 3 objetos.
 
-3. Serão impressos os apelidos de todos os objetos que forem diferentes de "Chijo"
+3. Será impresso um novo array com os apelidos de todos os objetos que forem diferentes de "Chijo"
 
 */
 
