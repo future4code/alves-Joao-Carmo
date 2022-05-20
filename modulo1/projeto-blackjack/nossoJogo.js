@@ -48,4 +48,4 @@ function blackjack() {
    }
 }
 
-// blackjack()
+blackjack()

@@ -12,8 +12,8 @@
  */
 
 function blackjack() {
-   console.log("Boas vindas ao jogo de Blackjack!")
-   if (confirm("Quer iniciar uma nova rodada ?")) {
+   console.log()
+   if (confirm("Boas vindas ao jogo de Blackjack!\nQuer iniciar uma nova rodada ?")) {
       let maoValida = false
       let maoCartasUsuario = []
       let maoCartasComputador = []
@@ -45,7 +45,7 @@ function blackjack() {
 
          if (textoUsuario[0].includes("A") && textoUsuario[1].includes("A") || textoComputador[0].includes("A") && textoComputador[1].includes("A")) {
             maoValida = false
-            console.log("2 Ases! Compre outra mão.")
+            alert("2 Ases! Compre outra mão.")
          } else {
             maoValida = true
          }
@@ -62,8 +62,7 @@ function blackjack() {
       }
 
       if (pontuacaoUsuario > 21) {
-         console.log(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}`)
-         console.log('O computador ganhou!')
+         alert(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}.\nO computador ganhou!`)
          return
       }
 
@@ -74,16 +73,13 @@ function blackjack() {
       }
 
       if (pontuacaoComputador > 21) {
-         console.log(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}`)
-         console.log('O usuário ganhou!')
+         alert(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}.\nO usuário ganhou!`)
          return
       } else if (pontuacaoComputador > pontuacaoUsuario) {
-         console.log(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}`)
-         console.log('O computador ganhou!')
+         alert(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}\nO computador ganhou!`)
          return
       } else {
-         console.log(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}`)
-         console.log('Empate')
+         alert(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}\nEmpate`)
          return
 
       }
