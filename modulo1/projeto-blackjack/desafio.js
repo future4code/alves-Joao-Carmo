@@ -51,7 +51,7 @@ function blackjack() {
          }
       }
 
-      while (pontuacaoUsuario < 21) {
+      while (pontuacaoUsuario <= 21) {
          if (confirm(`Suas cartas são ${textoUsuario}. A carta revelada do computador é ${textoComputador[0]}.\nDeseja comprar mais uma carta?`)) {
             const novaCartaUsuario = comprarCarta()
             textoUsuario.push(novaCartaUsuario.texto)
