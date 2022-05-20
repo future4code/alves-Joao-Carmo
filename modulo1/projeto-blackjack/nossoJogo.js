@@ -14,27 +14,27 @@
 function blackjack() {
    console.log("Boas vindas ao jogo de Blackjack!")
    if (window.confirm("Quer iniciar uma nova rodada ?")) {
-      maoCartasUsuario = [comprarCarta(), comprarCarta()]
+      let maoCartasUsuario = [comprarCarta(), comprarCarta()]
       const valorUsuario = maoCartasUsuario.map((item, index, array) => {
          return item.valor
       })
       const textoUsuario = maoCartasUsuario.map((item, index, array) => {
          return item.texto
       })
-      pontuacaoUsuario = valorUsuario[0] + valorUsuario[1]
+      let pontuacaoUsuario = valorUsuario[0] + valorUsuario[1]
 
-      maoCartasComputador = [comprarCarta(), comprarCarta()]
+      let maoCartasComputador = [comprarCarta(), comprarCarta()]
       const valorComputador = maoCartasComputador.map((item, index, array) => {
          return item.valor
       })
       const textoComputador = maoCartasComputador.map((item, index, array) => {
          return item.texto
       })
-      pontuacaoComputador = valorComputador[0] + valorComputador[1]
+      let pontuacaoComputador = valorComputador[0] + valorComputador[1]
 
       console.log(`Usuário - cartas: ${textoUsuario[0]} ${textoUsuario[1]}  - pontuação ${pontuacaoUsuario}`)
       console.log(`Computador - cartas: ${textoComputador[0]} ${textoComputador[1]}  - pontuação ${pontuacaoComputador}`)
-      
+
       if (pontuacaoComputador > pontuacaoUsuario) {
          console.log("O computador ganhou!")
       } else if (pontuacaoComputador < pontuacaoUsuario) {
