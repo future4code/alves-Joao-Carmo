@@ -11,6 +11,15 @@
  * 
  */
 
+
+function printMao(arrayTextoUsuario) {
+   let textoFinalUsuario = ""
+   for (i = 0; i < arrayTextoUsuario.length; i++) {
+      textoFinalUsuario += arrayTextoUsuario[i] + " "
+   }
+   return textoFinalUsuario.trim()
+}
+
 function blackjack() {
    console.log()
    if (confirm("Boas vindas ao jogo de Blackjack!\nQuer iniciar uma nova rodada ?")) {
@@ -51,8 +60,9 @@ function blackjack() {
          }
       }
 
+
       while (pontuacaoUsuario <= 21) {
-         if (confirm(`Suas cartas são ${textoUsuario}. A carta revelada do computador é ${textoComputador[0]}.\nDeseja comprar mais uma carta?`)) {
+         if (confirm(`Suas cartas são ${printMao(textoUsuario)}. A carta revelada do computador é ${textoComputador[0]}.\nDeseja comprar mais uma carta?`)) {
             const novaCartaUsuario = comprarCarta()
             textoUsuario.push(novaCartaUsuario.texto)
             pontuacaoUsuario += novaCartaUsuario.valor
@@ -62,7 +72,7 @@ function blackjack() {
       }
 
       if (pontuacaoUsuario > 21) {
-         alert(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}.\nO computador ganhou!`)
+         alert(`Suas cartas são ${printMao(textoUsuario)}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${printMao(textoComputador)}. A pontuação do computador é ${pontuacaoComputador}.\nO computador ganhou!`)
          return
       }
 
@@ -73,17 +83,17 @@ function blackjack() {
       }
 
       if (pontuacaoComputador > 21) {
-         alert(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}.\nO usuário ganhou!`)
+         alert(`Suas cartas são ${printMao(textoUsuario)}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${printMao(textoComputador)}. A pontuação do computador é ${pontuacaoComputador}.\nO usuario ganhou!`)
          return
       } else if (pontuacaoComputador > pontuacaoUsuario) {
-         alert(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}\nO computador ganhou!`)
+         alert(`Suas cartas são ${printMao(textoUsuario)}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${printMao(textoComputador)}. A pontuação do computador é ${pontuacaoComputador}.\nO computador ganhou!`)
          return
       } else {
-         alert(`Suas cartas são ${textoUsuario}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${textoComputador}. A pontuação do computador é ${pontuacaoComputador}\nEmpate`)
+         alert(`Suas cartas são ${printMao(textoUsuario)}. Sua pontuação é ${pontuacaoUsuario}.\nAs cartas do computador são ${printMao(textoComputador)}. A pontuação do computador é ${pontuacaoComputador}.\nEmpate!`)
          return
 
       }
    }
 }
 
-blackjack()
+// blackjack()
