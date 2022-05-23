@@ -48,6 +48,13 @@ function retornaNumerosPares(array) {
 
 // EXERCÍCIO 05
 function retornaNumerosParesElevadosADois(array) {
+    arrayPar = []
+    for(i = 0; i < array.length; i++){
+        if (array[i] % 2 == 0) {
+            arrayPar.push(array[i]**2)
+        }
+    }
+    return arrayPar
 
 }
 
