@@ -96,7 +96,7 @@ function retornaObjetoEntreDoisNumeros(num1, num2) {
 // EXERCÍCIO 08
 function retornaNPrimeirosPares(n) {
     arrayPares = [0]
-    for (i = 1; i < (n * 2); i++) {
+    for (let i = 1; i < (n * 2); i++) {
         if (i % 2 == 0) {
             arrayPares.push(i)
         }
@@ -106,19 +106,41 @@ function retornaNPrimeirosPares(n) {
 
 // EXERCÍCIO 09
 function classificaTriangulo(ladoA, ladoB, ladoC) {
-    if (ladoA == ladoB && ladoB == ladoC){
+    if (ladoA == ladoB && ladoB == ladoC) {
         return "Equilátero"
     }
-    if (ladoA != ladoB && ladoB != ladoC && ladoC != ladoA){
+    if (ladoA != ladoB && ladoB != ladoC && ladoC != ladoA) {
         return "Escaleno"
     }
-    if (ladoA == ladoB || ladoB == ladoC || ladoC == ladoA){
+    if (ladoA == ladoB || ladoB == ladoC || ladoC == ladoA) {
         return "Isósceles"
     }
 }
 // EXERCÍCIO 10
 function retornaSegundoMaiorESegundoMenor(array) {
-
+    valorMin = 999999
+    valorMin2 = 999999
+    valorMax = 0
+    valorMax2 = 0
+    novoArray = []
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] < valorMin) {
+            valorMin = array[i]
+        }
+        if (array[i] > valorMin && array[i] < valorMin2) {
+            valorMin2 = array[i]
+        }
+    }
+    for (let i = array.length - 1; i >= 0; i--) {
+        if (array[i] > valorMax) {
+            valorMax = array[i]
+        }
+        if (array[i] < valorMax && array[i] > valorMax2) {
+            valorMax2 = array[i]
+        }
+    }
+    novoArray.push(valorMax2, valorMin2)
+    return novoArray
 }
 
 // EXERCÍCIO 11
