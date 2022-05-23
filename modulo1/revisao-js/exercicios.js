@@ -36,7 +36,7 @@ function retornaArrayOrdenado(array) {
 
 // EXERCÍCIO 04
 function retornaNumerosPares(array) {
-    arrayPar = []
+    let arrayPar = []
     for (i = 0; i < array.length; i++) {
         if (array[i] % 2 == 0) {
             arrayPar.push(array[i])
@@ -48,7 +48,7 @@ function retornaNumerosPares(array) {
 
 // EXERCÍCIO 05
 function retornaNumerosParesElevadosADois(array) {
-    arrayPar = []
+    let arrayPar = []
     for (i = 0; i < array.length; i++) {
         if (array[i] % 2 == 0) {
             arrayPar.push(array[i] ** 2)
@@ -95,7 +95,7 @@ function retornaObjetoEntreDoisNumeros(num1, num2) {
 
 // EXERCÍCIO 08
 function retornaNPrimeirosPares(n) {
-    arrayPares = [0]
+    let arrayPares = [0]
     for (let i = 1; i < (n * 2); i++) {
         if (i % 2 == 0) {
             arrayPares.push(i)
@@ -118,11 +118,11 @@ function classificaTriangulo(ladoA, ladoB, ladoC) {
 }
 // EXERCÍCIO 10
 function retornaSegundoMaiorESegundoMenor(array) {
-    valorMin = 999999
-    valorMin2 = 999999
-    valorMax = 0
-    valorMax2 = 0
-    novoArray = []
+    let valorMin = 999999
+    let valorMin2 = 999999
+    let valorMax = 0
+    let valorMax2 = 0
+    let novoArray = []
     for (let i = 0; i < array.length; i++) {
         if (array[i] < valorMin) {
             valorMin = array[i]
@@ -150,17 +150,27 @@ function retornaChamadaDeFilme(filme) {
 
 // EXERCÍCIO 12
 function retornaPessoaAnonimizada(pessoa) {
-
+    const novoObjeto = {
+        ...pessoa,
+        nome: "ANÔNIMO"
+    }
+    return novoObjeto
 }
 
 // EXERCÍCIO 13A
 function retornaPessoasAutorizadas(pessoas) {
-
+    const pessoasAutorizadas = pessoas.filter((item, index, array) => {
+        return (item.altura > 1.5) && (item.idade > 14) && (item.idade < 60)
+    })
+    return pessoasAutorizadas
 }
 
 // EXERCÍCIO 13B
 function retornaPessoasNaoAutorizadas(pessoas) {
-
+    const pessoasNaoAutorizadas = pessoas.filter((item, index, array) => {
+        return (item.altura <= 1.5) || (item.idade <= 14) || (item.idade >= 60)
+    })
+    return pessoasNaoAutorizadas
 }
 
 // EXERCÍCIO 14
