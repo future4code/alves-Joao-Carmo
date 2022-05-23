@@ -36,8 +36,15 @@ function retornaArrayOrdenado(array) {
 
 // EXERCÍCIO 04
 function retornaNumerosPares(array) {
-
+    arrayPar = []
+    for(i = 0; i < array.length; i++){
+        if (array[i] % 2 == 0) {
+            arrayPar.push(array[i])
+        }
+    }
+    return arrayPar
 }
+
 
 // EXERCÍCIO 05
 function retornaNumerosParesElevadosADois(array) {
