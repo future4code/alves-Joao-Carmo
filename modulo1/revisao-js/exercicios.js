@@ -95,7 +95,13 @@ function retornaObjetoEntreDoisNumeros(num1, num2) {
 
 // EXERCÍCIO 08
 function retornaNPrimeirosPares(n) {
-
+    arrayPares = [0]
+    for (i = 1; i < (n * 2); i++) {
+        if (i % 2 == 0) {
+            arrayPares.push(i)
+        }
+    }
+    return arrayPares
 }
 
 // EXERCÍCIO 09
