@@ -175,12 +175,20 @@ function retornaPessoasNaoAutorizadas(pessoas) {
 
 // EXERCÍCIO 14
 function retornaContasComSaldoAtualizado(contas) {
-
+    for (let i = 0; i < contas.length; i++) {
+        let atualTotalCompras = 0
+        for (let x = 0; x < contas[i].compras.length; x++) {
+            atualTotalCompras += contas[i].compras[x]
+        }
+        contas[i].saldoTotal -= atualTotalCompras
+        contas[i].compras = []
+    }
+    return contas
 }
 
 // EXERCÍCIO 15A
 function retornaArrayOrdenadoAlfabeticamente(consultas) {
-
+    
 }
 
 // EXERCÍCIO 15B
