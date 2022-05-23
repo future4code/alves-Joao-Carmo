@@ -37,7 +37,7 @@ function retornaArrayOrdenado(array) {
 // EXERCÍCIO 04
 function retornaNumerosPares(array) {
     arrayPar = []
-    for(i = 0; i < array.length; i++){
+    for (i = 0; i < array.length; i++) {
         if (array[i] % 2 == 0) {
             arrayPar.push(array[i])
         }
@@ -49,9 +49,9 @@ function retornaNumerosPares(array) {
 // EXERCÍCIO 05
 function retornaNumerosParesElevadosADois(array) {
     arrayPar = []
-    for(i = 0; i < array.length; i++){
+    for (i = 0; i < array.length; i++) {
         if (array[i] % 2 == 0) {
-            arrayPar.push(array[i]**2)
+            arrayPar.push(array[i] ** 2)
         }
     }
     return arrayPar
@@ -60,7 +60,13 @@ function retornaNumerosParesElevadosADois(array) {
 
 // EXERCÍCIO 06
 function retornaMaiorNumero(array) {
-
+    let valorMax = 0
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] > valorMax) {
+            valorMax = array[i]
+        }
+    }
+    return valorMax
 }
 
 // EXERCÍCIO 07
