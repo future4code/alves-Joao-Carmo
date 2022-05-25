@@ -1,33 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Funcionários</title>
+    <title>Bazar mais aleatório que existe</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <p><strong>Bazar mais aleatório que existe</strong></p>
+        <h1>Bem-vind@ ao <em>Bazar mais aleatório que existe</em>!</h1>
+        <p id="subtitulo">Coisas úteis e inúteis que você talvez precise.</p>
     </header>
-    
+
     <nav>
-        <a href="./index.html">Página Inicial |</a>
-        <a href="./ctrl-estoque.html">Controle de Estoque |</a>
-        <a href="./add-produto.html">Adicionar Produto |</a>
-        <a href="./funcionarios.html">Funcionários</a>
+        <a href="./index.html" class="nav-item">Página Inicial</a>
+        <a href="./ctrl-estoque.html" class="nav-item">Controle de Estoque</a>
+        <a href="./add-produto.html" class="nav-item">Adicionar Produto</a>
+        <a href="./funcionarios.html" class="nav-item">Funcionários</a>
+        <a href="./carrinho.html" class="nav-item"><img src="img/cart-shopping-solid.svg" id="img-carrinho" alt=""></a>
+        <a href="./historico-vendas.html" class="nav-item">Histórico</a>
     </nav>
 
     <h2>Funcionários</h2>
     <!-- Crie uma lista de funcionários usando as tags que você aprendeu hoje abaixo \/ -->
-    <ul>
-        <li>João</li>
-        <li>Pedro</li>
-        <li>Leonardo</li>
-        <li>Maria</li>
-        <li>Bruno</li>
-        <li>Raphael</li>
-      </ul>
-        
+    <ul class="ul-funcionarios">
+        <li class="li-funcionarios">João</li>
+        <li class="li-funcionarios">Pedro</li>
+        <li class="li-funcionarios">Leonardo</li>
+        <li class="li-funcionarios">Maria</li>
+        <li class="li-funcionarios">Bruno</li>
+        <li class="li-funcionarios">Raphael</li>
+    </ul>
+
+    <footer>
+        <p id="footer-text">Siga-nos nas redes sociais!</p>
+        <ul class="ul-footer">
+            <li class="li-footer"><img src="img/instagram-brands.svg" alt="Instagram" id="img-footer" /></li>
+            <li class="li-footer"><img src="img/twitter-brands.svg" alt="Twitter" id="img-footer" /></li>
+            <li class="li-footer"><img src="img/discord-brands.svg" alt="discord" id="img-footer" /></li>
+            <li class="li-footer"><img src="img/telegram-brands.svg" alt="telegram" id="img-footer" /></li>
+            <li class="li-footer"><img src="img/facebook-messenger-brands.svg" alt="facebook-messenger-brands"
+                    id="img-footer" /></li>
+        </ul>
+    </footer>
 </body>
+
 </html>

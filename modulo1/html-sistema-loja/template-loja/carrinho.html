@@ -22,24 +22,13 @@
         <a href="./historico-vendas.html" class="nav-item">Histórico</a>
     </nav>
 
-    
-    <h2>Adicionar Produto</h2>
+    <h2>Carrinho do Cliente</h2>
     <form action="">
-            <label for="link-foto">Link para foto: </label>
-            <input type="url" id="link-foto" name="link-foto">
+            <label for="novo-produto">Produto a ser adicionado: </label>
+            <input type="text" id="novo-produto" name="novo-produto">
             <br>
-     
-            <label for="descricao">Descrição do produto: </label>
-            <!-- Adicione o id apropriado para o input abaixo -->
-            <input type="text" id="descricao" name="descrição">
-            <br>
-            <label for="preco">Preço (em R$): </label>
-            <!-- Adicione o id apropriado e o type para receber números abaixo -->
-            <input type="text" id="preco" name="preço">
-            <br>
-
             <!-- Preencha as propriedades necessárias para os elementos abaixo -->
-            <label for="quantidade">Quantidade disponível: </label>
+            <label for="quantidade">Quantidade: </label>
             <input type="text" id="quantidade" name="quantidade">
 
             <br>
@@ -47,6 +36,40 @@
             <button type="submit" value="Submit">Adicionar</button>
 
     </form>
+
+    <table id="table-carrinho">
+        <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Preço em R$</th>
+        </tr>
+        <tr>
+            <td>Casaco</td>
+            <td>1</td>
+            <td>50</td>
+        </tr>
+        <tr>
+            <td>Caneta</td>
+            <td>5</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>Total à pagar</td>
+            <td><br></td>
+            <td>60</td>
+        </tr>
+    </table>
+
+    <h2>Opções de Pagamento</h2>
+
+    <ul class="ul-carrinho"> 
+        <li><img src="img/avista.svg" id="img-pagamento" alt="à vista"><label for="checkbox" class="label-pagamento">À vista</label><input type="checkbox" class="checkbox"></li>
+        <li><img src="img/credit-card-solid.svg" id="img-pagamento" alt="cartão de crédito"><label for="checkbox"class="label-pagamento">Cartão de Crédito</label><input type="checkbox" class="checkbox"></li>
+        <li><img src="img/pix-brands.svg" id="img-pagamento" alt="pix"><label for="checkbox"class="label-pagamento">PIX</label><input type="checkbox" class="checkbox"></li>
+        <li><button type="submit" value="Submit" id="button-pagamento">Finalizar Compra</button></li>
+    </ul>
+    
+    
     <footer>
         <p id="footer-text">Siga-nos nas redes sociais!</p>
         <ul class="ul-footer">
@@ -57,5 +80,6 @@
             <li class="li-footer"><img src="img/facebook-messenger-brands.svg" alt="facebook-messenger-brands" id="img-footer"/></li>
         </ul>
     </footer>
+
 </body>
 </html>
