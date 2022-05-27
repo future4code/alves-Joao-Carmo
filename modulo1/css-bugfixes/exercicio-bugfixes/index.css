@@ -16,6 +16,10 @@ h2 {
     text-align: center;
 }
 
+body {
+    font-family:'Roboto', sans-serif;
+}
+
 input {
     height: 20px;
     width: 500px;
@@ -35,6 +39,7 @@ img {
 
 div>p:first-child {
     display: inline;
+    
 }
 
 
