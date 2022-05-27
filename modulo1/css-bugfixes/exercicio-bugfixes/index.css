@@ -20,6 +20,11 @@ body {
     font-family:'Roboto', sans-serif;
 }
 
+ol {
+    list-style-position: inside;
+    
+}
+
 input {
     height: 20px;
     width: 500px;
@@ -39,9 +44,8 @@ img {
 
 div>p:first-child {
     display: inline;
-    
-}
 
+}
 
 .botao-amarelo {
     background-color: #ffaf43;
@@ -150,4 +154,12 @@ td button {
 #comprar-button:hover {
     color:white;
     background-color: #b19b3d;
+}
+
+.icone:hover{
+    opacity: 0.5;
+}
+
+.icone:active{
+    opacity: 1;
 }
