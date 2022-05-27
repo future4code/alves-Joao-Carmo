@@ -116,6 +116,10 @@ td button {
     height: 100px;
 }
 
+.img-vendas {
+    width: 70px;
+    height: 70px;
+}
 
 #back-button {
     background-color: white;
