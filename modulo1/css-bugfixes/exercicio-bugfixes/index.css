@@ -54,6 +54,8 @@ div>p:first-child {
     border-radius: 5px;
     font-size: 20px;
     color: white;
+    margin-top: 50px;
+    border: 0;
 }
 
 .botao-amarelo:hover {
@@ -67,6 +69,7 @@ div>p:first-child {
 
 .icone {
     height: 15px;
+    width: 15px;
 }
 
 
@@ -88,6 +91,7 @@ div>p:first-child {
 
 #container-para-comprar {
     background-color: #e7eb90;
+    padding-top: 100px;
 }
 
 #container-para-comprar>p {
@@ -136,6 +140,10 @@ td button {
     height: 70px;
 }
 
+.center-div{
+    text-align: center;
+    margin-top: 100px;
+}
 
 #back-button {
     background-color: white;
