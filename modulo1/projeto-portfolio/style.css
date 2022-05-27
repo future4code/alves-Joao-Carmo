@@ -1,0 +1,111 @@
+/* PÁGINA INICIAL */
+
+body {
+    font-family: 'Sora', sans-serif;
+    margin: 0px;
+}
+
+header {
+    text-align: center;
+    padding-top: 5vh;
+    /* background-color: #f6aa1c; */
+    background-color: white;
+    font-size: 1.4rem;
+    color: #621708;
+}
+
+h1 {
+    font-family: 'Sofia', cursive;
+}
+
+
+.title-header {
+    margin-bottom: 4vh;
+    font-size: 8vh;
+   
+}
+
+#img-rio {
+    width: 56%;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+nav {
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    background-color: #ffa600;
+    text-align: center;
+}
+
+.nav-item {
+    background-color: #ffa600;
+    border-radius: 6px;
+    font-size: 1.5rem;
+    margin-right: 4vh;
+    margin-left: 4vh;
+    text-decoration: none;
+    color: #621708;
+
+}
+
+.nav-item:hover {
+    color: black;
+    opacity: 0.5;
+
+}
+
+#img-me {
+    width: 20vh;
+    height: 20vh;
+    border-radius: 100px;
+    position: static;
+
+}
+
+.section-title {
+    font-size: 6vh;
+    margin-bottom: 12vh;
+    font-weight: 500;
+}
+
+/* BIO */
+
+.bio {
+    background-color: #ffa600;
+    text-align: center;
+    padding: 20vh 40vh 20vh 40vh;
+    font-size: 1.4rem;
+    color: #621708;
+}
+
+.bio-text {
+    margin: 0;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+}
+
+/* FORMAÇÃO */
+
+.formacao {
+    text-align: center;
+    color: #621708;
+    margin-top: 20vh;
+}
+
+.box {
+    background-color: #ffa600;
+    margin: 1vh 65vh;
+    padding: 1vh 4vh;
+    border-radius: 50px;
+}
+
+.formacao-text {
+    text-align: left;
+    margin: 0.5vh;
+}
+
+h2 {
+    font-size: 1.8rem;
+
+}
