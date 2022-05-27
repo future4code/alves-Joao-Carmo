@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bazar mais aleatório que existe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Bem-vind@ ao <em>Bazar mais aleatório que existe</em>!</h1>
+        <p id="subtitulo">Coisas úteis e inúteis que você talvez precise.</p>
+    </header>
+
+    <nav>
+        <a href="./index.html" class="nav-item">Página Inicial</a>
+        <a href="./ctrl-estoque.html" class="nav-item">Controle de Estoque</a>
+        <a href="./add-produto.html" class="nav-item">Adicionar Produto</a>
+        <a href="./funcionarios.html" class="nav-item">Funcionários</a>
+        <a href="./carrinho.html" class="nav-item"><img src="img/cart-shopping-solid.svg" id="img-carrinho" alt=""></a>
+        <a href="./historico-vendas.html" class="nav-item">Histórico</a>
+    </nav>
+
+    
+    <h2>Adicionar Produto</h2>
+    <form action="">
+            <label for="link-foto">Link para foto: </label>
+            <input type="url" id="link-foto" name="link-foto">
+            <br>
+     
+            <label for="descricao">Descrição do produto: </label>
+            <!-- Adicione o id apropriado para o input abaixo -->
+            <input type="text" id="descricao" name="descrição">
+            <br>
+            <label for="preco">Preço (em R$): </label>
+            <!-- Adicione o id apropriado e o type para receber números abaixo -->
+            <input type="text" id="preco" name="preço">
+            <br>
+
+            <!-- Preencha as propriedades necessárias para os elementos abaixo -->
+            <label for="quantidade">Quantidade disponível: </label>
+            <input type="text" id="quantidade" name="quantidade">
+
+            <br>
+            <!-- Adicione ao type do botão abaixo o valor para que ele submeta o formulário -->
+            <button type="submit" value="Submit">Adicionar</button>
+
+    </form>
+    <footer>
+        <p id="footer-text">Siga-nos nas redes sociais!</p>
+        <ul class="ul-footer">
+            <li class="li-footer"><img src="img/instagram-brands.svg" alt="Instagram" id="img-footer"/></li>
+            <li class="li-footer"><img src="img/twitter-brands.svg" alt="Twitter" id="img-footer"/></li>
+            <li class="li-footer"><img src="img/discord-brands.svg" alt="discord" id="img-footer"/></li>
+            <li class="li-footer"><img src="img/telegram-brands.svg" alt="telegram" id="img-footer"/></li>
+            <li class="li-footer"><img src="img/facebook-messenger-brands.svg" alt="facebook-messenger-brands" id="img-footer"/></li>
+        </ul>
+    </footer>
+</body>
+</html>
