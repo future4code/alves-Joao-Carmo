@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>João Gabriel, estudante de programação</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,14 +16,14 @@
 </head>
 
 <body>
-    <nav>
-        <a href="" class="nav-item">Bio</a>
-        <a href="" class="nav-item">Formação</a>
-        <a href="" class="nav-item">Projetos</a>
-        <a href="" class="nav-item">Habilidades</a>
-        <a href="" class="nav-item">Contato</a>
+    <nav id="topo">
+        <a href="index.html" class="nav-item">Página Inicial</a>
+        <a href="#bio" class="nav-item">Informações</a>
+        <a href="#formacao" class="nav-item">Formação</a>
+        <a href="#projeto" class="nav-item">Projetos</a>
+        <a href="#habilidades" class="nav-item">Habilidades</a>
+        <a href="#contato" class="nav-item">Contato</a>
     </nav>
-
 
 
     <header>
@@ -34,34 +34,78 @@
     </header>
 
     <div class="bio">
-        <h1 class="section-title">Um pouco sobre mim ...</h1>
-        <p class="bio-text">Me chamo João Gabriel, tenho 25 anos e moro no Rio de Janeiro. Logo aos meus 10 anos, ganhei o meu primeiro computador, e desde então minha paixão pela tecnologia continua crescendo. Tenho facilidade em aprender novos assuntos, principalmente os que me mais me interessam. Procuro sempre divulgar meu trabalho em busca de feedback e também para aprender com meus erros. Sou bem confiante e estou sempre buscando melhorar, seja âmbito profissional ou pessoal, para que me torne uma pessoa cada vez melhor.<p>
+        <h1 class="section-title" id="bio">Um pouco sobre mim ...</h1>
+        <p class="bio-text">Me chamo João Gabriel, tenho 25 anos e moro no Rio de Janeiro. Logo aos meus 10 anos, ganhei
+            o meu primeiro computador, e desde então minha paixão pela tecnologia continua crescendo. Tenho facilidade
+            em aprender novos assuntos, principalmente os que me mais me interessam. Procuro sempre divulgar meu
+            trabalho em busca de feedback e também para aprender com meus erros. Sou bem confiante e estou sempre
+            buscando melhorar, seja âmbito profissional ou pessoal, para que me torne uma pessoa cada vez melhor.
+        <p>
     </div>
 
     <div class="formacao">
-        <h1 class="section-title">Minha Formação</h1>
-        <div class="box">
+        <h1 class="section-title" id="formacao">Minha Formação</h1>
+        <div class="box-formacao">
             <h2>Colégio Cruzeiro</h2>
             <p class="formacao-text">Curso: Ensino Médio</p>
             <p class="formacao-text">Ano: 2014</p>
 
         </div>
-        <div class="box">
+        <div class="box-formacao">
             <h2>Universidade Federal Fluminense</h2>
             <p class="formacao-text">Curso: Bacharelado - Química Industrial</p>
             <p class="formacao-text">Ano: 2015</p>
         </div>
-        <div class="box">
+        <div class="box-formacao">
             <h2>Universidade Federal do Rio de Janeiro</h2>
             <p class="formacao-text">Curso: Bacharelado - Engenharia de Alimentos</p>
             <p class="formacao-text">Ano: 2016 - 2022</p>
         </div>
-        <div class="box">
+        <div class="box-formacao">
             <h2>Labenu</h2>
             <p class="formacao-text">Curso: Desenvolvedor FullStack</p>
             <p class="formacao-text">Ano: 2022</p>
         </div>
+    </div>
 
+    <div class="projeto">
+        <h1 class="section-title" id="projeto">Projetos</h1>
+        <div class="box-projeto">
+            <a href="projeto.html" id="link-projeto">Sitema de Loja</a>
+        </div>
+    </div>
+
+    <div class="habilidade">
+        <a id="habilidades"><h1 class="section-title">Habilidades</h1></a>
+        <div class="box-habilidade">
+            <h2>Técnicas</h2>
+            <p id="text-habilidade">HTML</p>
+            <p id="text-habilidade">CSS</p>
+            <p id="text-habilidade">Javascript</p>
+        </div>
+        <div class="box-habilidade">
+            <h2>Comportamentais</h2>
+            <h3>Comunicação:</h3><p id="text-habilidade"> saber se comunicar com os companheiros é essencial para o bom funcionamento de uma equipe.</p>
+            <h3>Comprometimento:</h3><p id="text-habilidade"> nunca desisto de nenhuma atividade e estou sempre em busca de me desenvolver em todos os aspectos.</p>
+            <h3>Confiança:</h3><p id="text-habilidade"> gosto de arriscar e não tenho medo de errar, confiante nas minhas decisões.</p>
+            <h3>Liderança:</h3><p id="text-habilidade"> busco tomar a frente e orgarnizar projetos de assuntos que domino.</p>
+        </div>
+    </div>
+    <div class="contato">
+        <a id="contato"><h1 class="section-title">Contato</h1></a>
+        <div class="box-contato">
+            <label for="nome">Nome</label><input type="text" id="nome" placeholder="Digite seu nome"><br>
+            <label for="email">E-mail</label><input type="text" id="email" placeholder="Digite seu e-mail"><br>
+            <label for="mensagem">Mensagem</label><input type="text" id="mensagem" placeholder="Digite sua mensagem">  
+        </div>
+        <h1 class="section-title">Redes Sociais</h1>
+        <a href="https://www.linkedin.com/in/jo%C3%A3o-gabriel-colodetti-do-carmo-2a31b9231/"><img src="images/linkedin-brands.svg" alt="linkedin" id="img-redes"></a>
+        <a href="mailto:jgcolodetti13@hotmail.com"><img src="images/envelope-solid.svg" alt="email" id="img-redes"></a>
+        <a href="https://github.com/jgcolodetti"><img src="images/github-brands.svg" alt="github" id="img-redes"></a>
+        <div class="back-home">
+            <a href="#topo" id="back-home">Volte ao ínicio</a>
+        </div>
+    </div>
 
 
 </body>
