@@ -11,43 +11,61 @@
 
 <body>
     <header>
-        <a href="index.html">
-            <h1>LabeTube</h1>
-        </a>
-        <input type="text" placeholder="Busca">
+        <div class="logo">
+            <a href="index.html"><img src="img/youtube-brands.svg" alt="" class="icone" id="logo"></a>
+            <a href="index.html">
+                <h1>LabeTube</h1>
+            </a>
+        </div>
+        <div class="search">
+            <img src="img/magnifying-glass-solid.svg" alt="" class="search-icon">
+            <input type="text" placeholder="Busca">
+            <div class="dropdown">
+                <button class="dropbtn">Menu</button>
+                <div class="dropdown-content">
+                    <a href="#">Meu canal</a>
+                    <a href="#">Histórico</a>
+                    <a href="#">Favoritos</a>
+                    <a href="#">Configurações</a>
+                    <a href="#">Sair</a>
+                </div>
+            </div>
+        </div>
+
     </header>
     <main>
         <div class="first-row">
-            <div class="card"><a href="video1.html" target="_blank"><video
-                        src="https://storage.googleapis.com/future-apis.appspot.com/1.mp4"></video>
-                    <p>Media 1</p>
-                </a></div>
+            <div class="card">
+                <a href="video1.html" target="_blank"><video src="https://storage.googleapis.com/future-apis.appspot.com/1.mp4"></video>
+                    <p>Video 1</p>
+                </a> 
+            </div>
 
             <div class="card"><a href="video2.html" target="_blank"><video
                         src="https://storage.googleapis.com/future-apis.appspot.com/2.mp4"></video>
-                    <p>Media 2</p>
+                    <p>Video 2</p>
                 </a>
 
             </div>
             <div class="card"><video src="https://storage.googleapis.com/future-apis.appspot.com/3.mp4"></video>
-                <p>Media 3</p>
+                <p>Video 3</p>
             </div>
             <div class="card"><video src="https://storage.googleapis.com/future-apis.appspot.com/4.mp4"></video>
-                <p>Media 4</p>
+                <p>Video 4</p>
             </div>
         </div>
         <div class="second-row">
             <div class="card"><video src="https://storage.googleapis.com/future-apis.appspot.com/5.mp4"></video>
-                <p>Media 5</p>
+                <p>Video 5</p>
             </div>
             <div class="card"><video src="https://storage.googleapis.com/future-apis.appspot.com/6.mp4"></video>
-                <p>Media 6</p>
+                <p>Video 6</p>
             </div>
             <div class="card"><video src="https://storage.googleapis.com/future-apis.appspot.com/7.mp4"></video>
-                <p>Media 7</p>
+                <p>Video 7</p>
             </div>
             <div class="card"><video src="https://storage.googleapis.com/future-apis.appspot.com/8.mp4"></video>
-                <p>Media 8</p>
+                <p>Video 8</p>
             </div>
         </div>
     </main>
