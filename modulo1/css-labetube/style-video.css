@@ -5,6 +5,10 @@
         padding-top: 5vw;
     }
     
+    main > h2 {
+        margin: 0;
+    }
+
     .video-box {
         height: 36vh;
         justify-content: flex-start;
@@ -48,7 +52,9 @@
         padding-left: 2vw;
         padding-top: 5vw;
     }
-
+    main > h2 {
+        margin: 0;
+    }
 
 
 }
