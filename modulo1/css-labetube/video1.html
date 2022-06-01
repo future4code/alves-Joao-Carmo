@@ -7,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Labetube</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-video.css">
 </head>
 
 <body>
-    <header>
+    <header id="topo">
         <div class="logo">
             <a href="index.html"><img src="img/youtube-brands.svg" alt="" class="icone" id="logo"></a>
             <a href="index.html">
@@ -18,8 +19,6 @@
             </a>
         </div>
         <div class="search">
-            <img src="img/magnifying-glass-solid.svg" alt="" class="search-icon">
-            <input type="text" placeholder="Busca">
             <div class="dropdown">
                 <button class="dropbtn">Menu</button>
                 <div class="dropdown-content">
@@ -30,16 +29,20 @@
                     <a href="#">Sair</a>
                 </div>
             </div>
+            <img src="img/magnifying-glass-solid.svg" alt="" class="search-icon">
+            <input type="text" placeholder="Busca">
         </div>
 
     </header>
 
     <main>
         
-        <h2>Video 1</h2>
+        
         <div class="video-box">
-            <video src="https://storage.googleapis.com/future-apis.appspot.com/1.mp4" controls class="video1" autoplay></video>
+            <video src="https://storage.googleapis.com/future-apis.appspot.com/1.mp4" controls class="video1"></video>
         </div>
+        <h2>Video 1</h2>
+            
         
     </main>
 
