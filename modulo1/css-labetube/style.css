@@ -1,0 +1,327 @@
+* {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+    
+}
+
+header {
+    background-color: rgba(0, 179, 250, 0.815);
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1vh 1vw;
+}
+
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: rgba(0, 179, 250, 0.815);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 16px 0;
+}
+
+footer > a{
+    padding-top: 0.8vh;
+}
+input {
+    margin-right: 1vw;
+    margin-left: 1vw;
+    width: 8vw;
+    padding: 12px;
+}
+
+
+main {
+    padding: 32px 16px;
+}
+
+.first-row {
+    display: flex;
+    width: 100%;
+    height: 38vh;
+    justify-content: space-evenly;
+
+}
+
+.second-row {
+    display: flex;
+    height: 38vh;
+    justify-content: space-evenly;
+    margin-top: 24px;
+}
+
+.card {
+    box-shadow: 1px 1px 1px 1px gray;
+    width: 23vw;
+    border-radius: 16px;
+    color: black;
+
+}
+
+video {
+    width: 100%;
+    border-radius: 16px;
+}
+
+p {
+    padding: 24px;
+    font-size: 1.5rem;
+}
+
+a {
+    text-decoration: none;
+    color: rgba(0, 179, 250, 0.815);
+}
+
+a>h1 {
+    color: black;
+}
+
+a>h1:hover {
+    opacity: 0.7;
+    color: white;
+}
+
+a:hover {
+    opacity: 0.8;
+    color: rgba(0, 179, 250, 0.815);
+}
+
+.video1 {
+    width: 62%;
+    height: 70%;
+}
+
+.video-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+main > h2 {
+    margin-left: 10vw;
+    margin-top: 5vh;
+}
+h1 {
+    text-align: left;
+}
+
+.icone {
+    width: 48px;
+    height: 48px;
+    padding: 0 16px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+#logo {
+    padding-top: 8px;
+}
+
+.search-icon {
+    width: 24px;
+    height: 24px;
+    margin-left: 1vw;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    margin-right: 4vw;
+}
+
+.top-btn {
+    width: 20px;
+    height: 20px;
+}
+
+/* DROPDOWN MENU */
+
+.dropdown-content {
+    display: none;
+    color: rgba(0, 179, 250, 0.815);
+    background-color: black;
+}
+
+.dropdown-content a {
+    color: rgba(0, 179, 250, 0.815);
+    padding: 8px 8px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropbtn {
+    background-color: black;
+    color: rgba(0, 179, 250, 0.815);
+    padding: 8px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 16px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    position: absolute;
+}
+
+@media screen and (min-device-width : 240px) and (max-device-width : 480px) {
+
+    /* celulares */
+    /* HEADER */
+    header {
+        padding: 0;
+    }
+
+    .icone {
+        padding: 0.8vh 1vw;
+        width: 24px;
+        height: 24px;
+    }
+
+    a>h1 {
+        font-size: 1.2rem;
+    }
+
+    .search {
+        margin-right: 0;
+    }
+
+    .dropbtn {
+        padding: 1vh 1.5vw;
+        font-size: 0.8rem;
+    }
+
+    .search-icon {
+        width: 14px;
+        height: 14px;
+        margin-left: 3vw;
+        margin-right: 1vw;
+    }
+
+    input {
+        margin-right: 3vw;
+        width: 15vw;
+        padding: 1vh 3vw;
+    }
+
+    /* MAIN */
+
+    main {
+        padding: 2vh 2vw;
+    }
+
+    .first-row {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        height: auto;
+    }
+
+    .second-row {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        height: auto;
+        margin-top: 0;
+    }
+
+    .card {
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 2vh;
+    }
+
+    video {
+        border-radius: 8px;
+    }
+
+    p {
+        padding: 0;
+        padding-left: 4vw;
+        padding-bottom: 1vh;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    a:hover {
+        opacity: 1;
+    }
+
+    footer {
+        position: relative;
+        padding: 1vh 0;
+    }
+
+    footer>h2 {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (min-device-width : 481px) and (max-device-width : 1200px) {
+    /* tablets */
+
+    header {
+        padding: 0;
+    }
+
+    main {
+        padding: 2vh 1vw;
+    }
+
+    input {
+        width: 16vw;
+    }
+
+    .first-row {
+        flex-wrap: wrap;
+        height: 100%;
+    }
+
+    .second-row {
+        flex-wrap: wrap;
+        height: 100%;
+        margin-top: 0;
+    }
+
+    .card {
+        width: 48%;
+        margin-bottom: 2vh;
+    }
+
+    footer {
+        position: relative;
+        padding: 1vh 0;
+    }
+
+    .top-btn{
+        height: 32px;
+        width: 32px;
+    }
+
+    footer > a {
+        padding: 0;
+    }
+
+    p {
+        font-weight: bold;
+    }
+    }
+    
