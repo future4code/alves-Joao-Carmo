@@ -52,7 +52,7 @@ class Post extends React.Component {
     comentando: false,
     numeroComentarios: 0,
     salvo: false,
-    compartilhando: false
+    compartilhando: false,
   }
 
   onClickCurtida = () => {
@@ -77,13 +77,6 @@ class Post extends React.Component {
   onClickComentario = () => {
     this.setState({
       comentando: !this.state.comentando
-    })
-  }
-
-  aoEnviarComentario = () => {
-    this.setState({
-      comentando: false,
-      numeroComentarios: this.state.numeroComentarios + 1
     })
   }
 
@@ -115,13 +108,13 @@ class Post extends React.Component {
       iconeSalvar = iconeSalvarBranco
     }
 
-
     let componenteComentario
     let componenteCompartilhar
 
     if(this.state.comentando) {
       componenteComentario = <SecaoComentario aoEnviar={this.aoEnviarComentario}/>
     }
+
 
     if(this.state.compartilhando) {
       componenteCompartilhar = <SecaoCompartilhar/>
@@ -146,7 +139,7 @@ class Post extends React.Component {
         <IconeComContador
           icone={iconeComentario}
           onClickIcone={this.onClickComentario}
-          valorContador={this.state.numeroComentarios}
+          valorContador={this.props.numeroComentarios}
         />
 
         <IconeSemContador
