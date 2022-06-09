@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import Post from '../Post/Post'
 
 const CommentContainer = styled.div`
     display: flex;
@@ -33,6 +32,7 @@ const CaixaComentario = styled.div`
 const InputContainer = styled.div`
 	display: flex;
 `
+
 export class SecaoComentario extends Component {
 	state = {
 		valorComentario: '',
@@ -44,25 +44,29 @@ export class SecaoComentario extends Component {
 	}
 
 	onChangeComentario = (event) => {
-		console.log(event.target.value)
+		// console.log(event.target.value)
 		this.setState({ valorComentario: event.target.value })
 	}
 
 	aoEnviarComentario = () => {
+		if (this.state.valorComentario === "") {
+			return 
+		}
 		const novoComentario = {
 			texto: this.state.valorComentario,
 		  }
 
 		const novosComentarios = [...this.state.listaComentario, novoComentario]
 		this.setState({ listaComentario: novosComentarios, valorComentario: "", comentando: true})
-		console.log(this.listaComentario)
+		console.log(this.state.listaComentario)
+		this.props.incrementa()
 	}
 
 	render() {
 
 		const listaDeComentarios = this.state.listaComentario.map((comment) => {
 			return (
-			  <p>{comment.texto}</p>
+			  <p>{comment.texto}<br/></p>
 			)
 		  })
 

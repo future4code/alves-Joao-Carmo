@@ -86,6 +86,12 @@ class Post extends React.Component {
     })
   }
 
+  incrementa = () => {
+    this.setState({
+      numeroComentarios: this.state.numeroComentarios + 1
+    })
+  }
+
   onClickCompatilhar = () => {
     this.setState ({
       compartilhando: !this.state.compartilhando
@@ -112,7 +118,8 @@ class Post extends React.Component {
     let componenteCompartilhar
 
     if(this.state.comentando) {
-      componenteComentario = <SecaoComentario aoEnviar={this.aoEnviarComentario}/>
+      componenteComentario = <SecaoComentario incrementa={this.incrementa}/>
+
     }
 
 
