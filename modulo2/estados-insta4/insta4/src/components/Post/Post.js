@@ -139,7 +139,7 @@ class Post extends React.Component {
         <IconeComContador
           icone={iconeComentario}
           onClickIcone={this.onClickComentario}
-          valorContador={this.props.numeroComentarios}
+          valorContador={this.state.numeroComentarios}
         />
 
         <IconeSemContador

@@ -41,7 +41,6 @@ export class SecaoComentario extends Component {
 				texto: "",
 			}
 		],
-		numeroComentarios: 0
 	}
 
 	onChangeComentario = (event) => {
@@ -55,7 +54,7 @@ export class SecaoComentario extends Component {
 		  }
 
 		const novosComentarios = [...this.state.listaComentario, novoComentario]
-		this.setState({ listaComentario: novosComentarios, valorComentario: "", comentando: true, numeroComentarios: numeroComentarios+1})
+		this.setState({ listaComentario: novosComentarios, valorComentario: "", comentando: true})
 		console.log(this.listaComentario)
 	}
 
