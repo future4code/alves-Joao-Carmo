@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 
 const CommentContainer = styled.div`
-    display: flex;
     justify-content: center;
     padding: 5px;
 	flex-direction: column;
+	${({ display }) => {
+        return css`
+            display: ${display ? 'flex' : 'none'};
+        `;
+    }}
 `
 
 const InputComentario = styled.input`
@@ -71,7 +75,7 @@ export class SecaoComentario extends Component {
 		  })
 
 
-		return <CommentContainer>
+		return <CommentContainer display={this.props.comentando}>
 			<InputContainer>
 				<InputComentario
 					placeholder={'Comentário'}

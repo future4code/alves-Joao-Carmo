@@ -114,14 +114,7 @@ class Post extends React.Component {
       iconeSalvar = iconeSalvarBranco
     }
 
-    let componenteComentario
     let componenteCompartilhar
-
-    if(this.state.comentando) {
-      componenteComentario = <SecaoComentario incrementa={this.incrementa}/>
-
-    }
-
 
     if(this.state.compartilhando) {
       componenteCompartilhar = <SecaoCompartilhar/>
@@ -159,7 +152,7 @@ class Post extends React.Component {
           onClickIcone={this.onClickCompatilhar}
         />
       </PostFooter>
-      {componenteComentario}
+      <SecaoComentario incrementa={this.incrementa} comentando={this.state.comentando}/>
       {componenteCompartilhar}
     </PostContainer>
   }
