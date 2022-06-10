@@ -16,6 +16,7 @@ const ChatBox = styled.div`
   display: flex;
   flex-direction:column;
   justify-content: flex-end;
+  background-color: #faedcd;
 `
 
 function App() {

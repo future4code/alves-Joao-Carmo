@@ -1,6 +1,4 @@
-
-import styled from "styled-components";
-
+import styled,{css} from "styled-components";
 import React, { Component } from 'react'
 
 const BoxEnviarMensagem = styled.div`
@@ -9,53 +7,67 @@ const BoxEnviarMensagem = styled.div`
 `
 const BoxEnviarMensagem2 = styled.div`
     display: flex;
-    height: 5vh;
-    box-shadow: 0px -2px 10px grey;
+    height: 7vh;
     align-items: center;
+    margin-top: 2vh;
 `
 
-const BoxMensagem = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding-left: 10%;
-`
 const InputUsuario = styled.input`
     width: 15%;
-    height: 50%;
+    height: 70%;
     margin: 0 1%;
-
+    border: none;
+    padding-left: 8px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 2px gray;
+    background-color: #fefae0;
 `
 const InputMensagem = styled.input`
     width:70%;
-    height: 50%;
+    height: 70%;
+    border: none;
+    padding-left: 8px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 2px gray;
+    background-color: #fefae0;
 `
 const BotaoEnviar = styled.button`
     width: 9%;
     margin: 0 1%;
-    padding: 0.5vh 0;
-`
+    padding: 1.6vh 0;
+    border: none;
+    border-radius: 8px;
+    background-color: #d4a373;
+    box-shadow: 1px 1px 2px gray;
+    :hover {
+        background-color: #947250;
+        box-shadow: inset 0px 0px 10px 0px white;
+    }
 
+`
 const MiniBoxMensagem = styled.div`
-    display:flex;
-    gap: 2%;
-    align-items: flex-end;
-    background-color: lightblue;
-    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    word-break: break-all;
+    word-wrap: break-word;
+    align-items: flex-start;
     border-radius: 16px;
+    padding: 0 16px 16px 24px;
+    max-width: 40%;
+    background-color: #fefae0;
+    margin: 0.5vh 2vw;
+    box-shadow: 1px 1px 2px gray;
+`
+const BoxUsuario = styled.p`
+    margin-bottom: 2%;
+    font-weight: bold;
 `
 
 export default class SecaoMensagem extends Component {
     state = {
         valorUsuario: "",
         valorMensagem: "",
-        listaMensagem: [
-            {
-                usuario: "",
-                mensagem: ""
-            }
-        ],
-        existe: false
+        listaMensagem: [],
     }
 
     onChangeUsuario = (event) => {
@@ -71,36 +83,28 @@ export default class SecaoMensagem extends Component {
             return
         }
         const novaMensagem = {
-            usuario: this.state.valorUsuario + ":",
+            usuario: this.state.valorUsuario,
             mensagem: this.state.valorMensagem,
         }
 
         const novasMensagens = [...this.state.listaMensagem, novaMensagem]
-        this.setState({ listaMensagem: novasMensagens, valorMensagem: "", existe: true})
+        this.setState({ listaMensagem: novasMensagens, valorMensagem: ""})
     }
 
     render() {
 
-
         const listaDeMensagens = this.state.listaMensagem.map((item) => {
-            if (this.state.existe == true){
                 return (
                     <MiniBoxMensagem>
-                        <p><strong>{item.usuario}</strong></p>
-                        <p>{item.mensagem}</p>
+                        <BoxUsuario>{item.usuario}</BoxUsuario>
+                        {item.mensagem}
                     </MiniBoxMensagem>
                 )
-            }
-            
         })
-
-
 
         return (
             <BoxEnviarMensagem>
-                <BoxMensagem>
-                    {listaDeMensagens}
-                </BoxMensagem>
+                {listaDeMensagens}
                 <BoxEnviarMensagem2>
                     <InputUsuario
                         placeholder="Usuário"
