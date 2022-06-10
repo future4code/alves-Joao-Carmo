@@ -116,7 +116,7 @@ export default class SecaoMensagem extends Component {
                         value={this.state.valorMensagem}
                         onChange={this.onChangeMensagem}
                     />
-                    <BotaoEnviar type='submit' onClick={this.aoEnviarMensagem} onKeyDown={this.aoEnviarMensagem}>Enviar</BotaoEnviar>
+                    <BotaoEnviar type='submit' onClick={this.aoEnviarMensagem}>Enviar</BotaoEnviar>
                 </BoxEnviarMensagem2>
             </BoxEnviarMensagem>
         )
