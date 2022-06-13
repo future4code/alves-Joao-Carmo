@@ -1,5 +1,6 @@
-import styled,{css} from "styled-components";
+import styled, { css } from "styled-components";
 import React, { Component } from 'react'
+import Mensagem from "./Mensagem/Mensagem";
 
 const BoxEnviarMensagem = styled.div`
     display: flex;
@@ -9,7 +10,6 @@ const BoxEnviarMensagem2 = styled.div`
     display: flex;
     height: 7vh;
     align-items: center;
-    margin-top: 2vh;
 `
 
 const InputUsuario = styled.input`
@@ -43,31 +43,14 @@ const BotaoEnviar = styled.button`
         background-color: #947250;
         box-shadow: inset 0px 0px 10px 0px white;
     }
-
-`
-const MiniBoxMensagem = styled.div`
-    display: flex;
-    flex-direction: column;
-    word-break: break-all;
-    word-wrap: break-word;
-    align-items: flex-start;
-    border-radius: 16px;
-    padding: 0 16px 16px 24px;
-    max-width: 40%;
-    background-color: #fefae0;
-    margin: 0.5vh 2vw;
-    box-shadow: 1px 1px 2px gray;
-`
-const BoxUsuario = styled.p`
-    margin-bottom: 2%;
-    font-weight: bold;
 `
 
 export default class SecaoMensagem extends Component {
+
     state = {
         valorUsuario: "",
         valorMensagem: "",
-        listaMensagem: [],
+        mensagem: [],
     }
 
     onChangeUsuario = (event) => {
@@ -87,25 +70,24 @@ export default class SecaoMensagem extends Component {
             mensagem: this.state.valorMensagem,
         }
 
-        const novasMensagens = [...this.state.listaMensagem, novaMensagem]
-        this.setState({ listaMensagem: novasMensagens, valorMensagem: ""})
+        const novasMensagens = [...this.state.mensagem, novaMensagem]
+        this.setState({ mensagem: novasMensagens, valorMensagem: "" })
     }
 
     handleKeyPress = (event) => {
-        if(event.key === 'Enter'){
+        if (event.key === 'Enter') {
             this.aoEnviarMensagem()
         }
     }
 
     render() {
-
-        const listaDeMensagens = this.state.listaMensagem.map((item) => {
-                return (
-                    <MiniBoxMensagem>
-                        <BoxUsuario>{item.usuario}</BoxUsuario>
-                        {item.mensagem}
-                    </MiniBoxMensagem>
-                )
+        const listaDeMensagens = this.state.mensagem.map((item) => {
+            return (
+                <Mensagem
+                    usuario={item.usuario}
+                    mensagem={item.mensagem}
+                />
+            )
         })
 
         return (

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from 'styled-components';
 import SecaoMensagem from "./components/SecaoMensagem/SecaoMensagem";
+import Conversa from "./components/SecaoMensagem/Conversa/Conversa";
+import Mensagem from "./components/SecaoMensagem/Mensagem/Mensagem";
 
 const MainContainer = styled.div`
   align-items: center;
@@ -23,9 +25,10 @@ function App() {
   return (
     <MainContainer>
       <ChatBox>
-        <SecaoMensagem>
-
-        </SecaoMensagem>
+        <Conversa>
+          <Mensagem></Mensagem>
+        </Conversa>
+        <SecaoMensagem></SecaoMensagem>
       </ChatBox>
     </MainContainer>
   );
