@@ -91,6 +91,12 @@ export default class SecaoMensagem extends Component {
         this.setState({ listaMensagem: novasMensagens, valorMensagem: ""})
     }
 
+    handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+            this.aoEnviarMensagem()
+        }
+    }
+
     render() {
 
         const listaDeMensagens = this.state.listaMensagem.map((item) => {
@@ -112,6 +118,7 @@ export default class SecaoMensagem extends Component {
                         onChange={this.onChangeUsuario}
                     />
                     <InputMensagem
+                        onKeyPress={this.handleKeyPress}
                         placeholder="Mensagem"
                         value={this.state.valorMensagem}
                         onChange={this.onChangeMensagem}
