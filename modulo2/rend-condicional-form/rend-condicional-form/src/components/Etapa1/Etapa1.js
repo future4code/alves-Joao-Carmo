@@ -14,7 +14,15 @@ const Main = styled.div`
     }}
 `
 export default class Etapa1 extends Component {
+    state = {
+        opcaoEtapa1: ''
+    }
 
+    opcaoEscolhida = (opcao) => {
+        this.setState({opcaoEtapa1: opcao})
+        this.props.opcaoEscolhida(this.state.opcaoEtapa1)
+    }
+    
     render() {
         return (
             <Main active={this.props.active}>
@@ -23,6 +31,7 @@ export default class Etapa1 extends Component {
                 <PerguntaAberta pergunta={"2. Qual sua idade?"} />
                 <PerguntaAberta pergunta={"3. Qual seu email?"} />
                 <PerguntaOpcoes
+                    opcaoEscolhida={this.opcaoEscolhida}
                     pergunta={"4. Qual a sua escolaridade?"}
                     opcoes={[
                         "Ensino médio incompleto",
