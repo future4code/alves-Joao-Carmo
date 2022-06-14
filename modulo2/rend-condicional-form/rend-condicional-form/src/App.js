@@ -33,14 +33,7 @@ class App extends React.Component {
   }
 
   handleOnClick = () => {
-    if (this.state.opcaoEtapa1 === 'Ensino médio incompleto' || this.state.opcaoEtapa1 === 'Ensino médio completo') {
-      this.setState({ indice: this.state.indice + 2 })
-    } else {
-      this.setState({ indice: this.state.indice + 1 })
-    }
-    if (this.state.indice == 2) {
-      this.setState({ indice: 4 })
-    }
+    this.setState({ indice: this.state.indice + 1 })
   }
 
   opcaoEscolhida = (opcao) => {
@@ -54,8 +47,8 @@ class App extends React.Component {
         <Etapa1 active={this.state.indice == 1} opcaoEscolhida={this.opcaoEscolhida}></Etapa1>
         <Etapa2 active={this.state.indice == 2}></Etapa2>
         <Etapa3 active={this.state.indice == 3}></Etapa3>
-        <EtapaFinal active={this.state.indice == 4 || this.state.indice == 5}></EtapaFinal>
-        <Btn active={this.state.indice != 4 && this.state.indice != 5} onClick={this.handleOnClick}>Próxima Etapa</Btn>
+        <EtapaFinal active={this.state.indice == 4}></EtapaFinal>
+        <Btn active={this.state.indice != 4} onClick={this.handleOnClick}>Próxima Etapa</Btn>
       </Main>
     );
   }
