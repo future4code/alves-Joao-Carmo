@@ -8,12 +8,8 @@ const Main = styled.div`
 `
 
 export default class PerguntaOpcoes extends Component {  
-  state = {
-    value: 'Ensino médio incompleto',
-  }
 
   handleChange = (event) => {
-    this.setState({ value: event.target.value});
     this.props.opcaoEscolhida(event.target.value)
   };
 
@@ -22,9 +18,9 @@ export default class PerguntaOpcoes extends Component {
     return (
       <Main>
         <p>{this.props.pergunta}</p>
-        <select value={this.state.value} onChange={this.handleChange}>
+        <select onChange={this.handleChange}>
           {this.props.opcoes.map(function (item) {
-            return <option value={item}>{item}</option>
+            return <option value={item} key={item}>{item}</option>
           })}
         </select>
 

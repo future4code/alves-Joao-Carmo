@@ -29,15 +29,25 @@ const Main = styled.div`
 class App extends React.Component {
   state = {
     indice: 1,
-    opcaoEtapa1: '',
+    possuiSuperior: false,
   }
 
   handleOnClick = () => {
-    this.setState({ indice: this.state.indice + 1 })
+    console.log(this.state.possuiSuperior)
+    if (!this.state.possuiSuperior) {
+      this.setState({ indice: this.state.indice + 2 })
+      this.setState({possuiSuperior: true})
+    } else {
+      this.setState({ indice: this.state.indice + 1 })
+      this.setState({possuiSuperior: false})
+    }
   }
 
   opcaoEscolhida = (opcao) => {
-    this.setState({ opcaoEtapa1: opcao })
+    console.log(opcao)
+    if (opcao.includes('superior')){
+      this.setState({possuiSuperior: true})
+    }
   }
 
   render() {
