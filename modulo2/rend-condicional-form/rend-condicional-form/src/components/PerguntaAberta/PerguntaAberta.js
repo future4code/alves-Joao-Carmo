@@ -13,7 +13,7 @@ export default class PerguntaAberta extends Component {
         return (
             <Main>
                 <p>{this.props.pergunta}</p>
-                <input></input>
+                <input onChange={this.props.onChange}></input>
             </Main>
         )
     }

@@ -30,9 +30,14 @@ class App extends React.Component {
   state = {
     indice: 1,
     possuiSuperior: false,
+    paginaCompleta: false
   }
 
   handleOnClick = () => {
+    if (!this.state.paginaCompleta){
+      alert("Responda todas as perguntas")
+      return
+    }
     console.log(this.state.possuiSuperior)
     if (!this.state.possuiSuperior) {
       this.setState({ indice: this.state.indice + 2 })
@@ -41,6 +46,7 @@ class App extends React.Component {
       this.setState({ indice: this.state.indice + 1 })
       this.setState({possuiSuperior: false})
     }
+    this.setState({paginaCompleta: false})
   }
 
   opcaoEscolhida = (opcao) => {
@@ -50,13 +56,17 @@ class App extends React.Component {
     }
   }
 
+  handlePaginaCompletaChange = (isComplete) => {
+    this.setState({paginaCompleta: isComplete})
+  }
+
   render() {
 
     return (
       <Main>
-        <Etapa1 active={this.state.indice == 1} opcaoEscolhida={this.opcaoEscolhida}></Etapa1>
-        <Etapa2 active={this.state.indice == 2}></Etapa2>
-        <Etapa3 active={this.state.indice == 3}></Etapa3>
+        <Etapa1 active={this.state.indice == 1} opcaoEscolhida={this.opcaoEscolhida} handlePaginaCompletaChange={this.handlePaginaCompletaChange}></Etapa1>
+        <Etapa2 active={this.state.indice == 2} handlePaginaCompletaChange={this.handlePaginaCompletaChange}></Etapa2>
+        <Etapa3 active={this.state.indice == 3} handlePaginaCompletaChange={this.handlePaginaCompletaChange}></Etapa3>
         <EtapaFinal active={this.state.indice == 4}></EtapaFinal>
         <Btn active={this.state.indice != 4} onClick={this.handleOnClick}>Próxima Etapa</Btn>
       </Main>
