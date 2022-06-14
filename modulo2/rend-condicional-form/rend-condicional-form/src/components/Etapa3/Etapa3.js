@@ -36,7 +36,7 @@ export default class Etapa3 extends Component {
         return (
             <Main active={this.props.active}>
                 <h3>ETAPA 3 - INFORMAÇÕES GERAIS DE ENSINO</h3>
-                <PerguntaAberta pergunta={"7. Por que você não terminou um curso de graduação?"} onChange={this.handleChangePergunta1}></PerguntaAberta>
+                <PerguntaAberta pergunta={"7. Por que você não terminou um curso de graduação?"} errorMessage={'Justifique'} onChange={this.handleChangePergunta1} showError={this.props.showError}></PerguntaAberta>
                 <PerguntaOpcoes 
                     pergunta={"8. Você fez algum curso complementar?"}
                     opcoes={[

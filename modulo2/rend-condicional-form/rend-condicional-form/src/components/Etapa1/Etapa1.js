@@ -67,9 +67,9 @@ export default class Etapa1 extends Component {
         return (
             <Main active={this.props.active}>
                 <h3>ETAPA 1 - DADOS GERAIS</h3>
-                <PerguntaAberta pergunta={"1. Qual o seu nome?"} onChange={this.handleChangePergunta1} />
-                <PerguntaAberta pergunta={"2. Qual sua idade?"} onChange={this.handleChangePergunta2} />
-                <PerguntaAberta pergunta={"3. Qual seu email?"} onChange={this.handleChangePergunta3} />
+                <PerguntaAberta pergunta={"1. Qual o seu nome?"} errorMessage={'Preencha seu nome'} onChange={this.handleChangePergunta1} showError={this.props.showError}/>
+                <PerguntaAberta pergunta={"2. Qual sua idade?"} errorMessage={'Preencha sua idade'} onChange={this.handleChangePergunta2} showError={this.props.showError}/>
+                <PerguntaAberta pergunta={"3. Qual seu email?"} errorMessage={'Preencha seu email'} onChange={this.handleChangePergunta3} showError={this.props.showError}/>
                 <PerguntaOpcoes
                     opcaoEscolhida={this.opcaoEscolhida}
                     pergunta={"4. Qual a sua escolaridade?"}

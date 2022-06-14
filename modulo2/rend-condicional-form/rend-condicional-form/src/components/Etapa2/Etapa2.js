@@ -48,8 +48,8 @@ export default class Etapa2 extends Component {
         return (
             <Main active={this.props.active}>
                 <h3>ETAPA 2 - INFORMAÇÕES DO ENSINO SUPERIOR</h3>
-                <PerguntaAberta pergunta={"5. Qual curso?"} onChange={this.handleChangePergunta1}></PerguntaAberta>
-                <PerguntaAberta pergunta={"6. Qual a unidade de ensino?"} onChange={this.handleChangePergunta2}></PerguntaAberta>
+                <PerguntaAberta pergunta={"5. Qual curso?"} errorMessage={'Preencha seu curso'} onChange={this.handleChangePergunta1} showError={this.props.showError}></PerguntaAberta>
+                <PerguntaAberta pergunta={"6. Qual a unidade de ensino?"} errorMessage={'Preencha sua unidade de ensino'} onChange={this.handleChangePergunta2} showError={this.props.showError}></PerguntaAberta>
             </Main>
         )
     }
