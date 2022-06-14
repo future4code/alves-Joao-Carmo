@@ -3,7 +3,6 @@ import styled, {css}  from 'styled-components'
 import PerguntaAberta from '../PerguntaAberta/PerguntaAberta';
 
 const Main = styled.div`
-    /* display: flex; */
     flex-direction: column;
     align-items: center;
     ${({ active }) => {
@@ -14,8 +13,6 @@ const Main = styled.div`
 `
 
 export default class Etapa2 extends Component {
-
-
     render() {
         return (
             <Main active={this.props.active}>

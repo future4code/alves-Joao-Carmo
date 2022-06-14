@@ -29,26 +29,26 @@ const Main = styled.div`
 class App extends React.Component {
   state = {
     indice: 1,
-    opcaoEtapa1: 'Ensino médio incompleto'
+    opcaoEtapa1: '',
   }
 
   handleOnClick = () => {
-    if (this.state.opcaoEtapa1 === 'Ensino médio incompleto' || this.state.opcaoEtapa1 === "Ensino médio completo") {
+    if (this.state.opcaoEtapa1 === 'Ensino médio incompleto' || this.state.opcaoEtapa1 === 'Ensino médio completo') {
       this.setState({ indice: this.state.indice + 2 })
     } else {
       this.setState({ indice: this.state.indice + 1 })
     }
     if (this.state.indice == 2) {
-      this.setState({indice: 4})
+      this.setState({ indice: 4 })
     }
   }
 
   opcaoEscolhida = (opcao) => {
-    this.setState({opcaoEtapa1: opcao})
-}
+    this.setState({ opcaoEtapa1: opcao })
+  }
 
   render() {
-    
+
     return (
       <Main>
         <Etapa1 active={this.state.indice == 1} opcaoEscolhida={this.opcaoEscolhida}></Etapa1>

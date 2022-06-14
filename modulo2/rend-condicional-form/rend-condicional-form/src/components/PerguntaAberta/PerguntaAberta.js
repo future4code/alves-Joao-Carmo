@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled, {css} from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Main = styled.div`
     display: flex;
@@ -9,12 +9,12 @@ const Main = styled.div`
 
 export default class PerguntaAberta extends Component {
 
-  render() {
-    return (
-      <Main>
-        <p>{this.props.pergunta}</p>
-        <input></input>
-      </Main>
-    )
-  }
+    render() {
+        return (
+            <Main>
+                <p>{this.props.pergunta}</p>
+                <input></input>
+            </Main>
+        )
+    }
 }

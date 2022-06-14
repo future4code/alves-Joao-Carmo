@@ -14,13 +14,9 @@ export default class PerguntaOpcoes extends Component {
 
   handleChange = (event) => {
     this.setState({ value: event.target.value});
-    this.props.opcaoEscolhida(this.state.value)
+    this.props.opcaoEscolhida(event.target.value)
   };
 
-  
-
-  
-  
   render() {
     
     return (

@@ -15,14 +15,14 @@ const Main = styled.div`
 `
 export default class Etapa1 extends Component {
     state = {
-        opcaoEtapa1: ''
+        opcaoEtapa1: '',
     }
 
     opcaoEscolhida = (opcao) => {
-        this.setState({opcaoEtapa1: opcao})
+        this.setState({ opcaoEtapa1: opcao })
         this.props.opcaoEscolhida(this.state.opcaoEtapa1)
     }
-    
+
     render() {
         return (
             <Main active={this.props.active}>
