@@ -37,7 +37,7 @@ class App extends React.Component {
     ],
     inputValue: '',
     filtro: '',
-    display: true
+    inputFiltroValue: '',
   }
 
   componentDidUpdate() {
@@ -96,6 +96,12 @@ class App extends React.Component {
     this.setState({ filtro: event.target.value })
   }
 
+  onChangeInputFilter = (event) => {
+    this.setState({ inputFiltroValue: event.target.value })
+    console.log(event.target.value)
+  }
+
+  
   render() {
     const listaFiltrada = this.state.tarefas.filter(tarefa => {
       switch (this.state.filtro) {
@@ -105,9 +111,9 @@ class App extends React.Component {
           return tarefa.completa
         default:
           return true
-      }
+      }   
     })
-
+    
     return (
       <div className="App">
         <h1>Lista de tarefas</h1>
@@ -124,9 +130,9 @@ class App extends React.Component {
             <option value="pendentes">Pendentes</option>
             <option value="completas">Completas</option>
           </select>
+          <input placeholder='Nome da tarefa' onChange={this.onChangeInputFilter}/>
         </InputsContainer>
         <TarefaList>
-          
           {listaFiltrada.map(tarefa => {
            return (
               <Tarefa
