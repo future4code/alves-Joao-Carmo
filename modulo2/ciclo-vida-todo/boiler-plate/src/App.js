@@ -19,9 +19,7 @@ const InputsContainer = styled.div`
   gap: 10px;
 `
 const BotaoApagar = styled.button`
-  margin-left: 16px;
 `
-
 class App extends React.Component {
   state = {
     tarefas: [
@@ -38,7 +36,8 @@ class App extends React.Component {
 
     ],
     inputValue: '',
-    filtro: ''
+    filtro: '',
+    display: true
   }
 
   componentDidUpdate() {
@@ -82,11 +81,15 @@ class App extends React.Component {
   }
 
   deleteTarefa = (id) => {
-    console.log(id)
     const novasTarefas = this.state.tarefas.filter((tarefa) => {
       return id !== tarefa.id
     })
     this.setState({tarefas: novasTarefas})
+  }
+
+  deleteAll = () => {
+    const listaZerada = []
+    this.setState({tarefas: listaZerada})
   }
 
   onChangeFilter = (event) => {
@@ -125,7 +128,7 @@ class App extends React.Component {
         <TarefaList>
           
           {listaFiltrada.map(tarefa => {
-            return (
+           return (
               <Tarefa
                 completa={tarefa.completa}
                 onClick={() => this.selectTarefa(tarefa.id)}
@@ -133,9 +136,12 @@ class App extends React.Component {
               >
                 {tarefa.texto}
               </Tarefa>
-            )
+              
+            ) 
           })}
+          
         </TarefaList>
+        <BotaoApagar onClick={this.deleteAll}>Apagar Todas</BotaoApagar>
       </div>
     )
   }
