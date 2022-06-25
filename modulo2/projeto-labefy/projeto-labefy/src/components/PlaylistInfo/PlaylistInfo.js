@@ -14,7 +14,6 @@ const ListItem = styled.div`
 display: inline-grid;
 grid-template-columns: 4% 32% 32% 32%;
 justify-items: start;
-border-bottom: 1px solid black;
 width: 100%;
 align-content: center;
 `
@@ -22,7 +21,6 @@ align-content: center;
 const TopContainer = styled.div`
 height: 40%;
 width: 100%;
-border-bottom: 2px solid black;
 `
 const BotContainer = styled.div`
 width: 100%;
@@ -53,20 +51,20 @@ text-overflow: ellipsis;
 max-width: 100%;
 display: block;
 white-space: nowrap;
-margin: 3% 10%;
+margin: 3% 5%;
 `
 
 const ListHeader = styled.div`
 display: flex;
 width: 100%;
-background-color: lightyellow;
+background-color: black;
 `
 
 const SearchContainer = styled.div`
 display: flex;
 flex-direction:column;
 width: 100%;
-background-color: lightyellow;
+background-color: black;
 `
 
 const SearchList = styled.div`
@@ -111,7 +109,7 @@ export default class PlaylistInfo extends Component {
     searchMusic = (name) => {
         axios.get(`https://api.spotify.com/v1/search?q=${name}&type=track%2Cartist&market=BR&limit=10`, {
             headers: {
-                Authorization: "Bearer BQDjANi20b1r_CZsK-pCLh9MfR404bn2a0zHP7QACd_qx0IDjkGxdh6gAOaAEGmJwcDg-CoO-TiLfljKQxasxiDv7zyLWnbppXK9pSfXYRBNwqruyQ-CQ9AhyAKTcK-DQQp9vl59jSjmjDO856of9nl9-iJmXWkyViN0FEzIKbeFBhEf-gI"
+                Authorization: "Bearer 99573a5c6de44a92aaaaa437ffb6599d"
             }
         }).then((response) => {
             this.setState({ searchedMusic: response.data.tracks.items })

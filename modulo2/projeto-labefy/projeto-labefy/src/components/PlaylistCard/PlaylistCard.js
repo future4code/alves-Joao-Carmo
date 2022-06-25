@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const Main = styled.div`
-height: 25vh;
-width: 13vw;
+height: 30vh;
+width: 14vw;
 border: 1px solid black;
 border-radius: 16px;
-
+background-color: black;
 `
 
 const Image = styled.img`
@@ -31,6 +31,9 @@ const Info = styled.div`
 padding: 24px 16px;
 display: flex;
 justify-content: space-between;
+:hover{
+    cursor: pointer;
+}
 `
 
 export default class PlaylistCard extends Component {
@@ -40,7 +43,7 @@ export default class PlaylistCard extends Component {
         return (
             <Main onClick={this.props.info}>
                 <Image src='https://picsum.photos/290/150'/>
-                <Info>
+                <Info onClick={this.props.info}>
                     <Title onClick={this.props.info}>{this.props.name}</Title>
                     <button onClick={this.props.delete}>Remove</button>
                 </Info>

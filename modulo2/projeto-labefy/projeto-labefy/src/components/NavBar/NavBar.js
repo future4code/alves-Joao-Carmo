@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import House from '../../img/house-48.png'
 
 const NavItem = styled.div`
 display:flex;
-width: 100%;
-justify-content: center;
-border-bottom: 1px solid black;
+max-width: 100%;
+justify-content: flex-start;
+align-items: center;
+gap: 12%;
+padding-left: 1vw;
+opacity: 0.5;
 :hover {
-  background-color: gray;
-  color: white;
   cursor: pointer;
+  opacity: 1;
 }
 `
 const Main = styled.div`
@@ -17,26 +20,44 @@ height: 100vh;
 position: sticky;
 top: 0;
 width: 15%;
-border-right: 2px solid black;
-align-items: center;
 justify-content: center;
 display: flex;
 flex-direction: column;
+background-color: black;
+color: white;
+`
+
+const Title = styled.h3`
+font-size: 1.1rem;
+`
+
+const Logo = styled.img`
+height: 40%;
+width: 8%;
 `
 
 export default class NavBar extends Component {
-    state = {
-        component: ''
-    }
+  state = {
+    component: ''
+  }
 
   render() {
     return (
       <Main>
+        {/* <NavItem onClick={() => this.props.appSwitcher('login')}>
+            <h3>Login</h3>
+        </NavItem> */}
+        <NavItem onClick={() => this.props.appSwitcher('home')}>
+          <Logo src={House} />
+          <Title>Home</Title>
+        </NavItem>
         <NavItem onClick={() => this.props.appSwitcher('create')}>
-            <h3>Criar Playlist</h3>
+          <Logo src={House} />
+          <Title>Criar Playlist</Title>
         </NavItem>
         <NavItem onClick={() => this.props.appSwitcher('my-playlists')}>
-            <h3>Minhas Playlists</h3>
+          <Logo src={House} />
+          <Title>Biblioteca</Title>
         </NavItem>
       </Main>
     )
