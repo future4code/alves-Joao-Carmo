@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 
-const AUTH_URL = "https://accounts.spotify.com/authorize?client_id=99573a5c6de44a92aaaaa437ffb6599d&response_type=token&redirect_uri=https://excellent-process.surge.sh/&scope=streaming"
+const AUTH_URL = "https://accounts.spotify.com/authorize?client_id=99573a5c6de44a92aaaaa437ffb6599d&response_type=token&redirect_uri=https://excellent-process.surge.sh/&scope=streaming%20user-modify-playback-state%20user-read-playback-state"
 
 const Main = styled.div`
 width: 100%;
