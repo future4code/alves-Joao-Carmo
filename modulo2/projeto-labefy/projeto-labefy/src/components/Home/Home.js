@@ -71,32 +71,32 @@ margin: 0;
 const Image1 = styled.img`
 width: 7%;
 `
-export default class Home extends Component {
-    render() {
-        return (
-            <Main>
-                <Container>
-                    <Title>Bem-vindo ao</Title>
-                    <Title2>Labefy</Title2>
-                </Container>
-                <MiddleContainer>
-                    <SubTitle>Aqui você pode:</SubTitle>
-                </MiddleContainer>
-                <BotCotainer>
-                    <Card>
-                        <CardInfo>Criar novas playlists</CardInfo>
-                    </Card>
-                    <Image1 src={Arrow} />
-                    <Card>
-                        <CardInfo>Adicionar sua músicas preferidas, diretamente do</CardInfo>
-                        <CardInfo2>Spotify</CardInfo2>
-                    </Card>
-                    <Image1 src={Arrow} />
-                    <Card>
-                        <CardInfo>E poder escutar todas elas !</CardInfo>
-                    </Card>
-                </BotCotainer>
-            </Main>
-        )
-    }
+
+export default function Home() {
+    return (
+
+        <Main>
+            <Container>
+                <Title>Bem-vindo ao</Title>
+                <Title2>Labefy</Title2>
+            </Container>
+            <MiddleContainer>
+                <SubTitle>Aqui você pode:</SubTitle>
+            </MiddleContainer>
+            <BotCotainer>
+                <Card>
+                    <CardInfo>Criar novas playlists</CardInfo>
+                </Card>
+                <Image1 src={Arrow} />
+                <Card>
+                    <CardInfo>Adicionar sua músicas preferidas, diretamente do</CardInfo>
+                    <CardInfo2>Spotify</CardInfo2>
+                </Card>
+                <Image1 src={Arrow} />
+                <Card>
+                    <CardInfo>E poder escutar todas elas !</CardInfo>
+                </Card>
+            </BotCotainer>
+        </Main>
+    )
 }

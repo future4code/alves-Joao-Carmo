@@ -6,14 +6,14 @@ import PlaylistCard from './components/PlaylistCard/PlaylistCard'
 import NavBar from './components/NavBar/NavBar'
 import CreateContainer from './components/CreateContainer/CreateContainer'
 import PlaylistInfo from './components/PlaylistInfo/PlaylistInfo'
-import Login from './components/Login/Login'
 import { isLabelWithInternallyDisabledControl } from '@testing-library/user-event/dist/utils'
 import Home from './components/Home/Home'
 import SuccessContainer from './components/SuccessContainer/SuccessContainer'
 import Biblioteca from './components/Biblioteca/Biblioteca'
+import Login from './components/Login/Login'
 
 
-const code = new URLSearchParams(window.location.search).get('code')
+let accessToken = new URL(window.location)
 
 const Main = styled.div`
 display: flex;
@@ -21,6 +21,7 @@ font-family: 'Montserrat', sans-serif;
 background-color: #121212;
 color: white;
 `
+
 const MyPlaylistsContainer = styled.div`
 display: flex;
 flex-direction: column;
@@ -41,15 +42,7 @@ export default class App extends Component {
     playlistTracks: [],
     playlistName: '',
     playlistId: '',
-    activeComponent: 'home'
-  }
-
-  loginStatus = () => {
-    return code ? this.setState({ activeComponent: 'create' }) : this.setState({ activeComponent: 'login' })
-  }
-  componentDidMount = () => {
-    this.getAllPlaylists()
-    this.loginStatus()
+    activeComponent: 'login',
   }
 
   handleNameChange = (event) => {
@@ -115,7 +108,6 @@ export default class App extends Component {
 
   appSwitcher = (id) => {
     this.setState({ activeComponent: id })
-    console.log(id, this.state.activeComponent)
   }
 
   getPlaylistName = (name) => {
@@ -134,7 +126,15 @@ export default class App extends Component {
     })
   }
 
+  componentDidMount = () => {
+    this.getAllPlaylists()
+  }
+
   render() {
+
+    if(this.state.activeComponent === 'playlist-info') {
+      accessToken = new URL(window.location).hash.split('&').filter(function(el) { if(el.match('access_token') !== null) return true; })[0].split('=')[1];
+    }
 
     const playlistsList = this.state.playlists.map((item) => {
       return <PlaylistCard name={item.name} delete={() => this.deletePlaylist(item.id)} info={() => this.getPlaylistTracks(item.id, item.name)} />
@@ -144,8 +144,8 @@ export default class App extends Component {
       <Main>
         <NavBar appSwitcher={this.appSwitcher} />
         <SwitchComponents active={this.state.activeComponent}>
-          <Login name='login' code={code}/>
-          <Home name='home'/>
+          <Login name='login' appSwitcher={this.appSwitcher}></Login>
+          <Home name='home' />
           <CreateContainer name='create' createPlaylist={this.createPlaylist} handleNameChange={this.handleNameChange} />
           <SuccessContainer name='create-success' appSwitcher={this.appSwitcher}></SuccessContainer>
           <MyPlaylistsContainer>
@@ -155,7 +155,7 @@ export default class App extends Component {
             </PlaylistsDisplay>
           </MyPlaylistsContainer>
           <Biblioteca playlistList={playlistsList} name='my-playlists'></Biblioteca>
-          <PlaylistInfo name='playlist-info' playlistTracks={this.state.playlistTracks} playlistName={this.state.playlistName} playlistId={this.state.playlistId} getPlaylistTracks={this.getPlaylistTracks} />
+          <PlaylistInfo name='playlist-info' playlistTracks={this.state.playlistTracks} playlistName={this.state.playlistName} playlistId={this.state.playlistId} getPlaylistTracks={this.getPlaylistTracks} token={accessToken}/>
         </SwitchComponents>
       </Main>
     )

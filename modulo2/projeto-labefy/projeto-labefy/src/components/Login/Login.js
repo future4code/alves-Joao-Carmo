@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
 
-const authUrl = "https://accounts.spotify.com/authorize?client_id=99573a5c6de44a92aaaaa437ffb6599d&response_type=code&redirect_uri=http://localhost:3000/&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
+const AUTH_URL = "https://accounts.spotify.com/authorize?client_id=99573a5c6de44a92aaaaa437ffb6599d&response_type=token&redirect_uri=http://localhost:3000"
 
 const Main = styled.div`
 width: 100%;
@@ -27,12 +28,16 @@ const LoginBtn = styled.a`
         background-color: lightgreen;
         box-shadow: 2px 2px 15px gray;
     }
-
 `
-export default function Login() {
-    return (
-        <Main>
-            <LoginBtn href={authUrl}>Login With Spotify</LoginBtn>
-        </Main>
-    )
+
+
+export default class Login extends Component {
+
+    render() {
+        return (
+            <Main>
+                <LoginBtn href={AUTH_URL}>Login com Spotify</LoginBtn>
+            </Main>
+        )
+    }
 }

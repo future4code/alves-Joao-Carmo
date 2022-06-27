@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import TextField from '@mui/material/Input'
 
 const Main = styled.div`
 display: flex;
@@ -9,29 +8,10 @@ align-items: center;
 justify-content: space-evenly;
 width: 100%;
 `
-const Card = styled.div`
-display: flex;
-width: 20vw;
-height: 20vh;
-border: 1px solid black;
-flex-direction: column;
-align-items: center;
-gap: 10%;
-background-color: black;
-color: white;
-`
-const CreateLabel = styled.div`
-display: flex;
-`
 
 const Title = styled.h2`
 font-size: 5rem;
 color: #29DC3E;
-`
-
-const SubTitle = styled.h3`
-font-size: 2rem;
-margin: 0;
 `
 const NameInput = styled.input`
 height: 5%;

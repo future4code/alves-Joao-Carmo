@@ -44,9 +44,9 @@ export default class NavBar extends Component {
   render() {
     return (
       <Main>
-        {/* <NavItem onClick={() => this.props.appSwitcher('login')}>
+        <NavItem onClick={() => this.props.appSwitcher('login')}>
             <h3>Login</h3>
-        </NavItem> */}
+        </NavItem>
         <NavItem onClick={() => this.props.appSwitcher('home')}>
           <Logo src={House} />
           <Title>Home</Title>

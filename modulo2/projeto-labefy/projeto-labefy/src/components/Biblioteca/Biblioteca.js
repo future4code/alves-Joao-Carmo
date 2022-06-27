@@ -5,10 +5,11 @@ const Main = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
-justify-content: space-between;
+justify-content: flex-start;
 width: 100%;
 `
 const Container = styled.div`
+width: 80%;
 display: grid;
 grid-template-columns: auto auto auto auto auto;
 column-gap: 2vw;
