@@ -60,7 +60,10 @@ function App() {
     axios
       .post('https://us-central1-missao-newton.cloudfunctions.net/astroMatch/joao-colodetti/choose-person', body)
       .then((res) => {
-        console.log(res)
+        console.log(res.data.isMatch)
+        if (res.data.isMatch === true) { 
+          alert('Deu Match !')
+        }
         getProfile()
         getMatches()
       })
