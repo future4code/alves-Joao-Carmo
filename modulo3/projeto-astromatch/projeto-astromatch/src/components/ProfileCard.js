@@ -20,7 +20,7 @@ padding: 30px;
 const CardBody = styled.div`
 display:flex;
 flex-direction:column;
-padding: 10px;
+padding: 15px;
 height: 15vh;
 `
 
@@ -28,8 +28,10 @@ const ImageDiv= styled.div`
 display:flex;
 justify-content: center;
 max-width: 100%;
-
 `
+
+const Info = styled.p`
+padding-top: 12px;`
 
 export default function ProfileCard({ profile, getProfile, decisionProfile }) {
 
@@ -37,15 +39,15 @@ export default function ProfileCard({ profile, getProfile, decisionProfile }) {
         <div>
             <Flex flexDirection='column'>
                 <ImageDiv>
-                    <Image boxSize='md' src={profile.photo} alt={profile.photo_alt} />
+                    <Image h='58vh' w='30vw' fit align src={profile.photo} alt={profile.photo_alt} />
                 </ImageDiv>
                 <CardBody>
                     <Heading>{profile.name}</Heading>
-                    <Heading size='sm'>{profile.age} anos</Heading>
-                    <p>{profile.bio}</p>
+                    <Heading size='lg'>{profile.age} anos</Heading>
+                    <Info>{profile.bio}</Info>
                 </CardBody>
                 <ButtonDiv>
-                    <IconButton onClick={() => decisionProfile(profile.id, true)} colorScheme='green' variant='outline' icon={element} isRound size="lg" _hover={{background: 'green', color: 'white'}}></IconButton>
+                    <IconButton onClick={() => decisionProfile(profile.id, true)} colorScheme='green' variant='outline' icon={element} isRound size='lg' _hover={{background: 'green', color: 'white'}}></IconButton>
                     <IconButton onClick={() => decisionProfile(profile.id, false)} colorScheme='red' variant='outline' icon={<CloseIcon />} isRound size="lg" _hover={{background: 'red', color: 'white'}}></IconButton>
                 </ButtonDiv>
 

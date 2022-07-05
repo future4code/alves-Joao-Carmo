@@ -27,7 +27,7 @@ export default function Matches({ matches }) {
 
     return (
         <Flex flexWrap='wrap' overflow='unset' justify='center'> 
-            {listaMatches}
+            {listaMatches.length === 0 ? <Heading marginTop='35vh'>Nenhum match ainda...</Heading> : listaMatches}
         </Flex>
     )
 }

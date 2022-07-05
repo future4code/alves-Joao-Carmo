@@ -8,16 +8,17 @@ display:flex;
 flex-direction:row;
 justify-content: space-around;
 padding: 10px;
+align-items: flex-end;
 `
 
 
 export default function Header({ appSwitcher, activeComponent }) {
     return (
         <Main>
-            <Heading color='brown'>AstroMatch</Heading>
+            <Heading size='2xl' color='brown'>AstroMatch</Heading>
             {(activeComponent === 'profiles') ? 
-            <Button onClick={() => appSwitcher('matches')} variant='ghost' w='40%'>Ir para Matches</Button> : 
-            <Button onClick={() => appSwitcher('profiles')} w='40%'>Voltar para Perfis</Button>}
+            <Button onClick={() => appSwitcher('matches')} variant='ghost' w='35%' alignSelf='center' padding='0'>Ir para Matches</Button> : 
+            <Button onClick={() => appSwitcher('profiles')} variant='ghost' w='35%' alignSelf='center' padding='0'>Voltar para Perfis</Button>}
         </Main>
     )
 }

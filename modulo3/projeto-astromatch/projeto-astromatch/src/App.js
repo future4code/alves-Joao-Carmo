@@ -92,16 +92,16 @@ function App() {
 
   return (
       <Main>
-        <Flex centerContent border='2px' flexDir='column' w='28%' justifySelf='center' alignSelf='center' borderRadius='40px' minH='95vh'>
+        <Flex justifyContent='flex-start' border='2px' flexDir='column' w='28%' justifySelf='center' alignSelf='center' borderRadius='40px' minH='95vh' paddingTop='15px'>
           <Header appSwitcher={appSwitcher} activeComponent={activeComponent} />
           <SwitchComponents active={activeComponent}>
             <div name='profiles'>
               {profile && <ProfileCard profile={profile} getProfile={getProfile} decisionProfile={decisionProfile} />}
               {isMatch && <MatchAlert appSwitcher={appSwitcher} isOpen={isMatch} profile={profile} isMatchSwitcher={isMatchSwitcher} />}
+              {profile == null && <ProfileEmpty resetProfiles={resetProfiles} />}
             </div>
             <Matches name={'matches'} matches={matches} />
           </SwitchComponents>
-          {profile == null && <ProfileEmpty resetProfiles={resetProfiles} />}
         </Flex>
       </Main>
   );
