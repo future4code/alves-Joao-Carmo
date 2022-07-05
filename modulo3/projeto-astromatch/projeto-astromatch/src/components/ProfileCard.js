@@ -1,22 +1,55 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+import { Button, ButtonGroup } from '@chakra-ui/react'
+import { Image } from '@chakra-ui/react'
+import { Flex, Spacer, Heading } from '@chakra-ui/react'
+import { CloseIcon } from '@chakra-ui/icons'
+import { IconButton } from '@chakra-ui/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
 
-const ProfileImg = styled.img`
-width: 20vw;
-height: 30vh;`
+const element = <FontAwesomeIcon icon={faHeart} />
 
-export default function ProfileCard({profile, getProfile, decisionProfile}) {
+const ButtonDiv = styled.div`
+display:flex;
+justify-content:space-around;
+padding: 30px;
+`
 
+const CardBody = styled.div`
+display:flex;
+flex-direction:column;
+padding: 10px;
+height: 15vh;
+`
 
-  return (
-    <div>
-        <ProfileImg src={profile.photo} alt={profile.photo_alt} />
-        <p>Nome: {profile.name}</p>
-        <p>Idade: {profile.age}</p>
-        <p>Bio: {profile.bio}</p>
-        <button onClick={() => decisionProfile(profile.id, true)}>Like</button>
-        <button onClick={() => decisionProfile(profile.id, false)}>Dislike</button>
-    </div>
-  )
+const ImageDiv= styled.div`
+display:flex;
+justify-content: center;
+max-width: 100%;
+
+`
+
+export default function ProfileCard({ profile, getProfile, decisionProfile }) {
+
+    return (
+        <div>
+            <Flex flexDirection='column'>
+                <ImageDiv>
+                    <Image boxSize='md' src={profile.photo} alt={profile.photo_alt} />
+                </ImageDiv>
+                <CardBody>
+                    <Heading>{profile.name}</Heading>
+                    <Heading size='sm'>{profile.age} anos</Heading>
+                    <p>{profile.bio}</p>
+                </CardBody>
+                <ButtonDiv>
+                    <IconButton onClick={() => decisionProfile(profile.id, true)} colorScheme='green' variant='outline' icon={element} isRound size="lg" _hover={{background: 'green', color: 'white'}}></IconButton>
+                    <IconButton onClick={() => decisionProfile(profile.id, false)} colorScheme='red' variant='outline' icon={<CloseIcon />} isRound size="lg" _hover={{background: 'red', color: 'white'}}></IconButton>
+                </ButtonDiv>
+
+            </Flex>
+        </div>
+    )
 }

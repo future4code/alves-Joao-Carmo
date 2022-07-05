@@ -1,31 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Flex, Image, Heading, Container } from '@chakra-ui/react'
 
-const ImagemMatch = styled.img`
-width: 3vw;
-height: 7vh;
-`
 
-const Container = styled.div`
+
+const ContainerItem = styled.div`
 display:flex;
-border-bottom: 1px solid black;
-padding: 20px;
-gap: 3%;
+flex-direction: column;
 align-items: center;
+height: 25vh;
+width: 10vw;
+margin: 1vh 0.5vw;
+border-radius: 10px;
 `
+
 export default function Matches({ matches }) {
 
     const listaMatches = matches.map((item => {
-        return <Container>
-            <ImagemMatch src={item.photo} alt={item.photo_alt} />
-            <p>{item.name}</p>
-        </Container>
-
-
+        return <ContainerItem>
+            <Image src={item.photo} alt={item.photo_alt} h='18vh' w='100%' borderRadius='20px'/>
+            <Container>
+                <Heading size='sm' align='center' justify='center' margin='5px'>{item.name}</Heading>
+            </Container>
+        </ContainerItem>
     }))
+
     return (
-        <div>
+        <Flex flexWrap='wrap' overflow='unset' justify='center'> 
             {listaMatches}
-        </div>
+        </Flex>
     )
 }

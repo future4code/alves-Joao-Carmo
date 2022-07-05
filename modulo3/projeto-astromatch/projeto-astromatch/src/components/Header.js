@@ -1,14 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Heading, Button, ButtonGroup } from '@chakra-ui/react'
+
+const Main = styled.div`
+width: 100%;
+display:flex;
+flex-direction:row;
+justify-content: space-around;
+padding: 10px;
+`
+
 
 export default function Header({ appSwitcher, activeComponent }) {
     return (
-        <div>
-            <h1>AstroMatch</h1>
+        <Main>
+            <Heading color='brown'>AstroMatch</Heading>
             {(activeComponent === 'profiles') ? 
-            <button onClick={() => appSwitcher('matches')}>Ir para Matches</button> : 
-            <button onClick={() => appSwitcher('profiles')}>Voltar para Perfis</button>}
-            <hr></hr>
-        </div>
+            <Button onClick={() => appSwitcher('matches')} variant='ghost' w='40%'>Ir para Matches</Button> : 
+            <Button onClick={() => appSwitcher('profiles')} w='40%'>Voltar para Perfis</Button>}
+        </Main>
     )
 }

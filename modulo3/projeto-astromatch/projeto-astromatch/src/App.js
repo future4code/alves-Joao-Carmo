@@ -1,24 +1,32 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useDisclosure } from "react";
+import * as React from 'react'
 import styled from "styled-components";
 import axios from "axios";
 import Header from "./components/Header";
 import ProfileCard from "./components/ProfileCard";
 import SwitchComponents from "./components/SwitchComponents";
 import Matches from "./components/Matches";
+import MatchAlert from "./components/MatchAlert";
+import { Button, ButtonGroup } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
+import ProfileEmpty from "./components/ProfileEmpty";
 
 const Main = styled.div`
-padding: 20px;
+padding:20px;
+height: 100%;
+display:flex;
+justify-content: center;
+align-items: center;
 `
-
 function App() {
   const [profile, setProfile] = useState({})
   const [matches, setMatches] = useState([])
   const [activeComponent, setActiveComponent] = useState('profiles')
+  const [isMatch, setIsMatch] = useState('')
 
   useEffect(() => {
     getProfile()
     getMatches()
-    console.log(profile)
   }, [])
 
   const getProfile = () => {
@@ -37,7 +45,6 @@ function App() {
       .get('https://us-central1-missao-newton.cloudfunctions.net/astroMatch/joao-colodetti/matches')
       .then((res) => {
         setMatches(res.data.matches)
-        console.log(matches)
       })
       .catch((err) => {
         console.log(err)
@@ -47,6 +54,7 @@ function App() {
   const resetProfiles = () => {
     axios
       .put('https://us-central1-missao-newton.cloudfunctions.net/astroMatch/joao-colodetti/clear')
+      .then(getProfile())
       .catch((err) => {
         console.log(err)
       })
@@ -54,20 +62,27 @@ function App() {
 
   const decisionProfile = (id, choice) => {
     const body = {
-        id: id,
-        choice: choice
+      id: id,
+      choice: choice
     }
     axios
       .post('https://us-central1-missao-newton.cloudfunctions.net/astroMatch/joao-colodetti/choose-person', body)
       .then((res) => {
         console.log(res.data.isMatch)
-        if (res.data.isMatch === true) { 
-          alert('Deu Match !')
+        setIsMatch(res.data.isMatch)
+        if (choice === true && res.data.isMatch === false) {
+          getProfile()
+        } else if (choice === false) {
+          getProfile()
         }
-        getProfile()
         getMatches()
       })
 
+  }
+
+  const isMatchSwitcher = () => {
+    setIsMatch(false)
+    getProfile()
   }
 
   const appSwitcher = (name) => {
@@ -76,18 +91,19 @@ function App() {
 
 
   return (
-    <Main>
-      <div>
-        <Header appSwitcher={appSwitcher} activeComponent={activeComponent} />
-        <SwitchComponents active={activeComponent}>
-          <div name='profiles'>
-          {profile && <ProfileCard profile={profile} getProfile={getProfile} decisionProfile={decisionProfile}/>}
-          </div>
-          <Matches name={'matches'} matches={matches} />
-        </SwitchComponents>
-        {profile == null && <button onClick={resetProfiles}>Resetar Perfis</button>}
-      </div>
-    </Main>
+      <Main>
+        <Flex centerContent border='2px' flexDir='column' w='28%' justifySelf='center' alignSelf='center' borderRadius='40px' minH='95vh'>
+          <Header appSwitcher={appSwitcher} activeComponent={activeComponent} />
+          <SwitchComponents active={activeComponent}>
+            <div name='profiles'>
+              {profile && <ProfileCard profile={profile} getProfile={getProfile} decisionProfile={decisionProfile} />}
+              {isMatch && <MatchAlert appSwitcher={appSwitcher} isOpen={isMatch} profile={profile} isMatchSwitcher={isMatchSwitcher} />}
+            </div>
+            <Matches name={'matches'} matches={matches} />
+          </SwitchComponents>
+          {profile == null && <ProfileEmpty resetProfiles={resetProfiles} />}
+        </Flex>
+      </Main>
   );
 }
 
