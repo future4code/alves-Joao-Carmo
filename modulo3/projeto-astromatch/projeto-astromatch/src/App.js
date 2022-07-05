@@ -12,10 +12,12 @@ padding: 20px;
 
 function App() {
   const [profile, setProfile] = useState({})
+  const [matches, setMatches] = useState([])
   const [activeComponent, setActiveComponent] = useState('profiles')
 
   useEffect(() => {
     getProfile()
+    getMatches()
     console.log(profile)
   }, [])
 
@@ -24,25 +26,63 @@ function App() {
       .get('https://us-central1-missao-newton.cloudfunctions.net/astroMatch/joao-colodetti/person')
       .then((res) => {
         setProfile(res.data.profile)
-        console.log(res)
       })
       .catch((err) => {
         console.log(err)
       })
   }
 
+  const getMatches = () => {
+    axios
+      .get('https://us-central1-missao-newton.cloudfunctions.net/astroMatch/joao-colodetti/matches')
+      .then((res) => {
+        setMatches(res.data.matches)
+        console.log(matches)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const resetProfiles = () => {
+    axios
+      .put('https://us-central1-missao-newton.cloudfunctions.net/astroMatch/joao-colodetti/clear')
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const decisionProfile = (id, choice) => {
+    const body = {
+        id: id,
+        choice: choice
+    }
+    axios
+      .post('https://us-central1-missao-newton.cloudfunctions.net/astroMatch/joao-colodetti/choose-person', body)
+      .then((res) => {
+        console.log(res)
+        getProfile()
+        getMatches()
+      })
+
+  }
+
   const appSwitcher = (name) => {
     setActiveComponent(name)
   }
 
+
   return (
     <Main>
       <div>
-      <Header appSwitcher={appSwitcher} activeComponent={activeComponent}/>
+        <Header appSwitcher={appSwitcher} activeComponent={activeComponent} />
         <SwitchComponents active={activeComponent}>
-          <ProfileCard profile={profile} name={'profiles'} getProfile={getProfile}/>
-          <Matches name={'matches'}/>
+          <div name='profiles'>
+          {profile && <ProfileCard profile={profile} getProfile={getProfile} decisionProfile={decisionProfile}/>}
+          </div>
+          <Matches name={'matches'} matches={matches} />
         </SwitchComponents>
+        {profile == null && <button onClick={resetProfiles}>Resetar Perfis</button>}
       </div>
     </Main>
   );
