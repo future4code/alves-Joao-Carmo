@@ -21,21 +21,20 @@ export default function MatchAlert({ appSwitcher, isOpen, profile, isMatchSwitch
     return (
         <>
         <Flex flexDir='column' justifySelf='center' alignSelf='center' justifyContent='space-between'>
-                <Modal isOpen={onOpen} onClose={isMatchSwitcher} size={'xl'} isCentered>
+                <Modal isOpen={onOpen} onClose={isMatchSwitcher} size={'xl'} isCentered motionPreset='slideInBottom'>
                     <ModalOverlay />
-                    <ModalContent>
-                        <Heading color='#0BEBC3' alignSelf='center' padding='10px' size='4xl'>Deu Match!</Heading>
+                    <ModalContent fontFamily='Exo,sans-serif'>
+                        <Heading color='#0BEBC3' alignSelf='center' padding='35px' size='4xl' fontFamily='Exo,sans-serif'>Deu Match!</Heading>
                         <ModalBody>
                             <Image src={profile.photo} fit align w='100%' h='50vh' margin='1vh 0'/>
-                            <Heading>{profile.name}</Heading>
-                            <Heading size='md'>{profile.age}</Heading>
+                            <Heading fontFamily='Exo,sans-serif'>{profile.name}, {profile.age}</Heading>
                             <Info>{profile.bio}</Info>
                         </ModalBody>
-                        <ModalFooter justifyContent='space-around'>
-                            <Button colorScheme='orange' mr={3} onClick={isMatchSwitcher} variant='outline'>
+                        <ModalFooter justifyContent='space-around' padding='35px' fontFamily='Exo,sans-serif'>
+                            <Button variant='outline' color='#FE3C72' mr={3} onClick={isMatchSwitcher} _hover={{ background: '#FE3C72', color: 'white' }} outlineColor='#FE3C72' outlineOffset='0'>
                                 Continuar Jogando
                             </Button>
-                            <Button variant='ghost' onClick={() => appSwitcher('matches')} colorScheme='black'>Ir para Matches</Button>
+                            <Button variant='outline' onClick={() => appSwitcher('matches')} color='#FE3C72' _hover={{ background: '#FE3C72', color: 'white' }} outlineColor='#FE3C72' outlineOffset='0'>Ir para Matches</Button>
                         </ModalFooter>
                     </ModalContent>
                 </Modal>

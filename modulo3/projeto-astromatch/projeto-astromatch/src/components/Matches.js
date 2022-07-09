@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Flex, Image, Heading, Container } from '@chakra-ui/react'
+import '../index.css'
 
 
 
@@ -20,14 +21,14 @@ export default function Matches({ matches }) {
         return <ContainerItem>
             <Image src={item.photo} alt={item.photo_alt} h='18vh' w='100%' borderRadius='20px'/>
             <Container>
-                <Heading size='sm' align='center' justify='center' margin='5px'>{item.name}</Heading>
+                <Heading size='sm' align='center' justify='center' margin='5px' fontFamily='Exo,sans-serif'>{item.name}</Heading>
             </Container>
         </ContainerItem>
     }))
 
     return (
         <Flex flexWrap='wrap' overflow='unset' justify='center'> 
-            {listaMatches.length === 0 ? <Heading marginTop='35vh'>Nenhum match ainda...</Heading> : listaMatches}
+            {listaMatches.length === 0 ? <Heading marginTop='35vh' fontFamily='Exo,sans-serif'>Nenhum match ainda...</Heading> : listaMatches}
         </Flex>
     )
 }

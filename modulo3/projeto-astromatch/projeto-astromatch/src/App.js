@@ -10,6 +10,7 @@ import MatchAlert from "./components/MatchAlert";
 import { Button, ButtonGroup } from '@chakra-ui/react'
 import { Flex } from '@chakra-ui/react'
 import ProfileEmpty from "./components/ProfileEmpty";
+import { motion } from "framer-motion"
 
 const Main = styled.div`
 padding:20px;
@@ -17,7 +18,9 @@ height: 100%;
 display:flex;
 justify-content: center;
 align-items: center;
+background-color: #FF7F47;
 `
+
 function App() {
   const [profile, setProfile] = useState({})
   const [matches, setMatches] = useState([])
@@ -89,21 +92,20 @@ function App() {
     setActiveComponent(name)
   }
 
-
   return (
-      <Main>
-        <Flex justifyContent='flex-start' border='2px' flexDir='column' w='28%' justifySelf='center' alignSelf='center' borderRadius='40px' minH='95vh' paddingTop='15px'>
-          <Header appSwitcher={appSwitcher} activeComponent={activeComponent} />
-          <SwitchComponents active={activeComponent}>
-            <div name='profiles'>
-              {profile && <ProfileCard profile={profile} getProfile={getProfile} decisionProfile={decisionProfile} />}
-              {isMatch && <MatchAlert appSwitcher={appSwitcher} isOpen={isMatch} profile={profile} isMatchSwitcher={isMatchSwitcher} />}
-              {profile == null && <ProfileEmpty resetProfiles={resetProfiles} />}
-            </div>
-            <Matches name={'matches'} matches={matches} />
-          </SwitchComponents>
-        </Flex>
-      </Main>
+    <Main>
+      <Flex justifyContent='flex-start' border='4px' flexDir='column' w='28%' justifySelf='center' alignSelf='center' borderRadius='40px' minH='95vh' paddingTop='15px' backgroundColor='white'>
+        <Header appSwitcher={appSwitcher} activeComponent={activeComponent} />
+        <SwitchComponents active={activeComponent}>
+          <div name='profiles'>
+            {profile && <ProfileCard profile={profile} getProfile={getProfile} decisionProfile={decisionProfile} />}
+            {isMatch && <MatchAlert appSwitcher={appSwitcher} isOpen={isMatch} profile={profile} isMatchSwitcher={isMatchSwitcher} />}
+            {profile == null && <ProfileEmpty resetProfiles={resetProfiles} />}
+          </div>
+          <Matches name={'matches'} matches={matches} />
+        </SwitchComponents>
+      </Flex>
+    </Main>
   );
 }
 
