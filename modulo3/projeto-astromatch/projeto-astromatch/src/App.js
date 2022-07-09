@@ -14,7 +14,7 @@ import { motion } from "framer-motion"
 
 const Main = styled.div`
 padding:20px;
-height: 100vh;
+height: 100%;
 display:flex;
 justify-content: center;
 align-items: center;
