@@ -13,6 +13,7 @@ import {
     motion,
     useMotionValue,
     useTransform,
+    useAnimation,
 } from "framer-motion"
 
 
@@ -46,25 +47,87 @@ background-color: white;
 const Info = styled.p`
 padding-top: 12px;`
 
+const ConfirmationDiv= styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+`
+
 export default function ProfileCard({ profile, getProfile, decisionProfile }) {
     const x = useMotionValue(0)
+    const rotateValue = useTransform(x, [-400, 400], [-50, 50])
+    const opacityValue = useTransform(
+        x,
+        [-200, -150, 0, 150, 200],
+        [0.7, 0.9, 1, 0.9, 0.7]
+    )
+    const opacityValue2 = useTransform(
+        x,
+        [-200, -150, 0, 150, 200],
+        [0, 0, 0, 0.5, 1]
+    )
+    const opacityValue3 = useTransform(
+        x,
+        [-200, -150, 0, 150, 200],
+        [1, 0.5, 0, 0, 0]
+    )
 
     return (
         <div>
             <Flex flexDirection='column' fontFamily='Exo,sans-serif' backgroundColor='#FF7F47' borderRadius='0 0 40px 40px'>
-                <motion.div drag
+                <motion.div drag='x'
+                    style={{
+                        x: x,
+                        rotate: rotateValue,
+                        opacity: opacityValue,
+                        cursor: "grab",
+                    }}
                     dragConstraints={{
-                        top: 0,
                         left: 0,
                         right: 0,
-                        bottom: 0,
                     }}
-                    style={{ x }}
-                    whileDrag={{ rotate: 15 }}
-                    transition={{ duration: 0.5, ease: 'linear' }}
-                    dragElastic={0.4}
-                    onDragEnd={() => decisionProfile(profile.id, true)}
+                    rotate={rotateValue}
+                    opacity={opacityValue}
+                    dragTransition={{ bounceStiffness: 1000, bounceDamping: 28 }}
+                    whileTap={{ cursor: "grabbing" }}
+                    onDragEnd={(event, info) => {
+                        if (Math.abs(info.point.x) >= 1400) {
+                            decisionProfile(profile.id, true)
+                        } else if (Math.abs(info.point.x) <= 400) {
+                            decisionProfile(profile.id, false)
+                        }
+                    }}
                 >
+                    <motion.div
+                        style={{
+                            opacity: opacityValue2,
+                            position: "absolute",
+                            color: 'green',
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            height: 1000,
+                            width: 500
+                        }}
+                    >
+                        <ConfirmationDiv>
+                            <Heading fontSize='9xl'>LIKE!</Heading>
+                        </ConfirmationDiv>
+                    </motion.div>
+                    <motion.div
+                        style={{
+                            opacity: opacityValue3,
+                            position: "absolute",
+                            color: 'red',
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            height: 1000,
+                            width: 500
+                        }}
+                    >
+                        <ConfirmationDiv>
+                            <Heading fontSize='9xl'>DISLIKE!</Heading>
+                        </ConfirmationDiv>
+                    </motion.div>
                     <ImageDiv>
                         <Image h='58vh' w='30vw' fit align src={profile.photo} alt={profile.photo_alt} pointerEvents='none' />
                     </ImageDiv>
@@ -82,6 +145,6 @@ export default function ProfileCard({ profile, getProfile, decisionProfile }) {
                     </motion.button>
                 </ButtonDiv>
             </Flex>
-        </div>
+        </div >
     )
 }
