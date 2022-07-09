@@ -14,11 +14,12 @@ import { motion } from "framer-motion"
 
 const Main = styled.div`
 padding:20px;
-height: 100%;
+height: 100vh;
 display:flex;
 justify-content: center;
 align-items: center;
 background-color: #FF7F47;
+overflow: scroll-y;
 `
 
 function App() {

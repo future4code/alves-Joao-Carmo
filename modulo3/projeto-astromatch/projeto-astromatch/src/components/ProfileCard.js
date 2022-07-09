@@ -105,7 +105,7 @@ export default function ProfileCard({ profile, getProfile, decisionProfile }) {
                             color: 'green',
                             justifyContent: 'center',
                             alignContent: 'center',
-                            height: 1000,
+                            height: 400,
                             width: 500
                         }}
                     >
@@ -120,7 +120,7 @@ export default function ProfileCard({ profile, getProfile, decisionProfile }) {
                             color: 'red',
                             justifyContent: 'center',
                             alignContent: 'center',
-                            height: 1000,
+                            height: 400,
                             width: 500
                         }}
                     >
