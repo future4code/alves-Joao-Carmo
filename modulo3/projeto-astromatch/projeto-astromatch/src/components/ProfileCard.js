@@ -55,7 +55,7 @@ align-items: center;
 
 export default function ProfileCard({ profile, getProfile, decisionProfile }) {
     const x = useMotionValue(0)
-    const rotateValue = useTransform(x, [-400, 400], [-50, 50])
+    const rotateValue = useTransform(x, [-600, 600], [-40, 40])
     const opacityValue = useTransform(
         x,
         [-200, -150, 0, 150, 200],
@@ -75,7 +75,7 @@ export default function ProfileCard({ profile, getProfile, decisionProfile }) {
     return (
         <div>
             <Flex flexDirection='column' fontFamily='Exo,sans-serif' backgroundColor='#FF7F47' borderRadius='0 0 40px 40px'>
-                <motion.div drag='x'
+                <motion.div drag
                     style={{
                         x: x,
                         rotate: rotateValue,
@@ -85,6 +85,8 @@ export default function ProfileCard({ profile, getProfile, decisionProfile }) {
                     dragConstraints={{
                         left: 0,
                         right: 0,
+                        bottom: 0,
+                        top: 0
                     }}
                     rotate={rotateValue}
                     opacity={opacityValue}

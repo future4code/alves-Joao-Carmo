@@ -13,9 +13,9 @@ import ProfileEmpty from "./components/ProfileEmpty";
 import { motion } from "framer-motion"
 
 const Main = styled.div`
-padding:20px;
-height: 100%;
-display:flex;
+padding:25px;
+height: auto;
+display: flex;
 justify-content: center;
 align-items: center;
 background-color: #FF7F47;

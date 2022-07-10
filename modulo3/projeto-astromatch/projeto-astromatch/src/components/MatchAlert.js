@@ -31,10 +31,10 @@ export default function MatchAlert({ appSwitcher, isOpen, profile, isMatchSwitch
                             <Info>{profile.bio}</Info>
                         </ModalBody>
                         <ModalFooter justifyContent='space-around' padding='35px' fontFamily='Exo,sans-serif'>
-                            <Button variant='outline' color='#FE3C72' mr={3} onClick={isMatchSwitcher} _hover={{ background: '#FE3C72', color: 'white' }} outlineColor='#FE3C72' outlineOffset='0'>
+                            <Button variant='outline' color='#FF7F47' mr={3} onClick={isMatchSwitcher} _hover={{ background: '#FF7F47', color: 'white' }} outlineColor='#FF7F47' outlineOffset='0'>
                                 Continuar Jogando
                             </Button>
-                            <Button variant='outline' onClick={() => appSwitcher('matches')} color='#FE3C72' _hover={{ background: '#FE3C72', color: 'white' }} outlineColor='#FE3C72' outlineOffset='0'>Ir para Matches</Button>
+                            <Button variant='outline' onClick={() => appSwitcher('matches')} color='#FF7F47' _hover={{ background: '#FF7F47', color: 'white' }} outlineColor='#FF7F47' outlineOffset='0'>Ir para Matches</Button>
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
