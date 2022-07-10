@@ -21,7 +21,7 @@ export default function Matches({ matches }) {
         return <ContainerItem>
             <Image src={item.photo} alt={item.photo_alt} h='18vh' w='100%' borderRadius='20px'/>
             <Container>
-                <Heading size='sm' align='center' justify='center' margin='5px' fontFamily='Exo,sans-serif'>{item.name}</Heading>
+                <Heading size='sm' align='center' justify='center' margin='5px' fontFamily='Exo,sans-serif'>{item.name}, {item.age}</Heading>
             </Container>
         </ContainerItem>
     }))

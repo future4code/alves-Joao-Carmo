@@ -63,12 +63,12 @@ export default function ProfileCard({ profile, getProfile, decisionProfile }) {
     )
     const opacityValue2 = useTransform(
         x,
-        [-200, -150, 0, 150, 200],
+        [-200, -150, 0, 250, 350],
         [0, 0, 0, 0.5, 1]
     )
     const opacityValue3 = useTransform(
         x,
-        [-200, -150, 0, 150, 200],
+        [-350, -250, 0, 150, 200],
         [1, 0.5, 0, 0, 0]
     )
 
@@ -90,7 +90,7 @@ export default function ProfileCard({ profile, getProfile, decisionProfile }) {
                     }}
                     rotate={rotateValue}
                     opacity={opacityValue}
-                    dragTransition={{ bounceStiffness: 1000, bounceDamping: 28 }}
+                    dragTransition={{ bounceStiffness: 1000, bounceDamping: 36 }}
                     whileTap={{ cursor: "grabbing" }}
                     onDragEnd={(event, info) => {
                         if (Math.abs(info.point.x) >= 1400) {

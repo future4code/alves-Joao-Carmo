@@ -14,7 +14,6 @@ import { motion } from "framer-motion"
 
 const Main = styled.div`
 padding:25px;
-height: auto;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -95,7 +94,7 @@ function App() {
 
   return (
     <Main>
-      <Flex justifyContent='flex-start' border='4px' flexDir='column' w='28%' justifySelf='center' alignSelf='center' borderRadius='40px' minH='95vh' paddingTop='15px' backgroundColor='white'>
+      <Flex justifyContent='flex-start' border='4px' flexDir='column' w='28%' justifySelf='center' alignSelf='center' borderRadius='40px' minH='96.3vh' paddingTop='15px' backgroundColor='white'>
         <Header appSwitcher={appSwitcher} activeComponent={activeComponent} />
         <SwitchComponents active={activeComponent}>
           <div name='profiles'>
