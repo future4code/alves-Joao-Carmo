@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react'
+import { ChakraProvider } from '@chakra-ui/react'
+import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
+import ListTripsPage from './pages/ListTripsPage'
+import ApplicationFormPage from './pages/ApplicationFormPage'
+import AdminHomePage from './pages/AdminHomePage'
+import CreateTripPage from './pages/CreateTripPage'
+import TripDetailsPage from './pages/TripDetailsPage'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Routes,
+  Link,
+  BrowserRouter
+} from "react-router-dom";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ChakraProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/admin/trips/list' element={<AdminHomePage />} />
+          <Route path='/admin/trips/create' element={<CreateTripPage />} />
+          <Route path='/admin/trips/:id' element={<TripDetailsPage />} />
+          <Route path='/trips/list' element={<ListTripsPage />} />
+          <Route path='/trips/application' element={<ApplicationFormPage />} />
+        </Routes>
+      </BrowserRouter>
+    </ChakraProvider>
+  )
 }
-
-export default App;
