@@ -49,7 +49,7 @@ export default function SplitScreen() {
                             _hover={{
                                 bg: 'purple.600',
                             }}
-                            onClick={(e) => { e.preventDefault(); window.location.href = '/list-trips' }}>
+                            onClick={(e) => { e.preventDefault(); window.location.href = '/trips/list' }}>
                             Viagens Disponíveis
                         </Button>
                         <Button rounded={'full'} onClick={(e) => { e.preventDefault(); window.location.href = '/login' }}>Login</Button>
