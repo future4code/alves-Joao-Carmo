@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useEffect } from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
@@ -8,15 +9,12 @@ import AdminHomePage from './pages/AdminHomePage'
 import CreateTripPage from './pages/CreateTripPage'
 import TripDetailsPage from './pages/TripDetailsPage'
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
+  BrowserRouter,
   Routes,
-  Link,
-  BrowserRouter
+  Route,
 } from "react-router-dom";
-
 export default function App() {
+  
   return (
     <ChakraProvider>
       <BrowserRouter>

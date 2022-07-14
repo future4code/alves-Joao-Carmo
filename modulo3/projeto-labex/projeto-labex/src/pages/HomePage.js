@@ -10,13 +10,15 @@ import {
     Text,
     useBreakpointValue,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom'
 
-export default function SplitScreen() {
+export default function HomePage() {
+    let navigate = useNavigate()
     return (
         <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
             <Flex p={8} flex={1} align={'center'} justify={'center'}>
                 <Stack spacing={6} w={'full'} maxW={'lg'}>
-                    <Image src={Logo} w={200} alignSelf='center' onClick={(e) => { e.preventDefault(); window.location.href = './' }} _hover={{cursor: 'pointer'}}/>
+                    <Image src={Logo} w={200} alignSelf='center' onClick={() => navigate('/')} _hover={{ cursor: 'pointer' }} />
                     <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
                         <Text
                             as={'span'}
@@ -49,10 +51,10 @@ export default function SplitScreen() {
                             _hover={{
                                 bg: 'purple.600',
                             }}
-                            onClick={(e) => { e.preventDefault(); window.location.href = '/trips/list' }}>
+                            onClick={() => navigate('/trips/list')}>
                             Viagens Disponíveis
                         </Button>
-                        <Button rounded={'full'} onClick={(e) => { e.preventDefault(); window.location.href = '/login' }}>Login</Button>
+                        <Button rounded={'full'} onClick={localStorage.getItem('token') ? () => navigate('/admin/trips/list') : () => navigate('/login')}>Login</Button>
                     </Stack>
                 </Stack>
             </Flex>
