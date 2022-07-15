@@ -8,10 +8,10 @@ import { useNavigate } from 'react-router-dom'
 
 export default function ListTripsPage() {
   let navigate = useNavigate()
-  const trips = useTrips()
+  const [trips, setTrips, setShouldUpdate] = useTrips()
 
   return (
-    <Flex flexDirection='column' alignItems='center' justifyContent='center' >
+    <Flex flexDirection='column' alignItems='center' justifyContent='center' minH={'101vh'}>
       <Image src={Logo} padding={10} onClick={() => navigate('/')} _hover={{ cursor: 'pointer' }} />
       <Heading padding={6} fontsize={{ sm: '6xl', md: '2xl' }}>Viagens Disponíveis</Heading>
       <Flex flexDirection='column' alignItems='center' justifyContent='center'>

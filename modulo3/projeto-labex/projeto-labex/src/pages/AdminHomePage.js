@@ -35,7 +35,7 @@ export default function AdminHomePage() {
   }
 
   return (
-    <Flex flexDirection={'column'}>
+    <Flex flexDirection={'column'} minH={'101vh'}>
       <Image src={Logo} alignSelf={'center'} justifySelf={'center'} onClick={() => navigate('/')} _hover={{ cursor: 'pointer' }} />
       <Flex justify={'center'} align={'center'}>
         <Heading p={2}>Bem vindo,</Heading>

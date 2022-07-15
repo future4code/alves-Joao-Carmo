@@ -31,7 +31,7 @@ export default function TripDetailsPage() {
   }
 
   return (
-    <Flex flexDir={'column'} align={'center'} justify={'center'}>
+    <Flex flexDir={'column'} align={'center'} justify={'center'} minH={'101vh'}>
       <Image src={Logo} onClick={() => navigate('/')} _hover={{ cursor: 'pointer' }} />
       <TripDetails
         name={tripDetails.name}
