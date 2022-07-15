@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import AdminHomePage from './AdminHomePage';
 
 export default function SplitScreen() {
     const [emailInput, setEmailInput] = useState('')
@@ -40,6 +41,7 @@ export default function SplitScreen() {
             console.log(res)
             navigate('/admin/trips/list')
             localStorage.setItem('token', res.data.token)
+            localStorage.setItem('user', emailInput.split('@')[0])
         })
         .catch((err) => {
             console.log(err)

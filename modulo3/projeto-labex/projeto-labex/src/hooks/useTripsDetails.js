@@ -12,7 +12,6 @@ export default function useTripDetails(id) {
         })    
         .then((res) => {
             setTripDetails(res.data.trip)
-            console.log(res.data.trip)
         })
         .catch((err) => {
             console.error(err)
@@ -20,4 +19,5 @@ export default function useTripDetails(id) {
     }, [])
 
   return tripDetails
+
 }

@@ -1,29 +1,28 @@
 import {
-    Badge,
     Button,
     Center,
     Flex,
     Heading,
-    Image,
-    Link,
     Stack,
     Text,
 } from '@chakra-ui/react';
 import ImageHome from '../img/image-home.jpg'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
 
-export default function AdminTripCard({ name, description, duration, planet, date, id }) {
+export default function AdminTripCard({ name, description, duration, planet, date, id, deleteTrip }) {
     let navigate = useNavigate()
+
     return (
         <Center py={6}>
             <Stack
                 borderWidth="1px"
                 borderRadius="lg"
-                w={{ sm: '100%', md: '740px' }}
+                w={{ sm: '100%', md: '540px' }}
                 height={{ sm: '476px', md: '12rem' }}
                 direction={{ base: 'column', md: 'row' }}
                 b={'gray'}
-                boxShadow={'2xl'}
+                boxShadow={'md'}
                 padding={4}>
                 <Stack
                     flex={1}
@@ -58,30 +57,31 @@ export default function AdminTripCard({ name, description, duration, planet, dat
                         justifyContent={'center'}
                         alignItems={'center'}>
                         <Button
-                            flex={1}
+                            w={150}
                             fontSize={'md'}
                             rounded={'full'}
-                            bg={'red.400'}
+                            bg={'red.500'}
                             color={'white'}
                             _hover={{
                                 bg: 'red.500',
                             }}
                             _focus={{
                                 bg: 'red.500',
-                            }}>
+                            }}
+                            onClick={() => deleteTrip(id)}>
                             Deletar
                         </Button>
                         <Button
-                            flex={1}
+                            w={150}
                             fontSize={'md'}
                             rounded={'full'}
-                            bg={'purple.400'}
+                            bg={'purple.500'}
                             color={'white'}
                             _hover={{
-                                bg: 'purple.500',
+                                bg: 'purple.600',
                             }}
                             _focus={{
-                                bg: 'purple.500',
+                                bg: 'purple.600',
                             }}
                             onClick={() => navigate(`/admin/trips/${id}`)}>
                             Gerenciar

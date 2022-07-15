@@ -10,14 +10,8 @@ import {
     Text,
   } from '@chakra-ui/react';
 import ImageHome from '../img/image-home.jpg'
-import { useNavigate } from 'react-router-dom';
   
-  export default function TripCard({name, description, duration, planet, date, id}) {
-    const navigate = useNavigate()
-    const onClickHandle = (id) => {
-      navigate('/trips/application')
-    }
-
+  export default function TripDetails({name, description, duration, planet, date}) {
     return (
       <Center py={6}>
         <Stack
@@ -28,8 +22,7 @@ import { useNavigate } from 'react-router-dom';
           direction={{ base: 'column', md: 'row' }}
           b={'gray'}
           boxShadow={'md'}
-          padding={4}
-          >
+          padding={4}>
           <Flex flex={1}>
             <Image
               objectFit="cover"
@@ -42,7 +35,7 @@ import { useNavigate } from 'react-router-dom';
           <Stack
             flex={1}
             flexDirection="column"
-            justifyContent="space-between"
+            justifyContent="center"
             alignItems="center"
             p={1}
             pt={2}>
@@ -64,29 +57,6 @@ import { useNavigate } from 'react-router-dom';
               fontSize='large'>
               {description}
             </Text>
-            <Stack
-              width={'100%'}
-              mt={'2rem'}
-              direction={'row'}
-              padding={2}
-              justifyContent={'space-between'}
-              alignItems={'center'}>
-              <Button
-                flex={1}
-                fontSize={'md'}
-                rounded={'full'}
-                bg={'purple.400'}
-                color={'white'}
-                _hover={{
-                  bg: 'purple.500',
-                }}
-                _focus={{
-                  bg: 'purple.500',
-                }}
-                onClick={() => onClickHandle(id)}>
-                Inscrever-se
-              </Button>
-            </Stack>
           </Stack>
         </Stack>
       </Center>
