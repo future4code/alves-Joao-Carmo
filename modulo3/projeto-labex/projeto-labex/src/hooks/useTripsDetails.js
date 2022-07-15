@@ -5,9 +5,9 @@ export default function useTripDetails(id) {
     const [tripDetails, setTripDetails] = useState({})
 
     useEffect(() => {
-        axios.get(`https://us-central1-labenu-apis.cloudfunctions.net/labeX/darvas/trip/${id}`, {
+        axios.get(`https://us-central1-labenu-apis.cloudfunctions.net/labeX/joao-colodetti-alves/trip/${id}`, {
             headers : {
-                Authorization: `${localStorage.getItem('token')}`
+                auth: `${localStorage.getItem('token')}`
             }
         })    
         .then((res) => {
