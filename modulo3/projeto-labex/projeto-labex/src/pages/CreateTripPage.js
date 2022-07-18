@@ -37,6 +37,7 @@ export default function CreateTripPage() {
   }, [])
 
   const createTrip = (form) => {
+    const validDate = Number(form.date.split('-')[0]) >= 2022 && Number(form.date.split('-')[1]) >= 7 && Number(form.date.split('-')[2]) >= 18
     const tripsNames = trips[0].filter((item) => {return item.name === form.name})
     const filterNames = tripsNames.map((item) => {return item.name})
     console.log(tripsNames)
@@ -49,7 +50,7 @@ export default function CreateTripPage() {
       setErrors({ planet: true })
       return
     }
-    if (form.date === '') {
+    if (form.date === '' || !validDate) {
       setErrors({ date: true })
       return
     }
@@ -131,7 +132,7 @@ export default function CreateTripPage() {
             backgroundColor={'white'}
             onChange={(e) => setForm({ ...form, date: e.target.value })}
           />
-          <FormErrorMessage>Preencha esse Campo</FormErrorMessage>
+          <FormErrorMessage>Data inválida</FormErrorMessage>
         </FormControl>
         <FormControl id="description" isRequired isInvalid={errors.description}>
           <FormLabel>Descrição</FormLabel>
