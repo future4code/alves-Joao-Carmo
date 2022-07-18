@@ -9,19 +9,25 @@ import {
   Select,
   Image,
   FormErrorMessage,
-  FormHelperText,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  CloseButton
 } from '@chakra-ui/react';
-import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Logo from '../img/logo.png'
+import { useTrips } from '../hooks/useTrips';
 
 export default function CreateTripPage() {
   const navigate = useNavigate()
+  const trips = useTrips()
   const planets = ['Mercúrio', 'Vênus', 'Terra', 'Marte', 'Júpiter', 'Saturno', 'Urano', 'Netuno']
-  const [form, setForm] = useState({name: '', planet: '', date: '', description: '', durationInDays: ''})
-  const [errors, setErrors] = useState({name: false, planet: false, date: false, description: false, durationInDays: false})
+  const [form, setForm] = useState({ name: '', planet: '', date: '', description: '', durationInDays: '' })
+  const [errors, setErrors] = useState({ name: false, planet: false, date: false, description: false, durationInDays: false})
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -31,24 +37,24 @@ export default function CreateTripPage() {
   }, [])
 
   const createTrip = (form) => {
-    if (form.name === '') {
-      setErrors({name: true})
-      return
-    }
-    if (form.planet === '') {
-      setErrors({planet: true})
+    const tripsNames = trips[0].filter((item) => {return item.name === form.name})
+    const filterNames = tripsNames.map((item) => {return item.name})
+    console.log(tripsNames)
+    console.log(filterNames)
+    if (form.name === '' || filterNames.includes(form.name)) {
+      setErrors({ name: true })
       return
     }
     if (form.date === '') {
-      setErrors({date: true})
+      setErrors({ date: true })
       return
     }
     if (form.description === '') {
-      setErrors({description: true})
+      setErrors({ description: true })
       return
     }
     if (form.durationInDays === '') {
-      setErrors({durationInDays: true})
+      setErrors({ durationInDays: true })
       return
     }
     axios.post(`https://us-central1-labenu-apis.cloudfunctions.net/labeX/joao-colodetti-alves/trips`, form, {
@@ -57,12 +63,11 @@ export default function CreateTripPage() {
       }
     })
       .then(() => {
-        setErrors({name: false, planet: false, date: false, description: false, durationInDays: false})
-        alert('Viagem criada com sucesso !')
+        setSuccess(true)
+        setErrors({ name: false, planet: false, date: false, description: false, durationInDays: false})
+        setForm({ name: '', planet: '', date: '', description: '', durationInDays: '' })
       })
   }
-
-  
 
   return (
     <Flex
@@ -71,8 +76,8 @@ export default function CreateTripPage() {
       align={'center'}
       justify={'center'}
     >
-      <Image src={Logo} />
-      <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>Criar Viagens</Heading>
+      <Image src={Logo} onClick={() => navigate('/')} _hover={{cursor: 'pointer'}}/>
+      <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }} my={10}>Criar Viagens</Heading>
       <Stack
         spacing={5}
         w={'full'}
@@ -81,7 +86,12 @@ export default function CreateTripPage() {
         boxShadow={'md'}
         backgroundColor={'purple.100'}
         p={8}
-        my={12}>
+        my={5}>
+        {success && <Alert status='success' rounded={'xl'}>
+          <AlertIcon />
+          Viagem criada com sucesso !
+          <CloseButton onClick={() => setSuccess(false)}></CloseButton>
+        </Alert>}
         <FormControl id="name" isRequired isInvalid={errors.name}>
           <FormLabel htmlFor='name'>Nome</FormLabel>
           <Input
@@ -92,13 +102,13 @@ export default function CreateTripPage() {
             type="text"
             focusBorderColor='black'
             backgroundColor={'white'}
-            onChange={(e) => setForm({...form, name: e.target.value})}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
           />
-          <FormErrorMessage>Preencha esse Campo</FormErrorMessage>
+          <FormErrorMessage>Nome inválido ou já utilizado</FormErrorMessage>
         </FormControl>
         <FormControl id="planet" isRequired isInvalid={errors.planet}>
           <FormLabel htmlFor='select'>Planeta</FormLabel>
-          <Select value={form.planet} placeholder="Escolha um planeta" _placeholder={{ color: 'gray.500' }} onChange={(e) => setForm({...form, planet: e.target.value})} focusBorderColor='black' backgroundColor={'white'}>
+          <Select value={form.planet} placeholder="Escolha um planeta" _placeholder={{ color: 'gray.500' }} onChange={(e) => setForm({ ...form, planet: e.target.value })} focusBorderColor='black' backgroundColor={'white'}>
             {planets.map((option, index) => (
               <option key={index} value={option.value}>
                 {option}
@@ -115,7 +125,7 @@ export default function CreateTripPage() {
             type="date"
             focusBorderColor='black'
             backgroundColor={'white'}
-            onChange={(e) => setForm({...form, date: e.target.value})}
+            onChange={(e) => setForm({ ...form, date: e.target.value })}
           />
           <FormErrorMessage>Preencha esse Campo</FormErrorMessage>
         </FormControl>
@@ -128,7 +138,7 @@ export default function CreateTripPage() {
             type="text"
             focusBorderColor='black'
             backgroundColor={'white'}
-            onChange={(e) => setForm({...form, description: e.target.value})}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
           />
           <FormErrorMessage>Preencha esse Campo</FormErrorMessage>
         </FormControl>
@@ -141,7 +151,7 @@ export default function CreateTripPage() {
             type="number"
             focusBorderColor='black'
             backgroundColor={'white'}
-            onChange={(e) => setForm({...form, durationInDays: e.target.value})}
+            onChange={(e) => setForm({ ...form, durationInDays: e.target.value })}
           />
           <FormErrorMessage>Preencha esse Campo</FormErrorMessage>
         </FormControl>

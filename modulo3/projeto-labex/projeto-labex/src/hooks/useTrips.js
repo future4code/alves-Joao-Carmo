@@ -9,7 +9,7 @@ export function useTrips() {
 
     useEffect(() => {
         setIsLoading(true)
-        if (shouldUpdate == true) {
+        // if (shouldUpdate === true) {
             axios.get('https://us-central1-labenu-apis.cloudfunctions.net/labeX/joao-colodetti-alves/trips')
                 .then((res) => {
                     setIsLoading(false)
@@ -21,9 +21,9 @@ export function useTrips() {
                     setError(err)
                     console.error(err)
                 })
-        }
+        // }
     }, [shouldUpdate])
 
-    return [trips, setTrips, setShouldUpdate, isLoading, error]
+    return [trips, setTrips, setShouldUpdate, isLoading, error, setIsLoading, shouldUpdate]
 
 }

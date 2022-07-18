@@ -54,7 +54,8 @@ export default function HomePage() {
                             onClick={() => navigate('/trips/list')}>
                             Viagens Disponíveis
                         </Button>
-                        <Button rounded={'full'} onClick={localStorage.getItem('token') ? () => navigate('/admin/trips/list') : () => navigate('/login')}>Login</Button>
+                        {localStorage.getItem('token') ? <Button rounded={'full'} onClick={() => navigate('/admin/trips/list')}>Área de Admin</Button> : 
+                        <Button rounded={'full'} onClick={() => navigate('/login')}>Login</Button>}
                     </Stack>
                 </Stack>
             </Flex>

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Flex, Button, ButtonGroup, Image, Heading } from '@chakra-ui/react'
+import { Flex, Button, ButtonGroup, Image, Heading, Spinner, Alert, AlertIcon, CloseButton } from '@chakra-ui/react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useTrips } from '../hooks/useTrips'
 import AdminTripCard from '../components/AdminTripCard'
 import Logo from '../img/logo.png'
-import { Spinner } from '@chakra-ui/react'
 
 export default function AdminHomePage() {
-  const [trips, setTrips, setShouldUpdate, isLoading, error] = useTrips()
+  const [trips, setTrips, setShouldUpdate, isLoading, error, setIsLoading, shouldUpdate] = useTrips()
   let navigate = useNavigate()
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -31,7 +31,7 @@ export default function AdminHomePage() {
     })
       .then(() => {
         setShouldUpdate(true)
-        alert('Trip deleted successfully')
+        setSuccess(true)
       })
   }
 
@@ -63,6 +63,11 @@ export default function AdminHomePage() {
           }}
           onClick={() => navigate('/admin/trips/create')}>Criar Viagens</Button>
       </Flex>
+      {success && <Alert status='success' rounded={'xl'} w={'auto'} alignSelf='center'>
+          <AlertIcon />
+          Viagem deletada com sucesso !
+          <CloseButton onClick={() => setSuccess(false)}></CloseButton>
+        </Alert>}
       {isLoading ? <Spinner p={10} margin={40} alignSelf={'center'} justifySelf={'center'}/> :
         trips.map((item) => {
           return <AdminTripCard

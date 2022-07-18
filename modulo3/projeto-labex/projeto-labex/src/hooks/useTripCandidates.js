@@ -9,7 +9,7 @@ export default function useTripCandidates(id) {
 
     useEffect(() => {
         setIsLoading(true)
-        if (shouldUpdate == true) {
+        // if (shouldUpdate == true) {
             axios.get(`https://us-central1-labenu-apis.cloudfunctions.net/labeX/joao-colodetti-alves/trip/${id}`, {
                 headers: {
                     auth: `${localStorage.getItem('token')}`
@@ -25,7 +25,7 @@ export default function useTripCandidates(id) {
                     setIsLoading(false)
                     console.error(err)
                 })
-        }
+        // }
     }, [shouldUpdate])
 
     return [tripCandidates, setTripCandidates, setShouldUpdate, isLoading, error]
