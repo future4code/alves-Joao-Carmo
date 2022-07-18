@@ -1,11 +1,8 @@
 import {
-    Badge,
-    Button,
     Center,
     Flex,
     Heading,
     Image,
-    Link,
     Stack,
     Text,
   } from '@chakra-ui/react';

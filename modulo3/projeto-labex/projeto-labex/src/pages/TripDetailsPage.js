@@ -9,12 +9,13 @@ import CandidatesCard from '../components/CandidatesCard'
 import useApprovedCandidates from '../hooks/useApprovedCandidates'
 import ApprovedCandidatesCard from '../components/ApprovedCandidatesCard'
 import axios from 'axios'
+import { Spinner } from '@chakra-ui/react'
 
 export default function TripDetailsPage() {
   let navigate = useNavigate()
   const id = window.location.href.split('/').pop()
-  const tripDetails = useTripDetails(id)
-  const [tripCandidates, setTripCandidates, setShouldUpdate] = useTripCandidates(id)
+  const [tripDetails, isLoadingDetails, errorDetails] = useTripDetails(id)
+  const [tripCandidates, setTripCandidates, setShouldUpdate, isLoading, error] = useTripCandidates(id)
   const approvedCandidates = useApprovedCandidates(id)
 
   const onClickHandle = (decision, id, candidateId) => {
@@ -31,15 +32,16 @@ export default function TripDetailsPage() {
   }
 
   return (
-    <Flex flexDir={'column'} align={'center'} justify={'center'} minH={'101vh'}>
+    <Flex flexDir={'column'} align={'center'} minH={'101vh'}>
       <Image src={Logo} onClick={() => navigate('/')} _hover={{ cursor: 'pointer' }} />
-      <TripDetails
-        name={tripDetails.name}
-        description={tripDetails.description}
-        duration={tripDetails.durationInDays}
-        date={tripDetails.date}
-        planet={tripDetails.planet}
-      />
+      {isLoadingDetails ? <Spinner p={10} alignSelf={'center'} marginY={150} /> :
+        <TripDetails
+          name={tripDetails.name}
+          description={tripDetails.description}
+          duration={tripDetails.durationInDays}
+          date={tripDetails.date}
+          planet={tripDetails.planet}
+        />}
       <Button
         size={'lg'}
         fontSize={'lg'}
@@ -57,31 +59,33 @@ export default function TripDetailsPage() {
       </Button>
       <Flex p={50}>
         <Flex flex={1} flexDir={'column'} align={'center'} px={50} w={600}>
-          <Heading>Candidatos Pendentes</Heading>
-          {tripCandidates.map((item) => {
-            return <CandidatesCard
-              name={item.name}
-              profession={item.profession}
-              country={item.country}
-              applicationText={item.applicationText}
-              age={item.age}
-              candidateId={item.id}
-              id={id}
-              onClickHandle={onClickHandle}
-            />
-          })}
+          <Heading marginBottom={10}>Candidatos Pendentes</Heading>
+          {isLoading ? <Spinner p={10} alignSelf={'center'} marginY={100} /> :
+            tripCandidates.map((item) => {
+              return <CandidatesCard
+                name={item.name}
+                profession={item.profession}
+                country={item.country}
+                applicationText={item.applicationText}
+                age={item.age}
+                candidateId={item.id}
+                id={id}
+                onClickHandle={onClickHandle}
+              />
+            })}
         </Flex>
         <Flex flex={1} flexDir={'column'} align={'center'} px={50} w={600}>
-        <Heading>Candidatos Aprovados</Heading>
-          {approvedCandidates.map((item) => {
-            return <ApprovedCandidatesCard
-              name={item.name}
-              profession={item.profession}
-              country={item.country}
-              applicationText={item.applicationText}
-              age={item.age}
-            />
-          })}
+          <Heading marginBottom={10}>Candidatos Aprovados</Heading>
+          {isLoading ? <Spinner p={10} alignSelf={'center'} marginY={100} /> :
+            approvedCandidates.map((item) => {
+              return <ApprovedCandidatesCard
+                name={item.name}
+                profession={item.profession}
+                country={item.country}
+                applicationText={item.applicationText}
+                age={item.age}
+              />
+            })}
         </Flex>
       </Flex>
     </Flex>

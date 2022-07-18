@@ -3,21 +3,27 @@ import axios from 'axios'
 
 export default function useTripDetails(id) {
     const [tripDetails, setTripDetails] = useState({})
+    const [isLoadingDetails, setIsLoadingDetails] = useState(false)
+    const [errorDetails, setErrorDetails] = useState("")
 
     useEffect(() => {
+        setIsLoadingDetails(true)
         axios.get(`https://us-central1-labenu-apis.cloudfunctions.net/labeX/joao-colodetti-alves/trip/${id}`, {
             headers : {
                 auth: `${localStorage.getItem('token')}`
             }
         })    
         .then((res) => {
+            setIsLoadingDetails(false)
             setTripDetails(res.data.trip)
         })
         .catch((err) => {
+            setIsLoadingDetails(false)
+            setErrorDetails(err)
             console.error(err)
         })
     }, [])
 
-  return tripDetails
+  return [tripDetails, isLoadingDetails, errorDetails]
 
 }

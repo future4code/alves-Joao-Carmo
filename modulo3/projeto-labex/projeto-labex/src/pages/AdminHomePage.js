@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom'
 import { useTrips } from '../hooks/useTrips'
 import AdminTripCard from '../components/AdminTripCard'
 import Logo from '../img/logo.png'
+import { Spinner } from '@chakra-ui/react'
 
 export default function AdminHomePage() {
-  const [trips, setTrips, setShouldUpdate] = useTrips()
+  const [trips, setTrips, setShouldUpdate, isLoading, error] = useTrips()
   let navigate = useNavigate()
 
   useEffect(() => {
@@ -62,17 +63,18 @@ export default function AdminHomePage() {
           }}
           onClick={() => navigate('/admin/trips/create')}>Criar Viagens</Button>
       </Flex>
-      {trips.map((item) => {
-        return <AdminTripCard
-          name={item.name}
-          description={item.description}
-          duration={item.durationInDays}
-          date={item.date}
-          planet={item.planet}
-          id={item.id}
-          deleteTrip={deleteTrip}
-        />
-      })}
+      {isLoading ? <Spinner p={10} margin={40} alignSelf={'center'} justifySelf={'center'}/> :
+        trips.map((item) => {
+          return <AdminTripCard
+            name={item.name}
+            description={item.description}
+            duration={item.durationInDays}
+            date={item.date}
+            planet={item.planet}
+            id={item.id}
+            deleteTrip={deleteTrip}
+          />
+        })}
     </Flex>
 
   )
