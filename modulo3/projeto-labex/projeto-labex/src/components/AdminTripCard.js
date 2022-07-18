@@ -1,14 +1,12 @@
 import {
     Button,
     Center,
-    Flex,
     Heading,
     Stack,
     Text,
 } from '@chakra-ui/react';
-import ImageHome from '../img/image-home.jpg'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios';
+
 
 export default function AdminTripCard({ name, description, duration, planet, date, id, deleteTrip }) {
     let navigate = useNavigate()

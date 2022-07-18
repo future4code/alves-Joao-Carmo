@@ -23,7 +23,6 @@ export default function useTripCandidates(id) {
                 .catch((err) => {
                     setError(err)
                     setIsLoading(false)
-                    console.error(err)
                 })
         // }
     }, [shouldUpdate])

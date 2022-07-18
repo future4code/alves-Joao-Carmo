@@ -19,11 +19,11 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import AdminHomePage from './AdminHomePage';
+import { useForm } from '../hooks/useForm';
 
 export default function SplitScreen() {
-    const [form, setForm] = useState({ email: '', password: '' })
     const [errors, setErrors] = useState({ email: '', password: '', auth: '' })
+    const { form, onChange, cleanFields } = useForm({ email: '', password: '' })
 
 
     let navigate = useNavigate()
@@ -41,13 +41,12 @@ export default function SplitScreen() {
         axios
             .post('https://us-central1-labenu-apis.cloudfunctions.net/labeX/joao-colodetti-alves/login', form)
             .then((res) => {
-                console.log(res)
                 navigate('/admin/trips/list')
                 localStorage.setItem('token', res.data.token)
                 localStorage.setItem('user', form.email.split('@')[0])
+                cleanFields()
             })
             .catch((err) => {
-                console.log(err)
                 setErrors({ auth: true })
             })
 
@@ -61,13 +60,13 @@ export default function SplitScreen() {
                     <Heading fontSize={'2xl'}>Login como funcionário</Heading>
                     <FormControl id="email" isInvalid={errors.email}>
                         <FormLabel>Email</FormLabel>
-                        <Input type="email" onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-                        <FormErrorMessage>Email inválido</FormErrorMessage>
+                        <Input name='email' type="email" onChange={onChange} required />
+                        <FormErrorMessage>Email inválido.</FormErrorMessage>
                     </FormControl>
                     <FormControl id="password" isInvalid={errors.password}>
                         <FormLabel>Senha</FormLabel>
-                        <Input type="password" onChange={(e) => setForm({ ...form, password: e.target.value })} required />
-                        <FormErrorMessage>Senha inválida</FormErrorMessage>
+                        <Input name='password' type="password" onChange={onChange} required />
+                        <FormErrorMessage>Senha deve ter no mínimo 6 caracteres.</FormErrorMessage>
                     </FormControl>
                     <Stack spacing={6}>
                         <Stack

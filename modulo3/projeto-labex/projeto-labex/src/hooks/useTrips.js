@@ -19,7 +19,6 @@ export function useTrips() {
                 .catch((err) => {
                     setIsLoading(false)
                     setError(err)
-                    console.error(err)
                 })
         // }
     }, [shouldUpdate])

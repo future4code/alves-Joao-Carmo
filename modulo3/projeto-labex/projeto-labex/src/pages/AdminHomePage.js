@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Flex, Button, ButtonGroup, Image, Heading, Spinner, Alert, AlertIcon, CloseButton } from '@chakra-ui/react'
+import { Flex, Button, Image, Heading, Spinner, Alert, AlertIcon, CloseButton } from '@chakra-ui/react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useTrips } from '../hooks/useTrips'
@@ -39,8 +39,8 @@ export default function AdminHomePage() {
     <Flex flexDirection={'column'} minH={'101vh'}>
       <Image src={Logo} alignSelf={'center'} justifySelf={'center'} onClick={() => navigate('/')} _hover={{ cursor: 'pointer' }} />
       <Flex justify={'center'} align={'center'}>
-        <Heading p={2}>Bem vindo,</Heading>
-        <Heading p={2} color={'purple.500'}>{localStorage.getItem('user').toUpperCase()}</Heading>
+        <Heading p={2} fontSize={['2xl', '2xl', '4xl']}>Bem vindo,</Heading>
+        <Heading p={2} color={'purple.500'} fontSize={['2xl', '2xl', '4xl']}>{localStorage.getItem('user').toUpperCase()}</Heading>
       </Flex>
 
       <Flex p={8} align={'center'} justify={'center'} gap={2}>

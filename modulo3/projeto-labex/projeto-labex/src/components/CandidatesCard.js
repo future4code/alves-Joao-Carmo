@@ -12,9 +12,6 @@ import {
 } from '@chakra-ui/react';
 import HomeImage from '../img/image-home.jpg'
 import AvatarImage from '../img/purple-avatar.jpg'
-import axios from 'axios';
-import useTripCandidates from '../hooks/useTripCandidates';
-import { useEffect } from 'react';
 
 export default function CandidatesCard({ name, profession, country, applicationText, age, id, candidateId, onClickHandle }) {
     return (

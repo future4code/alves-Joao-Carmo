@@ -20,7 +20,6 @@ export default function useTripDetails(id) {
         .catch((err) => {
             setIsLoadingDetails(false)
             setErrorDetails(err)
-            console.error(err)
         })
     }, [])
 

@@ -13,9 +13,6 @@ export default function useApprovedCandidates(id) {
                 .then((res) => {
                     setApprovedCandidates(res.data.trip.approved)
                 })
-                .catch((err) => {
-                    console.error(err)
-                })
     }, [approvedCandidates])
 
     return approvedCandidates
