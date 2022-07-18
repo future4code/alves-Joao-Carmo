@@ -45,6 +45,10 @@ export default function CreateTripPage() {
       setErrors({ name: true })
       return
     }
+    if (form.planet === '') {
+      setErrors({ planet: true })
+      return
+    }
     if (form.date === '') {
       setErrors({ date: true })
       return
