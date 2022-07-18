@@ -37,7 +37,6 @@ export default function CreateTripPage() {
   }, [])
 
   const createTrip = (form) => {
-    const validDate = Number(form.date.split('-')[0]) >= 2022 && Number(form.date.split('-')[1]) >= 7 && Number(form.date.split('-')[2]) >= 18
     const tripsNames = trips[0].filter((item) => {return item.name === form.name})
     const filterNames = tripsNames.map((item) => {return item.name})
     console.log(tripsNames)
@@ -50,7 +49,7 @@ export default function CreateTripPage() {
       setErrors({ planet: true })
       return
     }
-    if (form.date === '' || !validDate) {
+    if (form.date === '' || Number(form.date.split('-')[0] < 2022) || (Number(form.date.split('-')[0] == 2022 && Number(form.date.split('-')[1]) < 7)) || (Number(form.date.split('-')[0] = 2022 && Number(form.date.split('-')[1]) == 7)) && Number(form.date.split('-')[2]) < 18){
       setErrors({ date: true })
       return
     }
