@@ -83,8 +83,9 @@ export default function ApplicationFormPage() {
       justify={'center'}
     >
       <Image src={Logo} onClick={() => navigate('/')} _hover={{ cursor: 'pointer' }} />
-      <Flex w={{ sm: '100%', md: '740px' }} height={{ sm: '476px', md: '20rem' }} margin={50}>
-        {showingTrip.map((item) => {
+      <Flex w={{ sm: '100%', md: '740px' }} height={{ sm: '476px', md: '20rem' }} margin={50} justifyContent={'center'}>
+        {chosenTrip ?
+        showingTrip.map((item) => {
           return <TripDetails
             name={item.name}
             description={item.description}
@@ -93,7 +94,9 @@ export default function ApplicationFormPage() {
             planet={item.planet}
             id={item.id}
           />
-        })}
+        }) :
+        <Heading alignSelf="center" justifySelf='center' fontSize={'6xl'}>Escolha uma viagem</Heading>
+        }
       </Flex>
       <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>Inscrição</Heading>
       <Stack

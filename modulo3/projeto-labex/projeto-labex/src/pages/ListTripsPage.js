@@ -12,7 +12,7 @@ export default function ListTripsPage() {
   const [trips, setTrips, setShouldUpdate, isLoading, error] = useTrips()
 
   return (
-    <Flex flexDirection='column' alignItems='center' justifyContent='center' minH={'101vh'}>
+    <Flex flexDirection='column' alignItems='center' justifyContent='flex-start' minH={'101vh'}>
       <Image src={Logo} padding={10} onClick={() => navigate('/')} _hover={{ cursor: 'pointer' }} />
       <Heading padding={6} fontsize={{ sm: '6xl', md: '2xl' }}>Viagens Disponíveis</Heading>
       <Flex flexDirection='column' alignItems='center' justifyContent='center'>
