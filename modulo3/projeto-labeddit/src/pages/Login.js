@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Input, Heading, Image, Button, Divider, Flex, FormControl, FormErrorMessage, Alert, AlertIcon, Box, AlertDescription, CloseButton, useDisclosure } from '@chakra-ui/react'
 import Logo from '../img/logo.png'
 import { Navigate, useNavigate, } from 'react-router-dom'
@@ -10,6 +10,12 @@ export default function Login() {
     const { form, onChange, } = useForm({ email: '', password: '' })
     const { errors, userLogin, loginError, setLoginError } = useContext(GlobalContext)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+          navigate('/feed')
+        }
+      })
 
     return (
         <Flex flexDir={'column'} align={'center'} h={'100vh-50px'} fontFamily={'Noto Sans'}>

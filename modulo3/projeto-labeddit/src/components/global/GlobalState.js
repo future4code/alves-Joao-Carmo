@@ -1,17 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { GlobalContext } from './GlobalContext'
 import { baseURL } from '../../constants/baseURL'
 import { useForm } from '../../hooks/useForm'
-import { goToFeedPage } from '../../routes/coordinator'
+import { goToFeedPage, goToPostPage } from '../../routes/coordinator'
 import { useNavigate } from 'react-router-dom'
 
 export default function GlobalState(props) {
-    const [errors, setErrors] = useState({ username: false, email: false, password: false, checked: false })
+    const [errors, setErrors] = useState({ username: false, email: false, password: false, checked: false, title: false, body: false })
     const [signUpSuccess, setSignUpSuccess] = useState(false)
-    const { cleanFields } = useForm({ username: '', email: '', password: '' })
     const [checkedBox, setCheckedBox] = useState(false)
     const [loginError, setLoginError] = useState(false)
+    const [posts, setPosts] = useState([])
+    const [postComments, setPostComments] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const [isLoadingComments, setIsLoadingComments] = useState(false)
+    const [selectedPostId, setSelectedPostId] = useState('')
     const navigate = useNavigate()
 
     const signUp = (form) => {
@@ -36,7 +40,6 @@ export default function GlobalState(props) {
                 localStorage.setItem('token', res.data.token)
                 setErrors({ username: false, email: false, password: false, checked: false })
                 setSignUpSuccess(true)
-                cleanFields()
                 goToFeedPage(navigate)
             })
             .catch((err) => {
@@ -55,16 +58,47 @@ export default function GlobalState(props) {
             return
         }
         axios.post(baseURL + '/users/login', form,)
-        .then((res) => {
-            localStorage.setItem('token', res.data.token)
-            cleanFields()
-            goToFeedPage(navigate)
-        })
-        .catch((err) => {
+            .then((res) => {
+                localStorage.setItem('token', res.data.token)
+                goToFeedPage(navigate)
+            })
+            .catch((err) => {
+                setLoginError(true)
+                console.log(err)
+            })
+    }
+
+    const getPosts = () => {
+        setIsLoading(true)
+        axios.get(baseURL + '/posts', {
+            headers: {
+                Authorization: localStorage.getItem('token')
+            }
+        }).then((res) => {
+            console.log(res.data)
+            setIsLoading(false)
+            setPosts(res.data)
+        }).catch((err) => {
             console.log(err)
-            setLoginError(true)
         })
     }
+
+    const getPostComments = (id) => {
+        setIsLoadingComments(true)
+        axios.get(baseURL + `/posts/${id}/comments`, {
+            headers: {
+                Authorization: localStorage.getItem('token')
+            }
+        }).then((res) => {
+            setIsLoadingComments(false)
+            setPostComments(res.data)
+            setSelectedPostId(id)
+            goToPostPage(navigate)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
 
     const Provider = GlobalContext.Provider
     const values = {
@@ -76,7 +110,14 @@ export default function GlobalState(props) {
         setCheckedBox,
         userLogin,
         loginError,
-        setLoginError
+        setLoginError,
+        getPosts,
+        posts,
+        isLoading,
+        getPostComments,
+        selectedPostId,
+        isLoadingComments,
+        postComments,
     }
 
     return (<Provider value={values}>{props.children}</Provider>)
