@@ -23,4 +23,3 @@ No feed também é possivel pesquisar por títulos ou texto contido nos posts. P
 
 ### Imagens
 
-
