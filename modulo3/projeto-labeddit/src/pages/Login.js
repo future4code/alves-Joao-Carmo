@@ -1,21 +1,22 @@
 import React, { useContext, useEffect } from 'react'
-import { Input, Heading, Image, Button, Divider, Flex, FormControl, FormErrorMessage, Alert, AlertIcon, Box, AlertDescription, CloseButton, useDisclosure } from '@chakra-ui/react'
+import { Input, Heading, Image, Button, Divider, Flex, FormControl, FormErrorMessage, Alert, AlertIcon, Box, AlertDescription, CloseButton } from '@chakra-ui/react'
 import Logo from '../img/logo.png'
-import { Navigate, useNavigate, } from 'react-router-dom'
+import { useNavigate, } from 'react-router-dom'
 import { goToSignupPage } from '../routes/coordinator'
 import { useForm } from '../hooks/useForm'
 import { GlobalContext } from '../components/global/GlobalContext'
 
 export default function Login() {
     const { form, onChange, } = useForm({ email: '', password: '' })
-    const { errors, userLogin, loginError, setLoginError } = useContext(GlobalContext)
+    const { errors, userLogin, loginError, setLoginError, setPageNumber } = useContext(GlobalContext)
     const navigate = useNavigate()
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
-          navigate('/feed')
+            navigate('/feed')
         }
-      })
+        setPageNumber(2)
+    })
 
     return (
         <Flex flexDir={'column'} align={'center'} h={'100vh-50px'} fontFamily={'Noto Sans'}>
@@ -23,7 +24,7 @@ export default function Login() {
                 <Image src={Logo} />
                 <Heading fontSize={'16px'} fontWeight={'300'}>O projeto de rede social da Labenu</Heading>
             </Flex>
-            <Flex flexDir={'column'} align={'center'} justify={'center'} w={'88%'} marginBottom={'56px'}>
+            <Flex flexDir={'column'} align={'center'} justify={'center'} w={{ base: '88%', lg: '25%' }} marginBottom={'56px'}>
                 <FormControl id='email' isRequired isInvalid={errors.email}>
                     <Input placeholder="Nome" h={'60px'} onChange={onChange} name='email' type='email' />
                     <FormErrorMessage>Email inválido ou não cadastrado</FormErrorMessage>
@@ -47,7 +48,9 @@ export default function Login() {
             </Flex>
             <Button
                 background={'linear-gradient(90deg, #FF6489 0%, #F9B24E 100%)'}
-                w={'88%'}
+                opacity={'0.9'}
+                _hover={{ opacity: '1' }}
+                w={{ base: '88%', lg: '25%' }}
                 color={'white'}
                 borderRadius={'27px'}
                 fontWeight={'700'}
@@ -56,11 +59,13 @@ export default function Login() {
                 paddingY={'25px'}
                 onClick={() => userLogin(form)}>
                 Continuar</Button>
-            <Divider background={'linear-gradient(90deg, #FF6489 0%, #F9B24E 100%)'} h={'1px'} w={'88%'} marginBottom={'18px'} />
+            <Divider background={'linear-gradient(90deg, #FF6489 0%, #F9B24E 100%)'} h={'1px'} w={{ base: '88%', lg: '25%' }} marginBottom={'18px'} />
             <Button
                 background={'white'}
+                opacity={'0.9'}
+                _hover={{ opacity: '1' }}
                 border={'1px solid #FE7E02'}
-                w={'88%'}
+                w={{ base: '88%', lg: '25%' }}
                 color={'#FE7E02'}
                 borderRadius={'27px'}
                 fontWeight={'700'}

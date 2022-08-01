@@ -14,8 +14,9 @@ export default function GlobalState(props) {
     const [posts, setPosts] = useState([])
     const [postComments, setPostComments] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-    const [isLoadingComments, setIsLoadingComments] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState('')
+    const [pageNumber, setPageNumber] = useState(2)
+    const [isFetching, setIsFetching] = useState(false);
     const navigate = useNavigate()
 
     const signUp = (form) => {
@@ -69,13 +70,26 @@ export default function GlobalState(props) {
     }
 
     const getPosts = () => {
+        if (pageNumber !== 2) {
+            axios.get(baseURL + `/posts?size=${((pageNumber-1)*10)}`, {
+                headers: {
+                    Authorization: localStorage.getItem('token')
+                }
+            }).then((res) => {
+                setIsLoading(false)
+                setPosts(res.data)
+            }).catch((err) => {
+                console.log(err)
+            })
+            return
+        }
         setIsLoading(true)
+        setPageNumber(2)
         axios.get(baseURL + '/posts', {
             headers: {
                 Authorization: localStorage.getItem('token')
             }
         }).then((res) => {
-            console.log(res.data)
             setIsLoading(false)
             setPosts(res.data)
         }).catch((err) => {
@@ -84,13 +98,11 @@ export default function GlobalState(props) {
     }
 
     const getPostComments = (id) => {
-        setIsLoadingComments(true)
         axios.get(baseURL + `/posts/${id}/comments`, {
             headers: {
                 Authorization: localStorage.getItem('token')
             }
         }).then((res) => {
-            setIsLoadingComments(false)
             setPostComments(res.data)
             setSelectedPostId(id)
             goToPostPage(navigate)
@@ -99,6 +111,20 @@ export default function GlobalState(props) {
         })
     }
 
+    const nextPage = () => {
+        axios.get(baseURL + `/posts?page=${pageNumber}`, {
+            headers: {
+                Authorization: localStorage.getItem('token')
+            }
+        }).then((res) => {
+            setPageNumber(pageNumber + 1)
+            const newPosts = posts.concat(res.data)
+            setPosts(newPosts)
+            setIsFetching(false)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
     const Provider = GlobalContext.Provider
     const values = {
@@ -116,8 +142,12 @@ export default function GlobalState(props) {
         isLoading,
         getPostComments,
         selectedPostId,
-        isLoadingComments,
         postComments,
+        nextPage,
+        setPageNumber,
+        pageNumber,
+        isFetching,
+        setIsFetching
     }
 
     return (<Provider value={values}>{props.children}</Provider>)
