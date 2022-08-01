@@ -1,5 +1,8 @@
 # Projeto Labeddit
 
+### Link
+https://white-bird.surge.sh/
+
 ### Autor
 João Gabriel Colodetti do Carmo
 
@@ -22,5 +25,8 @@ No feed também é possivel pesquisar por títulos ou texto contido nos posts. P
 - Compartilhamento de posts parcialmente implementado. Foi utilizada a biblioteca react-share, que funciona perfeitamente, porém o link compartilhado do post não funciona. (pendente)
 
 ### Imagens
-
+![login](https://user-images.githubusercontent.com/22090173/182082717-1f03ccfe-2fa1-4308-8ed0-afea6e23d5bf.png)
+![signup](https://user-images.githubusercontent.com/22090173/182082725-f0d43893-58ea-4f90-be79-e5979ca251be.png)
+![feed](https://user-images.githubusercontent.com/22090173/182082737-14e33917-37e7-406b-8d82-888e2ba1a9aa.png)
+![post](https://user-images.githubusercontent.com/22090173/182082768-13a9c4ce-4825-4ca5-a92b-2f1183d06cac.png)
 
