@@ -16,7 +16,6 @@ export default function GlobalState(props) {
     const [isLoading, setIsLoading] = useState(false)
     const [selectedPostId, setSelectedPostId] = useState('')
     const [pageNumber, setPageNumber] = useState(2)
-    const [isFetching, setIsFetching] = useState(false);
     const navigate = useNavigate()
 
     const signUp = (form) => {
@@ -70,7 +69,7 @@ export default function GlobalState(props) {
     }
 
     const getPosts = () => {
-        if (pageNumber !== 2) {
+        if (posts.length > 0) {
             axios.get(baseURL + `/posts?size=${((pageNumber-1)*10)}`, {
                 headers: {
                     Authorization: localStorage.getItem('token')
@@ -105,7 +104,6 @@ export default function GlobalState(props) {
         }).then((res) => {
             setPostComments(res.data)
             setSelectedPostId(id)
-            // goToPostPage(navigate)
             navigate(`/posts/${id}/comments`)
         }).catch((err) => {
             console.log(err)
@@ -121,7 +119,6 @@ export default function GlobalState(props) {
             setPageNumber(pageNumber + 1)
             const newPosts = posts.concat(res.data)
             setPosts(newPosts)
-            setIsFetching(false)
         }).catch((err) => {
             console.log(err)
         })
@@ -147,8 +144,6 @@ export default function GlobalState(props) {
         nextPage,
         setPageNumber,
         pageNumber,
-        isFetching,
-        setIsFetching
     }
 
     return (<Provider value={values}>{props.children}</Provider>)
