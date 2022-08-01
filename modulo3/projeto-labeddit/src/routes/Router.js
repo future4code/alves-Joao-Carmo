@@ -20,7 +20,7 @@ const Router = () => {
           <Route path='/' element={<Login />}></Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<SignUp />}></Route>
-          <Route path='/post' element={<Post />}></Route>
+          <Route path='/posts/:id/comments' element={<Post />}></Route>
           <Route path='/feed' element={<Feed />}></Route>
         </Routes>
       </GlobalState>

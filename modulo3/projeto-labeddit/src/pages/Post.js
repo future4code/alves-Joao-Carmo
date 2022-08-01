@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { GlobalContext } from '../components/global/GlobalContext'
 import { Textarea, Flex, Button, Divider, Heading, Text, Image, FormControl, FormErrorMessage } from '@chakra-ui/react'
 import UpVote from '../img/upvote.png'
@@ -9,11 +9,27 @@ import axios from 'axios'
 import { baseURL } from '../constants/baseURL'
 import UpVoteActive from '../img/upvote-active.png'
 import DownVoteActive from '../img/downvote-active.png'
+import { useNavigate, } from 'react-router-dom'
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon
+} from "react-share";
 
 export default function Post() {
   const { posts, selectedPostId, postComments, getPostComments, getPosts } = useContext(GlobalContext)
   const [errors, setErrors] = useState({ body: false })
   const { form, onChange, cleanFields } = useForm({ body: '' })
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/login')
+    }
+  }, [])
 
   const selectedPost = posts.filter((item) => {
     return item.id === selectedPostId
@@ -126,6 +142,11 @@ export default function Post() {
               fontWeight={'400'}
               w={'335px'}
             >{item.title}</Heading>
+             <Text
+              fontSize={'15px'}
+              lineHeight={'16px'}
+              marginBottom={'18px'}
+            >{item.body}</Text>
             <Flex>
               <Flex
                 w={'98px'}
@@ -197,6 +218,17 @@ export default function Post() {
                   textAlign={'center'}
                   color={'#6F6F6F'}
                 >{item.commentCount}</Text>
+              </Flex>
+              <Flex marginLeft={'10px'} gap={'5px'}>
+                <FacebookShareButton url={window.location.href}>
+                  <FacebookIcon size={24} round />
+                </FacebookShareButton>
+                <TwitterShareButton url={window.location.href}>
+                  <TwitterIcon size={24} round />
+                </TwitterShareButton>
+                <WhatsappShareButton url={window.location.href}>
+                  <WhatsappIcon size={24} round />
+                </WhatsappShareButton>
               </Flex>
             </Flex>
           </Flex>

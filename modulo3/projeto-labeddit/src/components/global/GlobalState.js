@@ -105,7 +105,8 @@ export default function GlobalState(props) {
         }).then((res) => {
             setPostComments(res.data)
             setSelectedPostId(id)
-            goToPostPage(navigate)
+            // goToPostPage(navigate)
+            navigate(`/posts/${id}/comments`)
         }).catch((err) => {
             console.log(err)
         })

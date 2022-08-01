@@ -12,6 +12,15 @@ import { baseURL } from '../constants/baseURL'
 import axios from 'axios'
 import useInfiniteScroll from '../hooks/useInfiniteScroll'
 import { SearchIcon } from '@chakra-ui/icons'
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  PinterestShareButton,
+  RedditShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+} from "react-share";
 
 
 export default function Feed() {
@@ -82,11 +91,11 @@ export default function Feed() {
   }
 
   const filteredPosts = posts.filter((item) => {
-    return item.title.toLowerCase().includes(searchInput.toLowerCase())
+    return (item.title.toLowerCase().includes(searchInput.toLowerCase()) || item.body.toLowerCase().includes(searchInput.toLowerCase()))
   })
 
   return (
-    <Flex align={'center'} flexDir={'column'} h={'100vh-50px'} fontFamily={'Noto Sans'}>
+    <Flex align={'center'} flexDir={'column'} h={'101vh'} fontFamily={'Noto Sans'}>
       <Flex w={{ base: '88%', lg: '30%' }}>
         <FormControl id='title' isRequired isInvalid={errors.title}>
           <Input
@@ -142,7 +151,7 @@ export default function Feed() {
             pointerEvents='none'
             children={<SearchIcon color='gray.300' />}
           />
-          <Input type='text' placeholder='Procurar Post' onChange={(e) => setSearchInput(e.target.value)}/>
+          <Input type='text' placeholder='Procurar Post' onChange={(e) => setSearchInput(e.target.value)} />
         </InputGroup>
         {isLoading ? <Spinner /> :
           filteredPosts.map((item) => {
@@ -166,6 +175,7 @@ export default function Feed() {
                 marginBottom={'18px'}
               >Enviado por: {item.username}</Text>
               <Heading
+                _hover={{ cursor: 'pointer' }}
                 marginBottom={'18px'}
                 fontSize={'18px'}
                 lineHeight={'23px'}
