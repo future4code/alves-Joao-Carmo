@@ -1,0 +1,11 @@
+{
+  "name": "exercicio-um",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "João Gabriel",
+  "license": "ISC"
+}
