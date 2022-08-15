@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "typescript": "^4.7.4"
+  },
+  "name": "intro-typescript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "tsc && node ./build/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
