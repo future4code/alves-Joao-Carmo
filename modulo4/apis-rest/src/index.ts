@@ -113,7 +113,7 @@ app.get('/users/:type', (req, res) => {
 app.post('/users', (req, res) => {
     let codeError: number = 400
     try {
-        const {id, name, email, type, age} = req.body
+        const { id, name, email, type, age } = req.body
 
         if (!id || !name || !email || !type || !age) {
             codeError = 422
@@ -127,7 +127,7 @@ app.post('/users', (req, res) => {
             age
         }
         users.push(newUser)
-        res.send(users).status(201)
+        res.status(201).send('User created successfully.')
     } catch {
         res.status(codeError).send(Error)
     }
@@ -138,12 +138,70 @@ app.post('/users', (req, res) => {
 app.put('/users/:id', (req, res) => {
     let codeError: number = 400
     try {
-        const selectedUser: user = users.find((item) => {
-            return item.id === Number(req.params.id)
+        const id: number = Number(req.params.id)
+        const {name} = req.body
+        users.forEach(function (item) {
+            if (item.id === id) {
+                item.name = name + '-ALTERADO'
+            }
         })
-        selectedUser = {...selectedUser, }
+        if (!name) {
+            codeError = 422
+            throw new Error('Check body fields.')
+        }
+        if ( id > users.length) {
+            codeError = 404
+            throw new Error('Invalid id.')
+        }
+        res.status(200).send('Name altered successfully')
     } catch {
         res.status(codeError).send(Error)
     }
 })
+
+// Exercicio 6 
+
+app.patch('/users/:id', (req, res) => {
+    let codeError: number = 400
+    try {
+        const id: number = Number(req.params.id)
+        const {name} = req.body
+        users.forEach(function (item) {
+            if (item.id === id) {
+                item.name = name + '-REALTERADO'
+            }
+        })
+        if (!name) {
+            codeError = 422
+            throw new Error('Check body fields.')
+        }
+        if ( id > users.length) {
+            codeError = 404
+            throw new Error('Invalid id.')
+        }
+        res.status(200).send('Name realtered successfully')
+    } catch {
+        res.status(codeError).send(Error)
+    }
+})
+
+// Exercicio 7
+
+app.delete('/users/:id', (req, res) => {
+    let codeError: number = 400
+    try {
+        const id: number = Number(req.params.id)
+        const newUsers = users.filter((item) => {
+            return item.id !== id
+        })
+        if ( id > users.length) {
+            codeError = 404
+            throw new Error('Invalid id.')
+        }
+        res.status(204)
+    } catch {
+        res.status(codeError).send(Error)
+    }
+})
+
 
