@@ -1,5 +1,8 @@
 import express from "express";
 import cors from "cors";
+import { isExportDeclaration } from "typescript";
+import { conta, transacao } from './data'
+import { contas } from './contas'
 
 const app = express();
 
@@ -10,41 +13,44 @@ app.listen(3003, () => {
     console.log("Server is running in http://localhost:3003")
 });
 
-type pagamento = {
-    valor: number,
-    data: string,
-    descricao: string
-}
 
-type conta = {
-    nome: string,
-    cpf: string,
-    dataNascimento: string,
-    saldo: number,
-    extrato: pagamento[]
-}
-
-let contas: conta[] = []
-
-function somenteLetras(str: string) {
-    return /^[a-zA-Z]+$/.test(str)
-}
+// Lista de contas
 
 app.get('/contas', (req, res) => {
-    res.send(contas)
+    let errorCode: number = 400
+    try {
+        if (!contas.length) {
+            errorCode = 404
+            throw new Error("Lista de contas vazia.")
+        }
+        res.status(200).send(contas)
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
+
+    }
 })
 
-app.post('/conta', (req, res) => {
+// Criação de nova conta
+app.post('/contas', (req, res) => {
     let errorCode: number = 400
     try {
         const { nome, cpf, dataNascimento } = req.body
         if (!nome || !cpf || !dataNascimento) {
-            errorCode = 422
-            throw new Error('Checar informações.')
+            errorCode = 400
+            throw new Error('Algo deu errado, checar informações.')
         }
         if (typeof nome !== 'string' || typeof cpf !== 'string' || typeof dataNascimento !== 'string') {
             errorCode = 422
             throw new Error('Checar informações.')
+        }
+
+        const [dia, mes, ano] = dataNascimento.split('/')
+        const novaDataNascimento = new Date(`${ano}-${mes}-${dia}`)
+        let hoje: any = new Date();
+        let idade = Math.floor((hoje - new Date(novaDataNascimento).getTime()) / 3.15576e+10)
+        if ((idade) < 18) {
+            errorCode = 406
+            throw new Error('O cliente deve ter mais que 18 anos.')
         }
 
         const cpfsContas = contas.map((item) => item.cpf)
@@ -54,6 +60,7 @@ app.post('/conta', (req, res) => {
         }
 
         const novaConta: conta = {
+            id: contas.length + 1,
             nome,
             cpf,
             dataNascimento,
@@ -62,65 +69,81 @@ app.post('/conta', (req, res) => {
         }
 
         contas.push(novaConta)
-        res.status(200).send('Conta criada com sucesso!')
-    } catch {
-        res.status(errorCode).send(Error)
+
+        res.status(201).send('Conta criada com sucesso!')
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
     }
 })
 
-app.get('/saldo', (req, res) => {
+// Checa saldo de conta por cpf 
+app.get('/contas/:cpf', (req, res) => {
     let errorCode: number = 400
     try {
-        const { nome, cpf } = req.body
+        const cpf = req.params.cpf
+        const contaUser = contas.find((item) => item.cpf === cpf)
 
-        if (!nome || !cpf) {
+        if (!cpf) {
             errorCode = 422
-            throw new Error('Checar informações.')
+            throw new Error('Cpf inválido.')
         }
 
-        const contaUser: conta | undefined = contas.find((item) => item.cpf === cpf && item.nome === nome)
         if (!contaUser) {
             errorCode = 404
             throw new Error('Conta não existe.')
         }
 
-        const saldoConta = {
-            saldo: contaUser.saldo
-        }
-        res.status(200).send(saldoConta)
-
-    } catch {
-        res.status(errorCode).send(Error)
+        res.status(200).send({ saldo: contaUser.saldo })
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
     }
 })
 
-app.put('/saldo', (req, res) => {
+// Faz depósito
+app.put('/contas/:cpf/:nome/deposito', (req, res) => {
     let errorCode: number = 400
     try {
-        const { nome, cpf, valor } = req.body
-        if (!nome || !cpf || !valor || typeof valor !== 'number') {
+        const { cpf, nome } = req.params
+        const { valor } = req.body
+        if (!nome || !cpf || !valor || typeof valor !== 'number' || !contas) {
             errorCode = 422
             throw new Error('Checar informações.')
         }
 
-        const contaUser: conta | undefined = contas.find((item) => item.cpf === cpf && item.nome === nome)
-        if (!contaUser) {
+        let indexConta = contas.findIndex((item) => item.cpf === cpf && item.nome === nome)
+        if (indexConta < 0) {
             errorCode = 404
             throw new Error('Conta não existe.')
         }
 
-        const novaContaUser = { ...contaUser, saldo: contaUser.saldo + valor }
-        res.status(200).send(novaContaUser)
+        let hoje: Date | string = new Date();
+        let dd = String(hoje.getDate()).padStart(2, '0')
+        let mm = String(hoje.getMonth() + 1).padStart(2, '0')
+        let aaaa = hoje.getFullYear()
+        hoje = dd + '/' + mm + '/' + aaaa
 
-    } catch {
-        res.status(errorCode).send(Error)
+        const novoDeposito: transacao = {
+            valor,
+            data: hoje,
+            descricao: "Depósito de dinheiro."
+        }
+
+        contas[indexConta].extrato.push(novoDeposito)
+
+        res.status(200).send('Valor depositado !')
+
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
     }
 })
 
-app.put('/pagamento', (req, res) => {
+// Faz pagamento
+app.put('/contas/:cpf/pagamento', (req, res) => {
     let errorCode: number = 400
     try {
-        const { valor, descricao, data } = req.body
+        const cpf = req.params.cpf
+        const { valor, descricao } = req.body
+        let { data } = req.body
         if (!descricao || !valor || typeof valor !== 'number' || typeof descricao !== 'string') {
             errorCode = 422
             throw new Error('Checar informações.')
@@ -129,42 +152,91 @@ app.put('/pagamento', (req, res) => {
             errorCode = 422
             throw new Error('Checar informações.')
         }
-        let dd1 = data.split('/')[0]
-        let mm1 = data.split('/')[1]
-        let aaaa1 = data.split('/')[2]
-        let dataPagamento: Date | string = mm1 + '/' + dd1 + '/' + aaaa1
-        dataPagamento = new Date(dataPagamento)
+        if (!data) {
+            data = new Date()
+            let dd = String(data.getDate()).padStart(2, '0')
+            let mm = String(data.getMonth() + 1).padStart(2, '0')
+            let aaaa = data.getFullYear()
+            data = dd + '/' + mm + '/' + aaaa
+        }
+
+        if (data && typeof data === 'string') {
+            let dd1 = data.split('/')[0]
+            let mm1 = data.split('/')[1]
+            let aaaa1 = data.split('/')[2]
+            let dataPagamento: Date | string = mm1 + '/' + dd1 + '/' + aaaa1
+            dataPagamento = new Date(dataPagamento)
+
+            let hoje: Date | string = new Date();
+            let dd = String(hoje.getDate()).padStart(2, '0')
+            let mm = String(hoje.getMonth() + 1).padStart(2, '0')
+            let aaaa = hoje.getFullYear()
+            let dataIngles = mm + '/' + dd + '/' + aaaa
+
+            if (new Date(dataPagamento).getTime() < new Date(dataIngles).getTime()) {
+                errorCode = 422
+                throw new Error('Data inválida.')
+            }
+        }
+
+        const indexConta = contas.findIndex((item) => item.cpf === cpf)
+        if (indexConta < 0) {
+            errorCode = 404
+            throw new Error('Conta não existe.')
+        }
+
+        const pagamento: transacao = {
+            valor,
+            data,
+            descricao
+        }
+
+        const contaCliente = contas[indexConta]
+        if (Math.abs(valor) > contaCliente.saldo) {
+            res.statusCode = 406
+            throw new Error("Saldo insuficiente")
+        }
+
+        contaCliente.extrato.push(pagamento)
+        res.status(201).send("Pagamento realizado !")
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
+    }
+})
+
+// Atualiza saldo da conta, somente contas com datas anteriores a atual
+app.put('/contas/:cpf', (req, res) => {
+    let errorCode: number = 400
+    try {
+        const cpf = req.params.cpf
+        const indexConta = contas.findIndex((item) => item.cpf === cpf)
+        if (indexConta < 0) {
+            res.statusCode = 404
+            throw new Error("Conta não existe")
+        }
 
         let hoje: Date | string = new Date();
         let dd = String(hoje.getDate()).padStart(2, '0')
         let mm = String(hoje.getMonth() + 1).padStart(2, '0')
         let aaaa = hoje.getFullYear()
-        let dataHoje = dd + '/' + mm + '/' + aaaa
-        let dataIngles = mm + '/' + dd + '/'+ aaaa
-        
-        if (new Date(dataPagamento).getTime() < new Date(dataIngles).getTime()) {
-            errorCode = 422
-            throw new Error('Data inválida.')
-        }
-        
-        if (!data) {
-            let novoPagamento = {
-                valor,
-                descricao,
-                data: dataHoje
-            }
-            res.send(novoPagamento).status(200)
-        } else {
-            let novoPagamento = {
-                valor,
-                descricao,
-                data
-            }
-            res.send(novoPagamento).status(200)
-        }
-    } catch {
-        res.status(errorCode).send(Error)
+        let dataIngles = mm + '/' + dd + '/' + aaaa
+
+        let novoSaldo = contas[indexConta].saldo
+        contas[indexConta].extrato.forEach((item) => {
+            let dd1 = item.data.split('/')[0]
+            let mm1 = item.data.split('/')[1]
+            let aaaa1 = item.data.split('/')[2]
+            let dataPagamento: Date | string = mm1 + '/' + dd1 + '/' + aaaa1
+            dataPagamento = new Date(dataPagamento)
+            if (new Date(dataPagamento).getTime() < new Date(dataIngles).getTime())
+                return novoSaldo += item.valor
+        })
+
+        contas[indexConta].saldo = novoSaldo
+
+        res.status(200).send("Saldo atualizado !")
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
     }
+
 })
-
-
