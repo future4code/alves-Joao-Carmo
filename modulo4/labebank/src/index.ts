@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { isExportDeclaration } from "typescript";
-import { conta, transacao } from './data'
+import { conta, transacao, transferencia } from './data'
 import { contas } from './contas'
 
 const app = express();
@@ -239,4 +239,55 @@ app.put('/contas/:cpf', (req, res) => {
         res.status(errorCode).send(error.message)
     }
 
+})
+
+app.post('/contas/:cpf/:nome/transferencia', (req, res) => {
+    let errorCode: number = 400
+    try {
+        const { nome, cpf } = req.params
+        const { nomeDestino, cpfDestino, valor } = req.body
+
+        if (!cpf || !nome || !nomeDestino || !cpfDestino) {
+            res.statusCode = 400
+            throw new Error("Algo deu errado, checar informações.")
+        }
+
+        let hoje: Date | string = new Date();
+            let dd = String(hoje.getDate()).padStart(2, '0')
+            let mm = String(hoje.getMonth() + 1).padStart(2, '0')
+            let aaaa = hoje.getFullYear()
+            hoje = dd + '/' + mm + '/' + aaaa
+
+        const transferencia: transacao = {
+            valor,
+            data: hoje, 
+            descricao: "Transferência."
+        }
+
+        const indexConta = contas.findIndex((item) => item.cpf === cpf)
+        const indexDestino = contas.findIndex((item) => item.cpf === cpfDestino)
+        if (indexConta < 0) {
+            errorCode = 404
+            throw new Error('Conta não existe.')
+        }
+        if (indexDestino < 0) {
+            errorCode = 404
+            throw new Error('Conta de destino não existe.')
+        }
+
+        const contaCliente = contas[indexConta]
+        const contaDestino = contas[indexDestino]
+        if (Math.abs(valor) > contaCliente.saldo) {
+            res.statusCode = 406
+            throw new Error("Saldo insuficiente")
+        }
+        
+        contaCliente.extrato.push(transferencia)
+        contaDestino.extrato.push(transferencia)
+
+        res.status(200).send("Transferência realizada !")
+
+    } catch (error: any) {
+        res.status(errorCode).send(error.message)
+    }
 })
