@@ -1,4 +1,4 @@
-import express, { Express } from "express";
+import express, { Express, Request, Response } from "express";
 import knex from "knex";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -49,6 +49,14 @@ const updateSalary = async (
     .where("id", id);
 };
 
+const deleteActor = async (
+  id: string
+): Promise<any> => {
+  await connection("Actor")
+  .delete()
+  .where("id", id);
+}
+
 // Ou então podemos chamá-la dentro de um endpoint
 app.get("/actor/:id", async (req, res) => {
   try {
@@ -63,10 +71,9 @@ app.get("/actor/:id", async (req, res) => {
   }
 });
 
-app.put("/actor/:id", async (req, res) => {
+app.put("/actor/", async (req, res) => {
   try {
-    const id = req.params.id
-    const salary = Number(req.body.salary)
+    const { salary, id } = req.body
     await updateSalary(id, salary)
     res.status(200).send("Salário atualizado com sucessso.")
   } catch (error: any) {
@@ -96,3 +103,15 @@ app.get("/actor", async (req, res) => {
     });
   }
 });
+
+app.delete("/actor/:id", async (req, res) => {
+  try {
+    const { id } = req.params
+    await deleteActor(id)
+    res.send(200).send("Ator deletado.")
+  } catch (err: any) {
+    res.status(400).send({
+      message: err.message,
+    });
+  }
+})

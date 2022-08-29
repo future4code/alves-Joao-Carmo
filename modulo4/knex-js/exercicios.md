@@ -83,3 +83,29 @@ O método raw nos permite usar linguagem SQL para fazer querys. A resposta vem e
         });
     }
     });
+
+## Exercício 4
+### a)
+    app.put("/actor/", async (req, res) => {
+    try {
+        const { salary, id } = req.body
+        await updateSalary(id, salary)
+        res.status(200).send("Salário atualizado com sucessso.")
+    } catch (error: any) {
+        console.log(error.message)
+        res.status(500).send("Unexpected error")
+    }
+    })
+
+### b)
+    app.delete("/actor/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        await deleteActor(id)
+        res.send(200).send("Ator deletado.")
+    } catch (err: any) {
+        res.status(400).send({
+        message: err.message,
+        });
+    }
+    })
