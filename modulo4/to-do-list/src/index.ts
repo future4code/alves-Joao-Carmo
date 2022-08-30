@@ -94,6 +94,27 @@ const addResponsibleForTask = async (taskId: string, responsibleUserId: string):
     INSERT INTO TodoListResponsibleUserTaskRelation VALUES ("${taskId}", "${responsibleUserId}")`)
 }
 
+const getResponsibleForTask = async (taskId: string): Promise<any> => {
+    const result = await connection.raw(`
+    SELECT TodoListUser.id, nickname FROM TodoListUser
+    INNER JOIN TodoListResponsibleUserTaskRelation ON TodoListResponsibleUserTaskRelation.responsible_user_id = TodoListUser.id
+    WHERE TodoListResponsibleUserTaskRelation.task_id = ${taskId} `)
+    return result[0]
+}
+
+const updateTaskStatus = async (status: string, id: string): Promise<any> => {
+    await connection.raw(`
+    UPDATE TodoListTask SET status = "${status}" WHERE id = ${id}`)
+}
+
+const getTasksByStatus = async (status: string): Promise<any> => {
+    const result = await connection.raw(`
+    SELECT *  FROM TodoListTask 
+    INNER JOIN TodoListUser ON TodoListTask.creator_user_id = TodoListUser.id
+    WHERE TodoListTask.status = "${status}"`)
+    return result[0]
+}
+
 //  1. CRIA USUÁRIO
 app.post("/user", async (req, res) => {
     let codeError = 400
@@ -192,6 +213,48 @@ app.post("/task", async (req, res) => {
     }
 })
 
+// 13. Pega todas as tarefas por status
+app.get("/task/search", async (req, res) => {
+    let codeError = 400
+    try {
+        const status = req.query.status as string
+        console.log(status)
+        
+        if (status === "" || !status) {
+            codeError = 404
+            throw new Error("Something went wrong. Please check url params.")
+        }
+
+        const result = await getTasksByStatus(status)
+        let tasks = []
+        tasks.push(result)
+        tasks = tasks.flat(2)
+
+        const newTasks = tasks.map((item) => {
+            let formatLimitDate: Date | string = new Date(item.limit_date)
+            formatLimitDate = formatLimitDate.toLocaleDateString()
+            let newItem = {
+                taskId: item.id,
+                title: item.title,
+                description: item.description,
+                limitDate: formatLimitDate,
+                creatorUserId: item.creator_user_id,
+            }
+            return newItem
+        })
+
+        console.log(result)
+        res.status(200).send({
+            tasks: newTasks
+        })
+
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
+
 // 5. PEGA TAREFA PELO ID
 app.get("/task/:id", async (req, res) => {
     let codeError = 400
@@ -244,7 +307,7 @@ app.get("/task", async (req, res) => {
                 status: item.status,
                 creatorUserNickname: item.nickname
             }
-            
+
             return newItem
         })
         res.status(200).send({
@@ -263,7 +326,7 @@ app.get("/user", async (req, res) => {
     let codeError = 400
     try {
         const query = req.query.query as string
-        if ( !query ) {
+        if (!query) {
             codeError = 404
             throw new Error("Something went wrong. Please check url params.")
         }
@@ -288,7 +351,7 @@ app.post("/task/responsible", async (req, res) => {
     let codeError = 400
     try {
         const { task_id, responsible_user_id } = req.body
-        if ( !task_id || !responsible_user_id || task_id === "" || responsible_user_id === "") {
+        if (!task_id || !responsible_user_id || task_id === "" || responsible_user_id === "") {
             codeError = 404
             throw new Error("Something went wrong. Please check informations.")
         }
@@ -304,3 +367,104 @@ app.post("/task/responsible", async (req, res) => {
         })
     }
 })
+
+// 10. Pega usuários responsáveis por uma tarefa
+app.get("/task/:id/responsible", async (req, res) => {
+    let codeError = 400
+    try {
+        const { id } = req.params
+        if (!id) {
+            codeError = 404
+            throw new Error("Something went wrong. Please check informations.")
+        }
+
+        const result = await getResponsibleForTask(id)
+        console.log(result)
+        if (result.length <= 0) {
+            codeError = 404
+            throw new Error("No tasks found")
+        }
+
+        res.status(200).send({
+            users: result
+        })
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
+
+// 11. Pega tarefa pelo id e seus responsáveis
+app.get("/task/:id/responsiblesTask", async (req, res) => {
+    let codeError = 400
+    try {
+        const { id } = req.params
+        if (!id) {
+            codeError = 404
+            throw new Error("Something went wrong. Please check informations.")
+        }
+
+        const resultResponsible = await getResponsibleForTask(id)
+        const resultTask = await getTaskById(id)
+        if (!resultTask) {
+            codeError = 404
+            throw new Error("No tasks found")
+        }
+        
+        let task = []
+        task.push(resultTask)
+        task = task.flat(2)
+        const newTask = task.map((item) => {
+            let formatLimitDate: Date | string = new Date(item.limit_date)
+            formatLimitDate = formatLimitDate.toLocaleDateString()
+            let newItem = {
+                taskId: item.id,
+                title: item.title,
+                description: item.description,
+                limitDate: formatLimitDate,
+                creatorUserId: item.creator_user_id,
+                creatorUserNickname: item.nickname,
+                responsibleUsers: resultResponsible
+            }
+            return newItem
+        })
+
+        res.status(200).send(newTask[0])
+        
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
+
+// 12. Atualiza o status da tarega pelo id
+app.put("/task/status/:id", async (req, res) => {
+    let codeError = 400
+    try {
+        const { status } = req.body
+        const { id } = req.params
+
+        if (!status || status === "" || !id || id === "") {
+            codeError = 404
+            throw new Error("Something went wrong. Please check informations.")
+        }
+        const resultTask = await getTaskById(id)
+        if (!resultTask) {
+            codeError = 404
+            throw new Error("No tasks found")
+        }
+
+        await updateTaskStatus(status, id)
+        
+        res.status(200).send({
+            message: "Task status updated"
+        })
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
+
