@@ -3,6 +3,9 @@ import knex from "knex";
 import cors from "cors";
 import dotenv from "dotenv";
 import { AddressInfo } from "net";
+import axios from "axios"
+import {baseURL} from "./baseURL"
+import {user} from "./types"
 
 dotenv.config();
 
@@ -29,3 +32,35 @@ const server = app.listen(process.env.PORT || 3003, () => {
        console.error(`Failure upon starting server.`);
     }
 });
+
+const getSubscribers = async (): Promise<user[]> => {
+   const response = await axios.get(`${baseURL}/subscribers`)
+   return response.data.map((res: any) => {
+     return {
+       id: res.id,
+       name: res.name,
+       email: res.email,
+     }
+   })
+ }
+
+const createNews = async (title: string, content: string, date: number): Promise<void> => {
+   const body = {
+      title,
+      content,
+      date
+   }
+   await axios.put(`${baseURL}/news`, body)
+}
+
+const main = async ():Promise<void> => {
+   try {
+       const resp = await getSubscribers()
+       console.log(resp)
+   } catch (error: any) {
+       const resp = error.response?.data || error.message
+       console.log(resp)
+   }
+}
+
+main()
