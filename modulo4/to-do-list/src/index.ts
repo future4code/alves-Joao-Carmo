@@ -53,6 +53,14 @@ const searchUser = async (query: string): Promise<any> => {
     return result[0]
 }
 
+const searchTask = async (query: string): Promise<any> => {
+    const result = await connection.raw(`
+    SELECT TodoListTask.id, title, description, status, limit_date, creator_user_id, nickname  FROM TodoListTask 
+    INNER JOIN TodoListUser ON TodoListTask.creator_user_id = TodoListUser.id
+    WHERE title LIKE "%${query}%" OR description LIKE "%${query}%"`)
+    return result[0]
+}
+
 const getTaskById = async (id: string): Promise<any> => {
     const result = await connection.raw(`
     SELECT TodoListTask.id, title, description, status, limit_date, creator_user_id, nickname  FROM TodoListTask 
@@ -328,38 +336,68 @@ app.get("/task/:id", async (req, res) => {
     }
 })
 
-// 7. Pega tarefas criada por um usuário
+// 7. E 17. Pega tarefas criada por um usuário e procura tarefas por query
 app.get("/task", async (req, res) => {
     let codeError = 400
     try {
-        const creatorUserId = req.query.creatorUserId as string
-        if (!creatorUserId) {
+        if(!req.query.query && !req.query.creatorUserId) {
             codeError = 404
             throw new Error("Something went wrong. Please check url params.")
         }
 
-        let tasks = []
-        const result = await getTaskByUserId(creatorUserId)
-        tasks.push(result)
-        tasks = tasks.flat(2)
-        const newTasks = tasks.map((item) => {
-            let formatLimitDate: Date | string = new Date(item.limit_date)
-            formatLimitDate = formatLimitDate.toLocaleDateString()
-            let newItem = {
-                taskId: item.id,
-                title: item.title,
-                description: item.description,
-                limitDate: formatLimitDate,
-                creatorUserId: item.creator_user_id,
-                status: item.status,
-                creatorUserNickname: item.nickname
-            }
+        if (req.query.creatorUserId) {
+            const creatorUserId = req.query.creatorUserId as string
+            let tasks = []
+            const result = await getTaskByUserId(creatorUserId)
+            tasks.push(result)
+            tasks = tasks.flat(2)
+            const newTasks = tasks.map((item) => {
+                let formatLimitDate: Date | string = new Date(item.limit_date)
+                formatLimitDate = formatLimitDate.toLocaleDateString()
+                let newItem = {
+                    taskId: item.id,
+                    title: item.title,
+                    description: item.description,
+                    limitDate: formatLimitDate,
+                    creatorUserId: item.creator_user_id,
+                    status: item.status,
+                    creatorUserNickname: item.nickname
+                }
 
-            return newItem
-        })
-        res.status(200).send({
-            tasks: newTasks
-        })
+                return newItem
+            })
+            res.status(200).send({
+                tasks: newTasks
+            })
+        }
+
+        if (req.query.query) {
+            const query = req.query.query as string
+
+            const result = await searchTask(query)
+            let tasks = []
+            tasks.push(result)
+            tasks = tasks.flat(2)
+
+            const newTasks = tasks.map((item) => {
+                let formatLimitDate: Date | string = new Date(item.limit_date)
+                formatLimitDate = formatLimitDate.toLocaleDateString()
+
+                let newItem = {
+                    taskId: item.id,
+                    title: item.title,
+                    description: item.description,
+                    limitDate: formatLimitDate,
+                    creatorUserId: item.creator_user_id,
+                    creatorUserNickname: item.nickname
+                }
+                return newItem
+
+            })
+            res.status(200).send({
+                tasks: newTasks
+            })
+        }
 
     } catch (err: any) {
         res.status(codeError).send({
@@ -398,7 +436,7 @@ app.post("/task/responsible", async (req, res) => {
     let codeError = 400
     try {
         const { task_id, responsible_user_id, responsible_user_ids } = req.body
-        if (!task_id  || task_id === "" ) {
+        if (!task_id || task_id === "") {
             codeError = 404
             throw new Error("Something went wrong. Please check informations.")
         }
@@ -414,17 +452,17 @@ app.post("/task/responsible", async (req, res) => {
         users.push(responsibleForTask)
         users = users.flat(2)
         const checkResponsibleUserId = users.find(item => item.id === responsible_user_id || responsible_user_ids.includes(item.id))
-        if(checkResponsibleUserId) {
+        if (checkResponsibleUserId) {
             codeError = 404
             throw new Error("User(s) already responsible for task.")
         }
 
-        if( responsible_user_id && !responsible_user_ids){ 
+        if (responsible_user_id && !responsible_user_ids) {
             await addResponsibleForTask(task_id, responsible_user_id)
         }
 
-        if( !responsible_user_id && responsible_user_ids){
-            for(let i = 0; i < responsible_user_ids.length; i++) {
+        if (!responsible_user_id && responsible_user_ids) {
+            for (let i = 0; i < responsible_user_ids.length; i++) {
                 await addResponsibleForTask(task_id, responsible_user_ids[i])
             }
         }
@@ -563,7 +601,7 @@ app.delete("/task/:taskId/responsible/:responsibleUserId", async (req, res) => {
         users.push(responsibleForTask)
         users = users.flat(2)
         const checkResponsibleUserId = users.find(item => item.id === responsibleUserId)
-        if(!checkResponsibleUserId) {
+        if (!checkResponsibleUserId) {
             codeError = 404
             throw new Error("User not responsible for task.")
         }
@@ -575,4 +613,5 @@ app.delete("/task/:taskId/responsible/:responsibleUserId", async (req, res) => {
         })
     }
 })
+
 
