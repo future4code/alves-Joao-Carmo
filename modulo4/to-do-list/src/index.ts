@@ -29,13 +29,13 @@ const server = app.listen(process.env.PORT || 3003, () => {
 });
 
 
-const getUser = async (): Promise<any> => {
+const getAllUsers = async (): Promise<any> => {
     const result = await connection.raw(`
     SELECT * FROM TodoListUser`)
     return result[0]
 }
 
-const getTask = async (): Promise<any> => {
+const getAllTasks = async (): Promise<any> => {
     const result = await connection.raw(`
     SELECT * FROM TodoListTask`)
     return result[0]
@@ -47,12 +47,26 @@ const getUserById = async (id: string): Promise<any> => {
     return result[0][0]
 }
 
+const searchUser = async (query: string): Promise<any> => {
+    const result = await connection.raw(`
+    SELECT id, nickname FROM TodoListUser WHERE nickname LIKE "%${query}%" OR email LIKE "%${query}%"`)
+    return result[0]
+}
+
 const getTaskById = async (id: string): Promise<any> => {
     const result = await connection.raw(`
-    SELECT * FROM TodoListTask 
+    SELECT TodoListTask.id, title, description, status, limit_date, creator_user_id, nickname  FROM TodoListTask 
     INNER JOIN TodoListUser ON TodoListTask.creator_user_id = TodoListUser.id
-    WHERE TodoListTask.creator_user_id = "${id}"`)
+    WHERE TodoListTask.id = ${id}`)
     return result[0][0]
+}
+
+const getTaskByUserId = async (userId: string): Promise<any> => {
+    const result = await connection.raw(`
+    SELECT TodoListTask.id, title, description, status, limit_date, creator_user_id, nickname  FROM TodoListTask 
+    INNER JOIN TodoListUser ON TodoListTask.creator_user_id = TodoListUser.id
+    WHERE TodoListUser.id = ${userId}`)
+    return result[0]
 }
 
 const updateUser = async (id: string, name?: string, email?: string, nickname?: string): Promise<any> => {
@@ -75,7 +89,12 @@ const createTask = async (id: string, title: string, description: string, limitD
     INSERT INTO TodoListTask VALUES ("${id}", "${title}", "${description}", status, "${limitDate}", "${creatorUserId}")`)
 }
 
-// CRIA USUÁRIO
+const addResponsibleForTask = async (taskId: string, responsibleUserId: string): Promise<any> => {
+    await connection.raw(`
+    INSERT INTO TodoListResponsibleUserTaskRelation VALUES ("${taskId}", "${responsibleUserId}")`)
+}
+
+//  1. CRIA USUÁRIO
 app.post("/user", async (req, res) => {
     let codeError = 400
     try {
@@ -84,7 +103,7 @@ app.post("/user", async (req, res) => {
             codeError = 404
             throw new Error("Something went wrong. Please check informations.")
         }
-        const result = await getUser()
+        const result = await getAllUsers()
         const id = result.length + 1
 
         await createUser(id, name, nickname, email)
@@ -96,7 +115,20 @@ app.post("/user", async (req, res) => {
     }
 })
 
-// PEGA USUÁRIO POR ID
+// 6. Pega todos os usuários
+app.get("/user/all", async (req, res) => {
+    let codeError = 400
+    try {
+        const result = await getAllUsers()
+        res.status(200).send(result)
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
+
+// 2. PEGA USUÁRIO POR ID
 app.get("/user/:id", async (req, res) => {
     let codeError = 400
     try {
@@ -117,7 +149,7 @@ app.get("/user/:id", async (req, res) => {
     }
 })
 
-// EDITA USUÁRIO
+// 3. EDITA USUÁRIO
 app.put("/user/edit/:id", async (req, res) => {
     let codeError = 400
     try {
@@ -137,7 +169,7 @@ app.put("/user/edit/:id", async (req, res) => {
     }
 })
 
-// CRIA TAREFA
+// 4. CRIA TAREFA
 app.post("/task", async (req, res) => {
     let codeError = 400
     try {
@@ -146,7 +178,7 @@ app.post("/task", async (req, res) => {
             codeError = 404
             throw new Error("Something went wrong. Please check informations.")
         }
-        const result = await getTask()
+        const result = await getAllTasks()
         const id = result.length + 1
         let formatLimitDate: Date = limitDate.split("/").reverse().join("-")
 
@@ -160,7 +192,7 @@ app.post("/task", async (req, res) => {
     }
 })
 
-// PEGA TAREFA PELO ID
+// 5. PEGA TAREFA PELO ID
 app.get("/task/:id", async (req, res) => {
     let codeError = 400
     try {
@@ -168,6 +200,7 @@ app.get("/task/:id", async (req, res) => {
         const result = await getTaskById(id)
         let formatLimitDate: Date | string = new Date(result.limit_date)
         formatLimitDate = formatLimitDate.toLocaleDateString()
+        console.log(result)
         res.status(200).send({
             taskId: result.id,
             title: result.title,
@@ -178,6 +211,93 @@ app.get("/task/:id", async (req, res) => {
             creatorUserNickname: result.nickname
         })
 
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
+
+// 7. Pega tarefas criada por um usuário
+app.get("/task", async (req, res) => {
+    let codeError = 400
+    try {
+        const creatorUserId = req.query.creatorUserId as string
+        if (!creatorUserId) {
+            codeError = 404
+            throw new Error("Something went wrong. Please check url params.")
+        }
+
+        let tasks = []
+        const result = await getTaskByUserId(creatorUserId)
+        tasks.push(result)
+        tasks = tasks.flat(2)
+        const newTasks = tasks.map((item) => {
+            let formatLimitDate: Date | string = new Date(item.limit_date)
+            formatLimitDate = formatLimitDate.toLocaleDateString()
+            let newItem = {
+                taskId: item.id,
+                title: item.title,
+                description: item.description,
+                limitDate: formatLimitDate,
+                creatorUserId: item.creator_user_id,
+                status: item.status,
+                creatorUserNickname: item.nickname
+            }
+            
+            return newItem
+        })
+        res.status(200).send({
+            tasks: newTasks
+        })
+
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
+
+// 8. Pesquisa usuário
+app.get("/user", async (req, res) => {
+    let codeError = 400
+    try {
+        const query = req.query.query as string
+        if ( !query ) {
+            codeError = 404
+            throw new Error("Something went wrong. Please check url params.")
+        }
+        const result = await searchUser(query)
+        let users = []
+        users.push(result)
+        users = users.flat(2)
+        res.status(200).send({
+            users
+        })
+
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
+
+
+// 9. Atribui um usuário responsável a uma tarefa
+app.post("/task/responsible", async (req, res) => {
+    let codeError = 400
+    try {
+        const { task_id, responsible_user_id } = req.body
+        if ( !task_id || !responsible_user_id || task_id === "" || responsible_user_id === "") {
+            codeError = 404
+            throw new Error("Something went wrong. Please check informations.")
+        }
+
+        await addResponsibleForTask(task_id, responsible_user_id)
+
+        res.status(201).send({
+            message: 'Responsible added successfully'
+        })
     } catch (err: any) {
         res.status(codeError).send({
             message: err.message,
