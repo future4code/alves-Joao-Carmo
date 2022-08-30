@@ -115,6 +115,19 @@ const getTasksByStatus = async (status: string): Promise<any> => {
     return result[0]
 }
 
+const getDelayedTasks = async (): Promise<any> => {
+    const result = await connection.raw(`
+    SELECT TodoListTask.id, title, description, limit_date, creator_user_id, nickname  FROM TodoListTask 
+    INNER JOIN TodoListUser ON TodoListTask.creator_user_id = TodoListUser.id`)
+    return result[0]
+}
+
+const removeResponsibleForTask = async (taskId: string, responsibleUserId: string): Promise<any> => {
+    await connection.raw(`
+    DELETE FROM TodoListResponsibleUserTaskRelation WHERE responsible_user_id = ${responsibleUserId} AND task_id = ${taskId}
+    `)
+}
+
 //  1. CRIA USUÁRIO
 app.post("/user", async (req, res) => {
     let codeError = 400
@@ -213,13 +226,49 @@ app.post("/task", async (req, res) => {
     }
 })
 
+// 14. Pega todas as tarefas atrasadas
+app.get("/task/delayed", async (req, res) => {
+    let codeError = 400
+    try {
+        const result = await getDelayedTasks()
+        let tasks = []
+        tasks.push(result)
+        tasks = tasks.flat(2)
+        const delayedTasks = tasks.filter((item) => {
+            let formatLimitDate: Date | string = new Date(item.limit_date)
+            let today = new Date()
+            return formatLimitDate.getTime() < today.getTime()
+        }).map((item) => {
+            let formatLimitDate: Date | string = new Date(item.limit_date)
+            formatLimitDate = formatLimitDate.toLocaleDateString()
+
+            let newItem = {
+                taskId: item.id,
+                title: item.title,
+                description: item.description,
+                limitDate: formatLimitDate,
+                creatorUserId: item.creator_user_id,
+                creatorUserNickname: item.nickname
+            }
+            return newItem
+        })
+
+        res.status(200).send({
+            tasks: delayedTasks
+        })
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
+
 // 13. Pega todas as tarefas por status
 app.get("/task/search", async (req, res) => {
     let codeError = 400
     try {
         const status = req.query.status as string
-        console.log(status)
-        
+
         if (status === "" || !status) {
             codeError = 404
             throw new Error("Something went wrong. Please check url params.")
@@ -243,7 +292,6 @@ app.get("/task/search", async (req, res) => {
             return newItem
         })
 
-        console.log(result)
         res.status(200).send({
             tasks: newTasks
         })
@@ -263,7 +311,6 @@ app.get("/task/:id", async (req, res) => {
         const result = await getTaskById(id)
         let formatLimitDate: Date | string = new Date(result.limit_date)
         formatLimitDate = formatLimitDate.toLocaleDateString()
-        console.log(result)
         res.status(200).send({
             taskId: result.id,
             title: result.title,
@@ -350,16 +397,40 @@ app.get("/user", async (req, res) => {
 app.post("/task/responsible", async (req, res) => {
     let codeError = 400
     try {
-        const { task_id, responsible_user_id } = req.body
-        if (!task_id || !responsible_user_id || task_id === "" || responsible_user_id === "") {
+        const { task_id, responsible_user_id, responsible_user_ids } = req.body
+        if (!task_id  || task_id === "" ) {
             codeError = 404
             throw new Error("Something went wrong. Please check informations.")
         }
 
-        await addResponsibleForTask(task_id, responsible_user_id)
+        if ((!responsible_user_id || responsible_user_id === "") && (!responsible_user_ids || responsible_user_ids.length === 0)) {
+            codeError = 404
+            throw new Error("Something went wrong. Please check informations.")
+
+        }
+
+        const responsibleForTask = await getResponsibleForTask(task_id)
+        let users = []
+        users.push(responsibleForTask)
+        users = users.flat(2)
+        const checkResponsibleUserId = users.find(item => item.id === responsible_user_id || responsible_user_ids.includes(item.id))
+        if(checkResponsibleUserId) {
+            codeError = 404
+            throw new Error("User(s) already responsible for task.")
+        }
+
+        if( responsible_user_id && !responsible_user_ids){ 
+            await addResponsibleForTask(task_id, responsible_user_id)
+        }
+
+        if( !responsible_user_id && responsible_user_ids){
+            for(let i = 0; i < responsible_user_ids.length; i++) {
+                await addResponsibleForTask(task_id, responsible_user_ids[i])
+            }
+        }
 
         res.status(201).send({
-            message: 'Responsible added successfully'
+            message: 'Responsible user(s) added successfully'
         })
     } catch (err: any) {
         res.status(codeError).send({
@@ -379,7 +450,6 @@ app.get("/task/:id/responsible", async (req, res) => {
         }
 
         const result = await getResponsibleForTask(id)
-        console.log(result)
         if (result.length <= 0) {
             codeError = 404
             throw new Error("No tasks found")
@@ -411,7 +481,7 @@ app.get("/task/:id/responsiblesTask", async (req, res) => {
             codeError = 404
             throw new Error("No tasks found")
         }
-        
+
         let task = []
         task.push(resultTask)
         task = task.flat(2)
@@ -431,7 +501,7 @@ app.get("/task/:id/responsiblesTask", async (req, res) => {
         })
 
         res.status(200).send(newTask[0])
-        
+
     } catch (err: any) {
         res.status(codeError).send({
             message: err.message,
@@ -457,10 +527,48 @@ app.put("/task/status/:id", async (req, res) => {
         }
 
         await updateTaskStatus(status, id)
-        
+
         res.status(200).send({
             message: "Task status updated"
         })
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
+
+// 15. Retirar um usuário responsável de uma tarefa
+app.delete("/task/:taskId/responsible/:responsibleUserId", async (req, res) => {
+    let codeError = 400
+    try {
+        const { taskId, responsibleUserId } = req.params
+        if (!taskId || !responsibleUserId) {
+            codeError = 404
+            throw new Error("Something went wrong. Please check informations.")
+        }
+        const task = await getTaskById(taskId)
+        if (!task) {
+            codeError = 404
+            throw new Error("Task not found.")
+        }
+        const user = await getUserById(responsibleUserId)
+        if (!user) {
+            codeError = 404
+            throw new Error("User not found.")
+        }
+
+        const responsibleForTask = await getResponsibleForTask(taskId)
+        let users = []
+        users.push(responsibleForTask)
+        users = users.flat(2)
+        const checkResponsibleUserId = users.find(item => item.id === responsibleUserId)
+        if(!checkResponsibleUserId) {
+            codeError = 404
+            throw new Error("User not responsible for task.")
+        }
+
+        await removeResponsibleForTask(taskId, responsibleUserId)
     } catch (err: any) {
         res.status(codeError).send({
             message: err.message,
