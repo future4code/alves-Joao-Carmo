@@ -171,7 +171,12 @@ app.post("/user", async (req, res) => {
             throw new Error("Something went wrong. Please check informations.")
         }
         const result = await getAllUsers()
-        const id = (Number(result[result.length-1].id) + 1).toString()
+        let id
+        if ( result.length > 0 ) {
+            id = (Number(result[result.length-1].id) + 1).toString()
+        } else {
+            id = "1"
+        }
 
         await createUser(id, name, nickname, email)
         res.status(201).send("User created.")
@@ -246,7 +251,12 @@ app.post("/task", async (req, res) => {
             throw new Error("Something went wrong. Please check informations.")
         }
         const result = await getAllTasks()
-        const id = result[result.length-1].id + 1
+        let id
+        if ( result.length > 0 ) {
+            id = (Number(result[result.length-1].id) + 1).toString()
+        } else {
+            id = "1"
+        }
         let formatLimitDate: Date = limitDate.split("/").reverse().join("-")
 
         await createTask(id, title, description, formatLimitDate, creatorUserId)
