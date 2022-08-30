@@ -87,7 +87,7 @@ const updateUser = async (id: string, name?: string, email?: string, nickname?: 
         .where("id", id)
 }
 
-const createUser = async (id: string, name: string, email: string, nickname: string): Promise<any> => {
+const createUser = async (id: string, name: string, nickname: string,  email: string): Promise<any> => {
     await connection.raw(`
     INSERT INTO TodoListUser VALUES ("${id}", "${name}", "${nickname}", "${email}" )`)
 }
@@ -132,8 +132,33 @@ const getDelayedTasks = async (): Promise<any> => {
 
 const removeResponsibleForTask = async (taskId: string, responsibleUserId: string): Promise<any> => {
     await connection.raw(`
-    DELETE FROM TodoListResponsibleUserTaskRelation WHERE responsible_user_id = ${responsibleUserId} AND task_id = ${taskId}
+    DELETE FROM TodoListResponsibleUserTaskRelation WHERE responsible_user_id = "${responsibleUserId}" AND task_id = "${taskId}"
     `)
+}
+
+const deleteTask = async (taskId: string): Promise<any> => {
+    await connection.raw(`
+    DELETE FROM TodoListResponsibleUserTaskRelation WHERE task_id = ${taskId}`)
+    await connection.raw(`
+    DELETE FROM TodoListTask WHERE id = ${taskId}`)
+}
+
+const deleteUser = async (userId: string): Promise<any> => {
+    let tasks = []
+        const result = await getTaskByUserId(userId)
+        tasks.push(result)
+        tasks = tasks.flat(2)
+        for (let i = 0; i < tasks.length; i++) {
+            await connection.raw(`
+            DELETE FROM TodoListResponsibleUserTaskRelation WHERE task_id = "${tasks[i].id}"`)
+        }
+    
+    await connection.raw(`
+    DELETE FROM TodoListResponsibleUserTaskRelation WHERE responsible_user_id = ${userId}`)
+    await connection.raw(`
+    DELETE FROM TodoListTask WHERE creator_user_id = ${userId}`)
+    await connection.raw(`
+    DELETE FROM TodoListUser WHERE id = ${userId}`)
 }
 
 //  1. CRIA USUÁRIO
@@ -146,7 +171,7 @@ app.post("/user", async (req, res) => {
             throw new Error("Something went wrong. Please check informations.")
         }
         const result = await getAllUsers()
-        const id = result.length + 1
+        const id = (Number(result[result.length-1].id) + 1).toString()
 
         await createUser(id, name, nickname, email)
         res.status(201).send("User created.")
@@ -221,7 +246,7 @@ app.post("/task", async (req, res) => {
             throw new Error("Something went wrong. Please check informations.")
         }
         const result = await getAllTasks()
-        const id = result.length + 1
+        const id = result[result.length-1].id + 1
         let formatLimitDate: Date = limitDate.split("/").reverse().join("-")
 
         await createTask(id, title, description, formatLimitDate, creatorUserId)
@@ -340,7 +365,7 @@ app.get("/task/:id", async (req, res) => {
 app.get("/task", async (req, res) => {
     let codeError = 400
     try {
-        if(!req.query.query && !req.query.creatorUserId) {
+        if (!req.query.query && !req.query.creatorUserId) {
             codeError = 404
             throw new Error("Something went wrong. Please check url params.")
         }
@@ -547,27 +572,30 @@ app.get("/task/:id/responsiblesTask", async (req, res) => {
     }
 })
 
-// 12. Atualiza o status da tarega pelo id
-app.put("/task/status/:id", async (req, res) => {
+// 12. e 18. Atualiza o status de várias tarefas
+app.put("/task/status/edit", async (req, res) => {
     let codeError = 400
     try {
-        const { status } = req.body
-        const { id } = req.params
-
-        if (!status || status === "" || !id || id === "") {
+        const { task_ids, status } = req.body
+        if (!status || status === "" || !task_ids || task_ids.length <= 0) {
             codeError = 404
             throw new Error("Something went wrong. Please check informations.")
         }
-        const resultTask = await getTaskById(id)
-        if (!resultTask) {
-            codeError = 404
-            throw new Error("No tasks found")
+
+        for (let i = 0; i < task_ids.length; i++) {
+            const checkTask = await getTaskById(task_ids[i])
+            if (!checkTask) {
+                codeError = 404
+                throw new Error("A task was not found. Please check informations.")
+            }
         }
 
-        await updateTaskStatus(status, id)
+        for (let i = 0; i < task_ids.length; i++) {
+            await updateTaskStatus(status, task_ids[i])
+        }
 
         res.status(200).send({
-            message: "Task status updated"
+            message: "Task(s) status updated"
         })
     } catch (err: any) {
         res.status(codeError).send({
@@ -575,6 +603,34 @@ app.put("/task/status/:id", async (req, res) => {
         })
     }
 })
+// 12. Atualiza o status da tarega pelo id
+// app.put("/task/status/:id", async (req, res) => {
+//     let codeError = 400
+//     try {
+//         const { status } = req.body
+//         const { id } = req.params
+
+//         if (!status || status === "" || !id || id === "") {
+//             codeError = 404
+//             throw new Error("Something went wrong. Please check informations.")
+//         }
+//         const resultTask = await getTaskById(id)
+//         if (!resultTask) {
+//             codeError = 404
+//             throw new Error("No tasks found")
+//         }
+
+//         await updateTaskStatus(status, id)
+
+//         res.status(200).send({
+//             message: "Task status updated"
+//         })
+//     } catch (err: any) {
+//         res.status(codeError).send({
+//             message: err.message,
+//         })
+//     }
+// })
 
 // 15. Retirar um usuário responsável de uma tarefa
 app.delete("/task/:taskId/responsible/:responsibleUserId", async (req, res) => {
@@ -607,6 +663,10 @@ app.delete("/task/:taskId/responsible/:responsibleUserId", async (req, res) => {
         }
 
         await removeResponsibleForTask(taskId, responsibleUserId)
+
+        res.send({
+            message: "Responsible for task removed successfully."
+        })
     } catch (err: any) {
         res.status(codeError).send({
             message: err.message,
@@ -614,4 +674,64 @@ app.delete("/task/:taskId/responsible/:responsibleUserId", async (req, res) => {
     }
 })
 
+// 19. Deleta tarefa
+app.delete("/task/:id", async (req, res) => {
+    let codeError = 400
+    try {
+        const { id } = req.params
+        if (!id || id === "") {
+            codeError = 404
+            throw new Error("Something went wrong. Please check informations.")
+        }
+        const task = await getTaskById(id)
+        if (!task) {
+            codeError = 404
+            throw new Error("Task not found.")
+        }
+
+        await deleteTask(id)
+        res.send({
+            message: "Task deleted successfully."
+        })
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
+
+// 20. Deletar usuário
+app.delete("/user/:id", async (req, res) => {
+    let codeError = 400
+    try {
+        const { id } = req.params
+        if (!id || id === "") {
+            codeError = 404
+            throw new Error("Something went wrong. Please check informations.")
+        }
+        const user = await getUserById(id)
+        if (!user) {
+            codeError = 404
+            throw new Error("User not found.")
+        }
+        // let tasks = []
+        // const result = await getTaskByUserId(id)
+        // tasks.push(result)
+        // tasks = tasks.flat(2)
+        // for (let i = 0; i < tasks.length; i++) {
+        //     await connection.raw(`
+        //     DELETE FROM TodoListResponsibleUserTaskRelation WHERE task_id = "${tasks[i]}"`)
+        // }
+        await deleteUser(id)
+
+        res.send({
+            message: "User deleted successfully."
+        })
+
+    } catch (err: any) {
+        res.status(codeError).send({
+            message: err.message,
+        })
+    }
+})
 
