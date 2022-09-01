@@ -73,6 +73,7 @@ app.get("/actor/:id", async (req, res) => {
 
 app.put("/actor/", async (req, res) => {
   try {
+
     const { salary, id } = req.body
     await updateSalary(id, salary)
     res.status(200).send("Salário atualizado com sucessso.")
