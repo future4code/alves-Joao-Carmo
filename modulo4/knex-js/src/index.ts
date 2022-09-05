@@ -54,8 +54,10 @@ const deleteActor = async (
 ): Promise<any> => {
   await connection("Actor")
   .delete()
+
   .where("id", id);
 }
+
 
 // Ou então podemos chamá-la dentro de um endpoint
 app.get("/actor/:id", async (req, res) => {
@@ -73,7 +75,9 @@ app.get("/actor/:id", async (req, res) => {
 
 app.put("/actor/", async (req, res) => {
   try {
+
     const { salary, id } = req.body
+
     await updateSalary(id, salary)
     res.status(200).send("Salário atualizado com sucessso.")
   } catch (error: any) {

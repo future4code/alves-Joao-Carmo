@@ -88,7 +88,9 @@ O método raw nos permite usar linguagem SQL para fazer querys. A resposta vem e
 ### a)
     app.put("/actor/", async (req, res) => {
     try {
+
         const { salary, id } = req.body
+
         await updateSalary(id, salary)
         res.status(200).send("Salário atualizado com sucessso.")
     } catch (error: any) {
@@ -96,6 +98,7 @@ O método raw nos permite usar linguagem SQL para fazer querys. A resposta vem e
         res.status(500).send("Unexpected error")
     }
     })
+
 
 ### b)
     app.delete("/actor/:id", async (req, res) => {
@@ -107,5 +110,6 @@ O método raw nos permite usar linguagem SQL para fazer querys. A resposta vem e
         res.status(400).send({
         message: err.message,
         });
+
     }
     })
