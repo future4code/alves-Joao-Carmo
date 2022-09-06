@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "typescript": "^4.8.2"
+  },
+  "name": "classes-encapsulamento",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node ./build/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
