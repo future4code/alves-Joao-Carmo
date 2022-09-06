@@ -208,7 +208,9 @@ class CommercialClient extends Commerce implements Client {
     }
 }
 
-// 6 
+// 6 a) Ela é fila da classe Industry que por usa vez é filha da classe Place.
+// 6 b) Ela implementa a interface Client.
+
 
 class IndustrialClient extends Industry implements Client {
     constructor(
