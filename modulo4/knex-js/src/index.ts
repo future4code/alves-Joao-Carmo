@@ -58,7 +58,6 @@ const deleteActor = async (
   .where("id", id);
 }
 
-
 // Ou então podemos chamá-la dentro de um endpoint
 app.get("/actor/:id", async (req, res) => {
   try {
