@@ -11,6 +11,12 @@ export interface IUserDB {
     role: USER_ROLES
 }
 
+export interface ISignupInputDTO {
+    name: string,
+    email: string,
+    password: string
+}
+
 export class User {
     constructor(
         private id: string,

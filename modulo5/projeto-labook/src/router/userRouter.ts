@@ -19,3 +19,5 @@ const userController = new UserController(
 
 // userRouter.post("/signup", userController.signup)
 // etc
+
+userRouter.post("/signup", userController.signup)
