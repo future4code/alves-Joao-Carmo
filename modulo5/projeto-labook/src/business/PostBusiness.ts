@@ -1,5 +1,5 @@
 import { PostDatabase } from "../database/PostDatabase"
-import { ICreatePostInputDTO, Post, IGetAllPostsInputDTO, IGetAllPostsDBDTO } from "../models/Post"
+import { ICreatePostInputDTO, Post, IGetAllPostsInputDTO, IGetAllPostsDBDTO, ILikeDB } from "../models/Post"
 import { Authenticator } from "../services/Authenticator"
 import { IdGenerator } from "../services/IdGenerator"
 
@@ -54,12 +54,23 @@ export class PostBusiness {
         const getAllPostsDb: IGetAllPostsDBDTO = {
             limit,
             offset
-        } 
+        }
 
         const postsDb = await this.postDatabase.getAllPosts(getAllPostsDb)
+        let posts: Post[] = []
+        for (let i = 0; i < postsDb.length; i++) {
+            const likesDb = await this.postDatabase.getLikes(postsDb[i].id)
+            const post = new Post(
+                postsDb[i].id,
+                postsDb[i].content,
+                postsDb[i].user_id,
+                likesDb.length
+            )
+            posts.push(post)
+        }
 
         const response = {
-            postsDb
+            posts
         }
 
         return response

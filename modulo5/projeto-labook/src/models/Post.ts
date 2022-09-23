@@ -1,3 +1,5 @@
+import { PostDatabase } from "../database/PostDatabase"
+
 export interface IPostDB {
     id: string,
     content: string,
@@ -26,13 +28,14 @@ export interface IGetAllPostsDBDTO {
     offset: number
 }
 
+
 export class Post {
     constructor(
         private id: string,
         private content: string,
         private userId: string,
         private likes: number = 0
-    ) {}
+    ) { }
 
     public getId = () => {
         return this.id

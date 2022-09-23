@@ -1,4 +1,4 @@
-import { IGetAllPostsDBDTO, Post } from "../models/Post"
+import { IGetAllPostsDBDTO, Post, ILikeDB } from "../models/Post"
 import { BaseDatabase } from "./BaseDatabase"
 import { IPostDB } from "../models/Post"
 
@@ -27,7 +27,16 @@ export class PostDatabase extends BaseDatabase {
             .select()
             .limit(limit)
             .offset(offset)
-        
+
         return postsDb
+    }
+
+    public getLikes = async (post_id: string) => {
+        const likesDb: ILikeDB[] = await BaseDatabase
+            .connection(PostDatabase.TABLE_LIKES)
+            .select()
+            .where({ post_id })
+
+        return likesDb
     }
 }
