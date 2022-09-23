@@ -21,3 +21,4 @@ const userController = new UserController(
 // etc
 
 userRouter.post("/signup", userController.signup)
+userRouter.post("/login", userController.login)

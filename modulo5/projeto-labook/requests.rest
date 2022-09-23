@@ -10,3 +10,12 @@ Content-Type: application/json
     "email": "beltrano2@gmail.com",
     "password": "abc123"
 }
+
+### 2) Login
+POST http://localhost:3003/users/login
+Content-Type: application/json
+
+{
+    "email": "astrodev@gmail.com",
+    "password": "bananinha"
+}
