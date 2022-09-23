@@ -13,6 +13,15 @@ export class UserDatabase extends BaseDatabase {
         return users[0]
     }
 
+    public getById = async (userId: string) => {
+        const users: IUserDB[] = await BaseDatabase
+            .connection(UserDatabase.TABLE_USERS)
+            .select()
+            .where({ userId })
+        
+        return users[0]
+    }
+
     public createUser = async (user: User) => {
         const userDb: IUserDB = {
             id: user.getId(),
