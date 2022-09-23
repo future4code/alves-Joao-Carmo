@@ -1,5 +1,5 @@
 import { PostDatabase } from "../database/PostDatabase"
-import { ICreatePostInputDTO, Post } from "../models/Post"
+import { ICreatePostInputDTO, Post, IGetAllPostsInputDTO, IGetAllPostsDBDTO } from "../models/Post"
 import { Authenticator } from "../services/Authenticator"
 import { IdGenerator } from "../services/IdGenerator"
 
@@ -8,7 +8,7 @@ export class PostBusiness {
         private postDatabase: PostDatabase,
         private idGenerator: IdGenerator,
         private authenticator: Authenticator
-    ) {}
+    ) { }
 
     public createPost = async (input: ICreatePostInputDTO) => {
         const token = input.token
@@ -19,7 +19,7 @@ export class PostBusiness {
             throw new Error("Token inválido ou faltando.")
         }
 
-        if(!content || content.length < 1) {
+        if (!content || content.length < 1) {
             throw new Error("Contéudo do post inválido.")
         }
 
@@ -35,6 +35,31 @@ export class PostBusiness {
 
         const response = {
             message: "Post criado com sucesso"
+        }
+
+        return response
+    }
+
+    public getAllPosts = async (input: IGetAllPostsInputDTO) => {
+        const token = input.token
+        const limit = Number(input.limit) || 10
+        const page = Number(input.page) || 1
+        const offset = limit * (page - 1)
+
+        const payload = this.authenticator.getTokenPayload(token)
+        if (!payload) {
+            throw new Error("Token inválido ou faltando")
+        }
+
+        const getAllPostsDb: IGetAllPostsDBDTO = {
+            limit,
+            offset
+        } 
+
+        const postsDb = await this.postDatabase.getAllPosts(getAllPostsDb)
+
+        const response = {
+            postsDb
         }
 
         return response

@@ -20,7 +20,7 @@ Content-Type: application/json
     "password": "bananinha"
 }
 
-### 2) Create post
+### 3) Create post
 POST http://localhost:3003/posts/
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY2Mzk2MDMwMSwiZXhwIjoxNjY0MDQ2NzAxfQ.WMSAJCgLVzOKKGLnXsXIhR7ymKAaOy161-MYPGnEo2s
 Content-Type: application/json
@@ -28,3 +28,8 @@ Content-Type: application/json
 {
     "content": "Post teste 2."
 }
+
+### 3) Get all posts
+GET http://localhost:3003/posts/
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY2Mzk2MjM0NiwiZXhwIjoxNjY0MDQ4NzQ2fQ.sIidjCEB8g6sJcKqRm6NwzJyjPEnI0LL6yu8p69EBro
+

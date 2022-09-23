@@ -15,6 +15,17 @@ export interface ICreatePostInputDTO {
     content: string,
 }
 
+export interface IGetAllPostsInputDTO {
+    token: string
+    limit: string,
+    page: string
+}
+
+export interface IGetAllPostsDBDTO {
+    limit: number,
+    offset: number
+}
+
 export class Post {
     constructor(
         private id: string,
