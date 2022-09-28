@@ -54,6 +54,7 @@ const deleteActor = async (
 ): Promise<any> => {
   await connection("Actor")
   .delete()
+
   .where("id", id);
 }
 
@@ -75,6 +76,7 @@ app.put("/actor/", async (req, res) => {
   try {
 
     const { salary, id } = req.body
+
     await updateSalary(id, salary)
     res.status(200).send("Salário atualizado com sucessso.")
   } catch (error: any) {
