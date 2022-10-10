@@ -4,15 +4,10 @@ import { SearchIcon } from '@chakra-ui/icons'
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import UserCard from '../components/UserCard';
+import { GlobalContext } from '../components/global/GlobalContext';
 
 export default function Home() {
-    const [searchInput, setSearchInput] = useState('')
-    const [searchResponse, setSearchResponse] = useState([])
-    const [searchError, setSearchError] = useState(false)
-    const [user, setUser] = useState('')
-    const [userNotFound, setUserNotFound] = useState(false)
-    const [repositories, setRepositories] = useState([])
-    const [errorRepositories, setErrorRepositories] = useState(false)
+    const { user, searchInput, setSearchInput, setSearchError, setSearchResponse, searchResponse, searchError, getUser, userNotFound, repositories, errorRepositories, setOnHome, setOnHistory } = useContext(GlobalContext)
 
     const onChangeHandler = (e) => {
         setSearchInput(e)
@@ -22,9 +17,6 @@ export default function Home() {
                 .then((res) => {
                     const temp = res.data.items
                     setSearchResponse(temp)
-                    console.log(res.data.items)
-                    console.log(searchResponse)
-
                 })
                 .catch((err) => {
                     setSearchError(true)
@@ -33,42 +25,18 @@ export default function Home() {
         }
     }
 
-    const getUser = (username) => {
-        setSearchError(false)
-        setSearchInput('')
-        setSearchResponse([])
-        axios.get(`https://api.github.com/users/${username}`)
-            .then((response) => {
-                console.log(response.data)
-                setUser(response.data)
-                setSearchInput('')
-                setUserNotFound(false)
-            })
-            .catch((err) => {
-                setUserNotFound(true)
-            })
+    useEffect(() => {
+        setOnHome(true)
+        setOnHistory(false)
+    }, [])
 
-        axios.get(`https://api.github.com/users/${username}/repos`)
-            .then((res) => {
-                if (res.data.length > 10) {
-                    const repos = res.data.slice(0, 10)
-                    setRepositories(repos)
-                } else {
-                    setRepositories(res.data)
-                }
-                console.log(res.data.slice(0, 10))
-            })
-            .catch((err) => {
-                setErrorRepositories(true)
-            })
-    }
 
     return (
-        <Flex flexDir={'column'} w={'50%'} minH={'101vh'} justify={'center'} align={'center'} margin={'auto'}>
-            <Heading marginY={'40px'}>Search Github users</Heading>
+        <Flex flexDir={'column'} w={{ base: '100%', lg: '50%' }} minH={'101vh'} align={'center'} marginX={'auto'}>
+            <Heading marginY={'80px'}>Search Github users</Heading>
             <Flex justify={'center'} w={'100%'} gap={'20px'}>
-                <Flex flexDir={'column'} w={'40%'}>
-                    <InputGroup>
+                <Flex flexDir={'column'}>
+                    <InputGroup w={{base: '55vw', lg: '20vw'}}>
                         <InputLeftElement
                             pointerEvents='none'
                             children={<SearchIcon color='gray.300' />}
@@ -83,7 +51,7 @@ export default function Home() {
                             </>
                         })
                         }
-                        {searchError && <Text margin={'5px'}>Muitas requests, espere alguns segundos...</Text>}
+                        {searchError && <Text margin={'5px'} w={{base: '45vw', lg: '15vw'}}>Too many requests, wait a few seconds...</Text>}
                     </Flex>
                     }
                 </Flex>
@@ -94,7 +62,7 @@ export default function Home() {
                 {userNotFound &&
                     <Alert status='error' marginTop={'40px'}>
                         <AlertIcon />
-                        <AlertTitle>Usuário não encontrado</AlertTitle>
+                        <AlertTitle>User not found.</AlertTitle>
                     </Alert>
                 }
             </Flex>
